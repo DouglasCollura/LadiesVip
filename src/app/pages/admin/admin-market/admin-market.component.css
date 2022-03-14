@@ -1,0 +1,57 @@
+
+.temp-admin-market{
+    display: grid;
+    min-height: 100%;
+    margin: 0px auto;
+    margin-top: 3em;
+    max-width: 1000px;
+    grid-template: 
+	"section-market-header" 80px
+    "section-market-main" auto/
+		100%;
+}
+
+.section-market-header{
+	grid-area: section-market-header;
+    display: grid;
+    grid-auto-flow: column;
+}
+
+table{
+    border-collapse: collapse;
+}
+thead{
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+}
+th{
+    text-align: start;
+    padding: 15px 0px;
+    color: var(--neutro-600);
+}
+
+td{
+    padding: 20px 0px;
+    cursor: pointer;
+}
+
+tr:nth-child(2n){
+    background-color: var(--neutro-50);
+}
+
+tr:hover{
+    background-color: var(--neutro-100);
+}
+
+td button{
+    padding: 5px;
+    background: none;
+    border: none;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    color: var(--neutro-500);
+}
+
+td button:hover{
+    color: var(--neutro-700);
+}

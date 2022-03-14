@@ -1,0 +1,65 @@
+.temp-login{
+    display: grid;
+    align-content: start;
+    padding: 10px 30px;
+    grid-gap: 35px;
+    grid-template: 
+	"section-login-left section-login-center section-login-right" auto/
+		minmax(auto, 300px) 2px minmax(auto, 300px)
+}
+
+.section-login-left{
+	grid-area: section-login-left;
+    display: grid;
+    align-content: space-between;
+    min-height: 350px;
+}
+
+.section-login-center{
+	grid-area: section-login-center;
+    display: grid;
+    grid-template-rows: auto 20px auto;
+    grid-gap: 10px;
+    justify-items: center;
+}
+
+.section-login-right{
+	grid-area: section-login-right;
+    display: grid;
+    align-content: space-between;
+}
+
+.login-title{
+    font-size: 28px;
+    line-height: 30px;
+    font-weight: 500;
+}
+
+a{
+    color: var(--primario-rosa-2);
+    text-decoration: none;
+}
+
+.btn-recovery{
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+}
+
+.btn-recovery:hover{
+    color: var(--primario-rosa-2);
+}
+
+.fb_reset{
+    display: none!important;
+}
+
+#fb-root{
+    display: none!important;
+}

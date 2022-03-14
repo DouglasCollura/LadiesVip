@@ -1,0 +1,71 @@
+
+.temp-modal-delete{
+    max-width: 320px;
+    padding: 20px 25px;
+}
+
+.temp-modal-bloqueo{
+    max-width: 320px;
+}
+
+.btn-delete, .btn-cancel, .btn-option{
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    width: 100%;
+    color: var(--alerts-error);
+}
+
+.btn-cancel{
+    color: var(--neutro-500);
+}
+
+.btn-option{
+    text-align: start;
+    font-size: 18px;
+    color: var(--neutro-600);
+}
+
+.btn-option:hover{
+
+    color: var(--neutro-800);
+}
+
+.btnOpenWhatsapp{
+    background-color: #00CD89;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    align-items: center;
+}
+
+.card-anuncio{
+    height: 650px !important;
+    max-width: 375px !important;
+    display: grid;
+    grid-template-rows: 310px auto !important;
+
+}
+
+.card-anuncios-img{
+    position: absolute;
+    top: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 300px;
+    width: 100%;
+    display: grid;
+    overflow: hidden;
+}
+
+.card-anuncios-img img{
+    align-self: center;
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}

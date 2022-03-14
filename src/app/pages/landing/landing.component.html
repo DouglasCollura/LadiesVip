@@ -1,0 +1,32 @@
+<div class="temp-landing" [ngClass]="blur ? 'blurOn' : 'blur(0px)'" >
+
+    <div class="section-landing-top">
+
+        <div class="grid">
+            <img src="../../assets/imagenes/logo-white.png" alt="">
+        </div>
+
+        <div class="grid section-menu align-items-center">
+            <button class="btn-simple-active">Home</button>
+            <button class="btn-simple">Conecta y liga</button>
+            <button class="btn-simple">¿Cómo funciona?</button>
+
+            <button class="btn"><i class="icon icon-world"></i> Español</button>
+            <button class="btn" (click)="LoadLogin()" > Iniciar sesión</button>
+        </div>
+
+    </div>
+
+    <div class="section-landing-body text-center justify-items-center">
+
+        <h1 class="big-title">Encuentra la pareja <br> que estás buscando</h1>
+        <h2 class="text-white text">Conoce nuevas personas, en diferentes lugares,<br> pero con los mismos gustos que tú</h2>
+
+        <button class="btn-primary" (click)="LoadSignUp()">Crear una cuenta</button>
+    </div>
+
+</div>
+
+<app-login  (ExportClose)="CloseModal($event)"></app-login>
+<app-signup *ngIf="load_signup" (ExportClose)="CloseModal($event)"></app-signup>
+

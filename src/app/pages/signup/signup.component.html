@@ -1,0 +1,319 @@
+<div class="container">
+
+    <!-- ! COMPONENT ======================================================================= -->
+    <div *ngIf="fase == 0" class="card" [ngClass]="close ? 'fade-out' : 'fade-in'">
+        <button (click)="Cerrar()" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+
+        <div class="temp-signup">
+            <div class="subcard-18">
+                <h1 >+18</h1>
+                <h5>MAYORES DE EDAD</h5>
+            </div>
+
+            <div class="section-signup-left">
+                <div class="grid" style="grid-gap:20px">
+                    <h1 class="signup-title">Crear cuenta</h1>
+                    <h5 class="">
+                        Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros
+                        <button class="btn-link">Términos y condiciones</button>  y con nuestra
+                        <button class="btn-link">Política de Privacidad</button>
+                    </h5>
+                </div>
+
+                <div class="grid justify-items-center gap-20">
+                    <h3 class="text-center">Continuar con</h3>
+                    <div class="group-logins">
+                        <button class="btn-type-login" (click)="signUpFacebook()"> <img src="../../assets/imagenes/Facebook.png" alt="">  </button>
+                        <button class="btn-type-login" (click)="signUpGoogle()"> <img src="../../assets/imagenes/Google.png" alt="">  </button>
+                        <button class="btn-type-login"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
+                    </div>
+                </div>
+
+                <div class="display-column">
+                    <h5>¿Ya tienes una cuenta?</h5>
+                    <button class="btn-link">Iniciar sesión</button>
+                </div>
+            </div>
+
+            <div class="section-signup-center">
+                <div class="line"></div>
+                <div class="circle">
+                    <h4>O</h4>
+                </div>
+                <div class="line"></div>
+            </div>
+
+            <div class="section-signup-right" >
+                <div class="form-group">
+                    <label for="">Nombre </label>
+                    <input type="text"
+                        [(ngModel)]="usuario.datos.nombre"
+                        placeholder="Ingresar nombre y apellido"
+                        (keypress)="SoloLetra($event)"  
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="">Email </label>
+                    <input type="text"
+                        [(ngModel)]="usuario.datos.correo"
+                        placeholder="Ingresar email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="">Número de teléfono </label>
+                    <div class="input-group-append">
+                        <select style="width: 150px;" class="input-append" (change)="[mostrar($event)]" [(ngModel)]="usuario.datos.code_phone" name="" id="">
+                            <option value="+" disabled selected >+</option>
+                            <option  [value]="locacion.country_phone_code" *ngFor="let locacion of locaciones"> +{{locacion.country_phone_code}} - {{locacion.country_short_name}} </option>
+                        </select>
+
+                        <input type="text"
+                            placeholder="Ingresar número"
+                            [(ngModel)]="usuario.datos.telefono"
+                            (keypress)="SoloNumero($event)"  
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Contraseña </label>
+                    <input type="password"
+                        placeholder="Ingresar una contraseña"
+                        [(ngModel)]="usuario.datos.clave"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="">Confirmar contraseña </label>
+                    <input type="password" [(ngModel)]="rep_clave" placeholder="Confirmar contraseña">
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" checked="true" id="session-open ">
+                    <label for="session-open"> Recordar Contraseña</label>
+                </div>
+                <button
+                    class="btn btn-block"
+                    [ngClass]="canSignUp?'btn-primary':'btn-disable'"
+                    (click)="CrearCuenta()"
+                >Crear cuenta</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ! MODAL SMS ======================================================================= -->
+    <div class="container" *ngIf="ctrl_modal_sms">
+        <div class="card card-xs">
+            <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+
+            <!-- ? FASE INGRESO NUMERO -->
+            <div class="grid" *ngIf="fase_modal_sms == 1">
+
+                <h1 >Registrarse por número</h1>
+
+                <div class="from-group">
+                    <span>Número de teléfono</span>
+                    
+                    <div class="input-group-append">
+                        <button >ESP </button>
+                        <input type="text"
+                            placeholder="Ingresar número"
+                            [(ngModel)]="usuario.datos.telefono"
+                            (keypress)="SoloNumero($event)"  
+                        >
+                    </div>
+                </div>       
+                
+                <h4 >Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros Términos y condiciones y con nuestra Política de Privacidad</h4>
+                    
+                <button class="btn btn-primary btn-block" (click)="fase_modal_sms = 2">Continuar</button>
+
+            </div>
+
+            <!-- ? FASE INGRESO CODIGO -->
+            <div class="grid"  *ngIf="fase_modal_sms == 2">
+
+                <h1 >Registrarse por número</h1>
+
+                <h3>Ingresa el código que fue enviado al número +34 984572496</h3>
+                <div class="group-input-code">
+                    <input type="text" placeholder="0" maxlength="1">
+                    <input type="text" placeholder="0" maxlength="1">
+                    <input type="text" placeholder="0" maxlength="1">
+                    <input type="text" placeholder="0" maxlength="1">
+                    <input type="text" placeholder="0" maxlength="1">
+                </div>      
+                
+                <div class="flex-d-row">
+                    <button class="btn btn-recibir-code">No has recibido el código?</button>
+                    <button class="btn btn-reenviar">Reenviar código</button>
+                </div>
+                    
+                <button class="btn btn-primary btn-block" (click)="VerificarCodigoSMS()">Continuar</button>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ! FASE LLENADO -->
+    <div *ngIf="fase != 0" class="bg-white">
+        <img src="../../assets/imagenes/LogoColor.png" alt="">
+
+        <!-- ? FASE BIENVENIDA -->
+        <div class="section-uno" *ngIf="fase == 1">
+            <h1 class="font-500">¡Bienvenido a Ladies vip!</h1>
+            <h4>A continuación llenarás tus datos para mostrarte las mejores citas.</h4>
+            <button
+                class="btn-primary btn-circle"
+                (click)="fase = 2"
+            ><i class="icon icon-arrow-right"></i></button>
+        </div>
+
+        <!-- ! FASE FORMULARIO -->
+        <div *ngIf="fase >= 2" class="section-form">
+
+            <div class="bar-progress">
+                <div [ngClass]="[fase == 2 ? 'progres-now':'', fase > 2? 'progres-primary':'', fase <2?'progres-prox':'']"></div>
+                <div [ngClass]="[fase == 3 ? 'progres-now':'', fase > 3? 'progres-primary':'', fase <3?'progres-prox':'']"></div>
+                <div [ngClass]="[fase == 4 ? 'progres-now':'', fase > 4? 'progres-primary':'', fase <4?'progres-prox':'']"></div>
+                <div [ngClass]="[fase == 5 ? 'progres-now':'', fase > 5? 'progres-primary':'', fase <5?'progres-prox':'']"></div>
+                <div [ngClass]="[fase == 6 ? 'progres-now':'', fase > 6? 'progres-primary':'', fase <6?'progres-prox':'']"></div>
+                <div [ngClass]="[fase == 7 ? 'progres-now':'', fase > 7? 'progres-primary':'', fase <7?'progres-prox':'']"></div>
+            </div>
+
+            <div class="grid" *ngIf="fase == 2">
+                <div class="grid gap-20 align-self-start">
+                    <h1 class="form-title">¿Cuando es tu cumpleaños?</h1>
+                    <input type="date" [(ngModel)]="usuario.fecha_nac">
+                </div>
+
+                <h5>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</h5>
+            </div>
+
+
+            <div class="grid" *ngIf="fase == 3">
+                <h1 class="form-title">¿Dónde vives?</h1>
+
+                <div class="form-group">
+                    <label for="">Pais </label>
+                    <select name="" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">
+                        <option value="0" disabled>Seleccionar</option>
+                        <option [value]="pais.country_name" *ngFor="let pais of locaciones">
+                            {{ pais.country_name}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Estado </label>
+                    <select name="" id="" [(ngModel)]="usuario.locacion.estado" (change)="CargarCiudad()">
+                        <option [value]="estado.state_name"  *ngFor="let estado of estados">
+                            {{ estado.state_name}}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Ciudad </label>
+                    <select name="" id="" [(ngModel)]="usuario.locacion.ciudad">
+                        <option [value]="ciudad.city_name"  *ngFor="let ciudad of ciudades">
+                            {{ ciudad.city_name}}
+                        </option>
+                    </select>
+                </div>
+
+                <h5>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</h5>
+            </div>
+
+            <!-- ? IDENTIFICACION DE GENERO -->
+            <div class="grid" *ngIf="fase == 4">
+                <h1 class="form-title">¿Cómo te identificas?</h1>
+
+                <h5 class="font-300">Elige una, varias opciones o servicios que brindas como usuario</h5>
+
+                <div class="group-btn-identidad">
+                    <button class="btn btn-genero" (click)="selectIdentidad(0,$event)">Mujer</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(1,$event)">Hombre</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(2,$event)">No binario</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(3,$event)">Pareja</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(4,$event)">Gay</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(5,$event)">Transexual</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(6,$event)">Travestie</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(7,$event)">Lesbiana</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(8,$event)">Otros</button>
+                    <button class="btn btn-genero" (click)="selectServicio(0,$event)">Masajes eróticos</button>
+                    <button class="btn btn-genero" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
+                    <button class="btn btn-genero" (click)="selectServicio(2,$event)">Espacios sexuales</button>
+                    <button class="btn btn-genero" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
+                    <button class="btn btn-genero" (click)="selectServicio(4,$event)">Otros</button>
+                </div>
+            </div>
+
+            <!-- ? CARGAR FOTO PERFIL -->
+            <div class="grid justify-items-center" *ngIf="fase == 5">
+                <h1 class="form-title">Sube una foto de perfil</h1>
+                <div class="content-circle-img">
+                    <div class="circle-img" >
+                        <img *ngIf="user_imagen_show == null" src="../../assets/imagenes/user.png"  alt="">
+                        <img [src]="user_imagen_show" alt="">
+                    </div>
+                    <button (click)="SelectImg()" class="sub-circle-img">+</button>
+                </div>
+
+                <input type="file" id="img" (change)="CargarImagen($event)" style="display:none" accept="image/png, image/gif, image/jpeg">
+                <h5 class="text-center">Esta foto será visible para <br> todos los usuarios</h5>
+            </div>
+
+            <!-- ? INTERESES -->
+            <div class="grid" *ngIf="fase == 6">
+                <h1 class="form-title">¿En que estás interesado?</h1>
+
+                <h5 class="font-300">Elige una, varias opciones o servicios que buscas en Ladies Vip</h5>
+
+                <div class="group-btn-identidad">
+                    <button class="btn btn-genero" (click)="selectIdentidad(0,$event)">Mujer</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(1,$event)">Hombre</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(2,$event)">No binario</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(3,$event)">Pareja</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(4,$event)">Gay</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(5,$event)">Transexual</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(6,$event)">Travestie</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(7,$event)">Lesbiana</button>
+                    <button class="btn btn-genero" (click)="selectIdentidad(8,$event)">Otros</button>
+                    <button class="btn btn-genero" (click)="selectServicio(0,$event)">Masajes eróticos</button>
+                    <button class="btn btn-genero" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
+                    <button class="btn btn-genero" (click)="selectServicio(2,$event)">Espacios sexuales</button>
+                    <button class="btn btn-genero" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
+                    <button class="btn btn-genero" (click)="selectServicio(4,$event)">Otros</button>
+                </div>
+            </div>
+
+            <!-- ? GEOLOCALIZACION -->
+            <div class="grid justify-items-center" *ngIf="fase == 7">
+                <h1 class="form-title">Geolozalización</h1>
+
+                <h1><i style="font-size: 48px;" class="icon icon-location"></i></h1>
+                <h5 class="text-center">Selecciona el modo <br> geolocalización para encontrar <br> personas cercanas a ti</h5>
+            </div>
+
+            <button
+                class="btn-primary btn-circle"
+                *ngIf="fase != 7"
+                (click)="CtrlForm()"
+            ><i class="icon icon-arrow-right"></i></button>
+
+            <div class="grid gap-10 align-content-start justify-self-stretch">
+                <button *ngIf="fase == 7" (click)="ActivarGeo()" class="btn-primary btn-block">Activar</button>
+                <button *ngIf="fase == 7" [routerLink]="'/home'" class="btn-secondary btn-block">No por el momento   </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

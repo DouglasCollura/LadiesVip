@@ -1,0 +1,130 @@
+
+.temp-admin-home{
+    display: grid;
+    min-height: 100%;
+    margin: 0px auto;
+    margin-top: 3em;
+    grid-gap: 4em 0px;
+    max-width: 1000px;
+    grid-template: 
+	"section-home-header" 80px
+    "section-home-main" auto/
+		100%;
+}
+
+.section-home-header{
+	grid-area: section-home-header;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-around;
+}
+
+
+
+.container-cifras{
+ text-align: center;
+ display: grid;
+}
+.container-cifras h1{
+    font-size: 46px;
+    font-weight: 700;
+    line-height: 50px;
+}
+
+.section-home-main{
+	grid-area: section-home-main;
+    display: grid;
+    grid-template-rows: 80px auto;
+}
+
+
+/* .admin-home-filtro input{
+    width: 250px;
+    background-color: var(--neutro-50);
+    border-radius: 12px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+}
+
+.admin-home-filtro button{
+    border: 1px solid #DFDFDF;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: #F6F6F6;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    -ms-border-radius: 12px;
+    -o-border-radius: 12px;
+    height: max-content;
+    padding: 10px 15px;
+    cursor: pointer;
+    color: var(--neutro-500);
+} */
+
+table{
+    border-collapse: collapse;
+}
+thead{
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+}
+th{
+    text-align: start;
+    padding: 15px 0px;
+    color: var(--neutro-600);
+}
+
+td{
+    padding: 20px 0px;
+    cursor: pointer;
+}
+
+tr:nth-child(2n){
+    background-color: var(--neutro-50);
+}
+
+tr:hover{
+    background-color: var(--neutro-100);
+}
+
+td button{
+    padding: 5px;
+    background: none;
+    border: none;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    color: var(--neutro-500);
+}
+
+td button:hover{
+    color: var(--neutro-700);
+}
+
+
+.table-options{
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.24);
+    z-index: 1;
+    top: 4em;
+}
+.table-options button{
+    padding: 12px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+.table-options button:hover{
+    background-color: var(--neutro-50);
+}

@@ -1,0 +1,38 @@
+<div class="temp-admin-home">
+
+    <div class="section-home-header">
+        <div class="container-cifras">
+            <h1>1,200</h1>
+            <h5 class="font-400 align-self-end">USUARIOS</h5>
+        </div>
+
+        <div class="container-cifras">
+            <h1>847</h1>
+            <h5 class="font-400 align-self-end">ANUNCIOS</h5>
+        </div>
+
+        <div class="container-cifras">
+            <h1>7</h1>
+            <h5 class="font-400 align-self-end">REPORTES</h5>
+        </div>
+    </div>
+
+    <div class="section-home-main">
+
+        <div class="nav-component">
+            <button id="gest_user" (click)="nav('gest_user', 0)">Gestión de usuarios</button>
+            <button id="gest_anuncio" (click)="nav('gest_anuncio', 1)">Gestión de anuncios</button>
+            <button id="reporte" (click)="nav('reporte', 2)">Reportes de usuarios</button>
+        </div>
+
+
+        <app-admin-home-usuario *ngIf="ctrl_menu == 0"></app-admin-home-usuario>
+        
+        <app-admin-home-anuncios *ngIf="ctrl_menu == 1"></app-admin-home-anuncios>
+        
+        <app-admin-home-reportes *ngIf="ctrl_menu == 2"></app-admin-home-reportes>
+
+
+</div>
+
+

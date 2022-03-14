@@ -1,0 +1,40 @@
+.card-user{
+    display: grid;
+    grid-template-rows: 20px repeat(2, 1fr);
+}
+
+.temp-card-delete{
+    max-width: 320px;
+    padding: 25px;
+}
+
+.temp-modal-bloqueo{
+    max-width: 320px;
+}
+
+.btn-delete, .btn-cancel, .btn-option{
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    color: var(--alerts-error);
+}
+
+
+
+.btn-cancel{
+    color: var(--neutro-500);
+}
+
+.btn-option{
+    text-align: start;
+    font-size: 18px;
+    color: var(--neutro-600);
+}
+
+.btn-option:hover{
+
+    color: var(--neutro-800);
+}
+

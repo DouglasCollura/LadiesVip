@@ -1,0 +1,10 @@
+
+<div class="container" *ngIf="isOpen">
+    <div class="card temp-modal">
+        <img src="../../../assets/imagenes/circle-check-modal.png" alt="">
+        
+        <h1 class="font-500"> {{titulo}} </h1>
+        <h2 class="neutro"> {{descripcion}} </h2>
+        <button class="btn-ok" (click)="Open(false)"> Ok</button>
+    </div>
+</div>

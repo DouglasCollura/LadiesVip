@@ -1,0 +1,78 @@
+<div class="container" *ngIf="isOpen">
+
+    <div class="card" *ngIf="!load_recoverypass; else temp_recovery">
+        <button (click)="Cerrar()" class="btn-icon align-self-start justify-self-end"><i
+                class="icon icon-close"></i></button>
+
+        <div class="temp-login">
+            <div class="subcard-18">
+                <h1>+18</h1>
+                <h5>MAYORES DE EDAD</h5>
+            </div>
+
+            <div class="section-login-left">
+                <div class="grid" style="grid-gap:20px">
+                    <h1 class="login-title">Iniciar sesión</h1>
+                    <h5 class="">
+                        Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros
+                        <a href=""> Términos y condiciones</a> y con nuestra
+                        <a href=""> Política de Privacidad</a>
+                    </h5>
+                </div>
+
+                <div class="grid justify-items-center gap-20">
+                    <h3 class="text-center">Continuar con</h3>
+                    <div class="group-logins">
+                        <button class="btn-type-login" (click)="signInWithFB()"> <img src="../../assets/imagenes/Facebook.png" alt=""> </button>
+                        <button class="btn-type-login" (click)="signInWithGoogle()"> <img src="../../assets/imagenes/Google.png" alt=""> </button>
+                        <button class="btn-type-login"> <img src="../../assets/imagenes/Phone.png" alt=""> </button>
+                    </div>
+                </div>
+
+                <div class="display-column">
+                    <h5>¿Aún no tienes una cuenta?</h5>
+                    <a href="">Crear cuenta</a>
+                </div>
+            </div>
+
+            <div class="section-login-center">
+                <div class="line"></div>
+                <div class="circle">
+                    <h4>O</h4>
+                </div>
+                <div class="line"></div>
+            </div>
+
+            <div class="section-login-right">
+                <div>
+                    <div class="form-group">
+                        <label for="">Email </label>
+                        <input type="text" [(ngModel)]="usuario.datos.correo" (keyup)="ValAcceso()" placeholder="Email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Contraseña </label>
+                        <input type="password" [(ngModel)]="usuario.datos.clave" (keyup)="ValAcceso()" placeholder="Contraseña">
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" checked="true" id="session-open">
+                        <label for="session-open"> Recordar Contraseña</label>
+                    </div>
+                </div>
+                <button
+                    class="btn btn-block"
+                    [ngClass]="habLogin?'btn-primary':'btn-disable'"
+                    (click)="LogIn()"
+                >Iniciar sesión</button>
+
+                <button class="btn-recovery" (click)="load_recoverypass = true">Olvidé mi contraseña</button>
+
+            </div>
+        </div>
+    </div>
+
+    <ng-template #temp_recovery>
+        <app-recoverypass (ExportClose)="CloseRecovery($event)" *ngIf="load_recoverypass"></app-recoverypass>
+    </ng-template>
+</div>

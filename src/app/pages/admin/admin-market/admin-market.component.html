@@ -1,0 +1,21 @@
+<div class="temp-admin-market" *ngIf="!ctrl_show_negocio">
+
+    <div class="section-market-header">
+        <div class="nav-component">
+            <button id="gest_publicados" class="active" (click)="nav('gest_publicados', 0)">Negocios publicados</button>
+            <button id="gest_solicitudes" (click)="nav('gest_solicitudes', 1)">Solicitudes</button>
+            <button id="ges_bloqueados" (click)="nav('ges_bloqueados', 2)">Negocios bloqueados</button>
+        </div>
+    </div>
+
+    <div class="section-market-main">
+
+        <app-admin-market-publicados (BoolShow)="OpenShow()"  *ngIf="ctrl_menu == 0"></app-admin-market-publicados>
+        
+        <app-admin-market-solicitudes *ngIf="ctrl_menu == 1"></app-admin-market-solicitudes>
+        
+        <app-admin-home-reportes *ngIf="ctrl_menu == 2"></app-admin-home-reportes>
+    </div>
+</div>
+
+<app-admin-market-publicados-show *ngIf="ctrl_show_negocio" (BoolShow)="CerrarShow($event)"></app-admin-market-publicados-show>

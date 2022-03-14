@@ -1,0 +1,269 @@
+<!-- ! FILTRO ========================================== -->
+<div class="section-filtro">
+    <div class="group-input-icon-left">
+        <span class="icon icon-search"></span>
+        <input type="text" class="input-square" placeholder="Buscar">
+    </div>
+    <button class="justify-self-end" class="btn btn-square" id="open_filtro" (click)="OpenFiltro()" >Filtrar por <span class="icon icon-filter"></span> </button>
+</div>
+
+
+<!-- ! CONTENIDO ========================================== -->
+<div class="grid align-content-start">
+    <table>
+        <thead>
+            <th>NOMBRE</th>
+            <th>EDAD</th>
+            <th>FECHA</th>
+            <th>CIUDAD/PAIS</th>
+            <th></th>
+            <th></th>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let number of [0,1,2,3,4]; let i = index">
+                <td>Matías Saldivar Rojas</td>
+                <td>24</td>
+                <td>21/12/2021</td>
+                <td>Barcelona, España</td>
+                <td >
+                    <button (click)="ctrl_modal_anuncio = true"><i class="icon icon-eyes"></i></button>
+                </td>
+                <td style="position: relative;">
+                    <button (click)="ToggleOptionTable(i)"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
+                    <div class="table-options"  [id]="i">
+                        <button class="btn-icon" (click)="OpenModalMessage()" > <i class="icon icon-sms"></i> Enviar mensaje </button>
+                        <button class="btn-icon" (click)="OpenModalBloqueo()" > <i class="icon icon-flag"></i> Bloquear cuenta </button>
+                        <button class="btn-icon"  (click)="OpenModalDelete()" > <i class="icon icon-trash"></i> Eliminar anuncio </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- ! MODAL MENSAJES =============================================== -->
+<div class="container" *ngIf="ctrl_modal_mensaje">
+
+    <div class="card gap-10 align-content-start">
+        <button (click)="ctrl_modal_mensaje = false" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+        <div class="grid justify-items-center align-content-start gap-10">
+            <h1 style="line-height: 25px;" class="align-self-center"><i style="font-size: 65px; " class="icon icon-sms"></i></h1>
+            <h1>Enviar un mensaje a Matías</h1>
+        </div>
+
+        <div class="grid gap-10 align-content-start" >
+            <div class="nav-component align-self-start">
+                <button class="active" id="gest_user" (click)="ToggleFaseModalMensaje($event, 0)" >Mensaje interno</button>
+                <button class="" id="gest_user" (click)="ToggleFaseModalMensaje($event, 1)">WhatsApp</button>
+            </div>
+            <div class="grid" *ngIf="fase_modal_mensaje == 0">
+                <div class="form-group">
+                    <textarea name="" style="resize: none;" placeholder="Escribir mensaje" id="" cols="30" rows="10"></textarea>
+                </div>
+                <button class="btn btn-primary justify-self-end">Enviar mensaje</button>
+            </div>
+
+            <div *ngIf="fase_modal_mensaje == 1" style="padding: 30px 0px;" class="grid text-center justify-items-center gap-20">
+                
+                <h2>Enviar un mensaje de WhatsApp al <br> número +34  984 572 496</h2>
+
+                <button class="btn btnOpenWhatsapp">Abrir api WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ! MODAL BLOQUEO =============================================== -->
+<div class="container" *ngIf="ctrl_modal_bloqueo">
+    <div class="card justify-items-center temp-modal-bloqueo text-center">
+        <button (click)="CloseModalBloqueo()" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+        <div class="grid align-content-start gap-10">
+            <h1 style="line-height: 25px;" class="align-self-center"><i style="font-size: 65px; " class="icon icon-flag"></i></h1>
+            <div class="grid  align-content-start gap-10">
+                <h1>¿Estás seguro que deseas <br> bloquear a este usuario?</h1>
+            </div>
+        </div>
+
+        <div class="grid">
+            <button class="btn-option" (click)="BloquearCuenta($event)">Uso inapropiado de la plataforma</button>
+            <button class="btn-option" (click)="BloquearCuenta($event)">Información personal falsa</button>
+            <button class="btn-option" (click)="openInputBloqueo = true">Otro</button>
+            <div *ngIf="openInputBloqueo" class="form-group">
+                <label for=""> Ingrese el motivo del bloqueo: </label>
+                <textarea name="" id="" rows="2"></textarea>
+                <button class="btn-primary" (click)="BloquearCuenta($event)">Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ! MODAL DELETE =============================================== -->
+<div class="container" *ngIf="ctrl_modal_delete">
+    <div class="card justify-items-center temp-modal-delete text-center">
+        <button (click)="ctrl_modal_delete = false" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+
+        <!-- ? FASE 1 CONFIRMACION -->
+        <div class="grid justify-items-center" *ngIf="ctrl_fase_delete == 0">
+            <h1 style="line-height: 25px;" class="align-self-center"><i style="font-size: 65px; " class="icon icon-trash"></i></h1>
+            <div class="grid  align-content-start gap-10">
+                <h1>Eliminar anuncio</h1>
+                <h1 style="color: var(--neutro-400);">¿Estás seguro que deseas eliminar este anuncio? Al eliminar este anuncio se borrarán toda la información de manera permanente y no podrá ser recuperado</h1>
+            </div>
+
+            <div class="grid">
+                <button class="btn-delete" (click)="ctrl_fase_delete = 1">Eliminar anuncio</button>
+                <button class="btn-cancel" (click)="ctrl_modal_delete = false">Cancelar</button>
+            </div>
+        </div>
+        
+        <!-- ? FASE 2 VALIDACION -->
+        <div class="grid" *ngIf="ctrl_fase_delete == 1">
+            <h1>Eliminar cuenta</h1>
+            <h2 style="color: var(--neutro-400);">Ingresar la contraseña de administrador para continuar </h2>
+
+            <div class="form-group">
+                <label for="">Contraseña administrativa </label>
+                <input type="text" (keyup)="ValDelete()" [(ngModel)]="clave_delete" placeholder="Contraseña">
+            </div>
+
+            <div class="grid gc-2x-g gap-10">
+                <button class="btn btn-cancel">Cancelar</button>
+                <button class="btn" [ngClass]="CanDelete ? 'btn-primary' : 'btn-disable'" (click)="EliminarAnuncio()">Eliminar cuenta</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ! MODAL ANUNCIO =============================================== -->
+<div class="container" *ngIf="ctrl_modal_anuncio">
+    <div class="card card-anuncio gap-10">
+        <button (click)="ctrl_modal_anuncio = false" style="z-index: 2;" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+        
+        <div class="card-anuncios-img">
+            <img src="../../../../assets/imagenes/user_example.jpg" alt="">
+        </div>
+
+        <div class="grid align-content-start gap-20">
+            <h1 class="font-500">Matías Saldivar Rojas</h1>
+
+            <div class="flex-column">
+                <h3>24 años</h3>
+                <h3>Barcelona, España</h3>
+            </div>
+
+            <div class="grid gap-10">
+                <h3> <i class="icon icon-mail"></i>  matíassaldivar@gmail.com</h3>
+                <h3> <i class="icon icon-phone"></i>  +34  984 572 496</h3>
+                <h3> <i class="icon icon-brujula"></i>  Busco: pareja</h3>
+            </div>
+
+            <span class>
+                Hola, seré directo. me gusta mucho las personas que son divertidas, que no necesitan que una excusa tonta para ligar. Si puedes ser esa persona dale like y conversamos! 😉
+            </span>
+        </div>
+
+    </div>
+</div>
+
+<app-modales></app-modales>
+
+
+<div class="modal-filtro" *ngIf="ctrl_modal_filtro" >
+    <h3 class="font-500"> <span class="icon icon-filter"></span> Filtrar por</h3>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">LOCALIDAD</h5>
+        </div>
+
+        <div class="form-group">
+            <label for="">Pais </label>
+            <select name="" id="">
+                <option value="0" disabled>Seleccionar</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">Estado </label>
+            <select name="" id="" >
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">Ciudad </label>
+            <select name="" id="">
+
+            </select>
+        </div>
+    </div>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">DISTANCIA</h5>
+        </div>
+
+        <div class="container-range">
+            <div class="line-range" id="line-distancia"></div>
+            <input type="range" id="rango-distancia-min" class="range" min="0" max="100" value="30">
+            <input type="range" id="rango-distancia-max" class="range"min="0" max="100" value="70">
+        </div>
+    </div>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">EDAD</h5>
+        </div>
+
+        <div class="container-range">
+            <div class="line-range" id="line-edad"></div>
+            <input type="range" id="rango-edad-min"  class="range" min="0" max="100" value="30">
+            <input type="range" id="rango-edad-max" class="range" min="0" max="100" value="70">
+        </div>
+    </div>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">FECHA</h5>
+        </div>
+
+        <div class="group-fecha">
+            <input type="date">
+            <div class="line-h"></div>
+            <input type="date">              
+        </div>
+    </div>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">CATEGORÍA</h5>
+        </div>
+
+        <div class="flex-column">
+            <button class="btn btn-genero" >Mujer</button>
+            <button class="btn btn-genero" >Hombre</button>
+            <button class="btn btn-genero" >No binario</button>
+            <button class="btn btn-genero" >Pareja</button>
+            <button class="btn btn-genero" >Gay</button>
+            <button class="btn btn-genero" >Transexual</button>
+            <button class="btn btn-genero" >Travestie</button>
+            <button class="btn btn-genero" >Lesbiana</button>
+            <button class="btn btn-genero" >Otros</button>
+            <button class="btn btn-genero" >Masajes eróticos</button>
+            <button class="btn btn-genero" >Juguetes sexuales</button>
+            <button class="btn btn-genero" >Espacios sexuales</button>
+            <button class="btn btn-genero" >Agencia matrimonial</button>
+            <button class="btn btn-genero" >Otros</button>
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" (click)="ctrl_modal_filtro = !ctrl_modal_filtro">Filtrar</button>
+
+</div>

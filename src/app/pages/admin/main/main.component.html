@@ -1,0 +1,19 @@
+<div class="temp-main">
+    <div class="section-header">
+        <img src="../../../assets/imagenes/LogoColor.png" alt="">
+
+        <div class="nav">
+            <button class="btn-nav-active" id="home" (click)="nav('home', 0)">Home</button>
+            <button id="market" (click)="nav('market', 1)">Market Vip</button>
+            <button id="solicitudes" (click)="nav('solicitudes', 2)">Solicitudes de desbloqueo</button>
+            <button><i class="icon icon-exit"></i></button>
+
+        </div>
+    </div>
+
+    <div class="section-main">
+        <app-admin-home *ngIf="ctrl_menu == 0"></app-admin-home>
+        <app-admin-market *ngIf="ctrl_menu == 1"></app-admin-market>
+        <app-admin-solicitudes  *ngIf="ctrl_menu == 2"></app-admin-solicitudes>
+    </div>
+</div>
