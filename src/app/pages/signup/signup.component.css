@@ -30,6 +30,33 @@
     align-content: space-between;
 }
 
+
+.temp-modal-sms-tlf{
+    display: grid;
+    grid-template: 
+	"section-search" 80px
+    "section-body-sms" auto/
+		100%
+}
+
+.section-search input{
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid var(--neutro-500);
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+}
+
+.section-body-sms{
+	grid-area: section-body-sms;
+    display: grid;
+    max-height: 500px;
+    overflow: auto;
+    padding: 5px 10px;
+}
+
 .signup-title{
     font-size: 28px;
     font-weight: 500;

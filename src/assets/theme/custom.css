@@ -680,6 +680,10 @@ input[type=range]::-ms-thumb{
     border-bottom-left-radius: 100px;
     border-top-left-radius: 100px;
     height: 40px;
+    display: grid;
+    align-items: center;
+    display: grid;
+    grid-auto-flow: column;
     align-self: center;
     cursor: pointer;
 }

@@ -25,7 +25,7 @@
                     <div class="group-logins">
                         <button class="btn-type-login" (click)="signUpFacebook()"> <img src="../../assets/imagenes/Facebook.png" alt="">  </button>
                         <button class="btn-type-login" (click)="signUpGoogle()"> <img src="../../assets/imagenes/Google.png" alt="">  </button>
-                        <button class="btn-type-login"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
+                        <button class="btn-type-login" (click)="ctrl_modal_sms = true"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
                     </div>
                 </div>
 
@@ -107,7 +107,8 @@
 
     <!-- ! MODAL SMS ======================================================================= -->
     <div class="container" *ngIf="ctrl_modal_sms">
-        <div class="card card-xs">
+
+        <div class="card card-xs" *ngIf="!ctrl_modal_sms_tlf">
             <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
 
             <!-- ? FASE INGRESO NUMERO -->
@@ -119,7 +120,7 @@
                     <span>Número de teléfono</span>
                     
                     <div class="input-group-append">
-                        <button >ESP </button>
+                        <button (click)="SelectTlf()"> {{country_short_name}} <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
                         <input type="text"
                             placeholder="Ingresar número"
                             [(ngModel)]="usuario.datos.telefono"
@@ -158,6 +159,31 @@
             </div>
 
         </div>
+
+        <div class="card card-xs" *ngIf="ctrl_modal_sms_tlf">
+            <div class="header-card">
+                <h3 class="font-500">Seleccionar otro país</h3>
+                <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+            </div>
+
+            <div class="temp-modal-sms-tlf">
+                <div class="section-search">
+                    <div class="group-input-icon-left">
+                        <span class="icon icon-search"></span>
+                        <input type="text" placeholder="Buscar">
+                    </div>
+                </div>
+
+                <div class="section-body-sms" >
+                    <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+                        <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
+                        <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [id]="i" name="tlf" type="radio">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
 

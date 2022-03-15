@@ -7,7 +7,7 @@ import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { GeoLocationService } from 'src/app/services/location/geo-location.service';
 import { FacebookServiceService } from 'src/app/services/facebook/facebook-service.service';
 import { GoogleServiceService } from 'src/app/services/google/google-service.service';
-import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -16,17 +16,17 @@ import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
     styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
-   
+
 
     constructor(
         private GeoLocationService: GeoLocationService,
         private router: Router,
-        private AuthServiceService:AuthServiceService,
-        private FacebookServiceService:FacebookServiceService,
-        private GoogleServiceService:GoogleServiceService,
+        private AuthServiceService: AuthServiceService,
+        private FacebookServiceService: FacebookServiceService,
+        private GoogleServiceService: GoogleServiceService,
     ) {
     }
-   
+
     //!DATA=====================================================================
     //?CARGA===================================================================================
 
@@ -38,7 +38,7 @@ export class SignupComponent implements OnInit {
     loggedIn: boolean = false;
 
     usuario: any = {
-        tipo:null,
+        tipo: null,
         datos: {
             nombre: "",
             correo: "",
@@ -58,18 +58,19 @@ export class SignupComponent implements OnInit {
         interes_servicio: null
     };
 
-    img_user:any = null;
+    img_user: any = null;
     rep_clave = null;
     ctrl_identidad: any = [];
     ctrl_servicios: any = [];
     user_imagen_show: any;
-
+    country_short_name:string ='';
     //?CONTROL===================================================================================
     canSignUp: boolean = false;
     close: boolean = false;
     fase = 0;
-    ctrl_modal_sms: boolean = true;
-    fase_modal_sms:number = 1;
+    ctrl_modal_sms: boolean = false;
+    fase_modal_sms: number = 1;
+    ctrl_modal_sms_tlf: boolean = false;
     @Output() ExportClose = new EventEmitter<boolean>();
 
     ngOnInit() {
@@ -104,121 +105,121 @@ export class SignupComponent implements OnInit {
 
     //!================== REGISTRO Y LOGUEO DE CUENTAS ==============================
     //!registro con facebook
-    signUpFacebook(){
-      //inicia sesion facebook
-      this.FacebookServiceService.FacebookAuth()
-      .then((res:any)=>{
-        ///comprueba si el facebook trae correro
-        if(res.additionalUserInfo.profile.email != null || res.additionalUserInfo.profile.email != undefined){
-          this.usuario.tipo = 3;
-          this.usuario.datos.nombre = res.additionalUserInfo.profile.name;
-          this.usuario.datos.correo = res.additionalUserInfo.profile.email;
-          ///valida si el email que entra para registro existe
-          this.AuthServiceService.ValEmail({tipo:this.usuario.tipo,email:this.usuario.datos.correo})
-          .then((valid)=>{
-            //si no existe puedes registrate
-            if(valid.error){
-              this.fase = 1;
-            }
-            //si existe anuncia con alerta
-            if(valid.success){
-              this.signInWithFB()
-            }
-          });
-        }
-      })
+    signUpFacebook() {
+        //inicia sesion facebook
+        this.FacebookServiceService.FacebookAuth()
+            .then((res: any) => {
+                ///comprueba si el facebook trae correro
+                if (res.additionalUserInfo.profile.email != null || res.additionalUserInfo.profile.email != undefined) {
+                    this.usuario.tipo = 3;
+                    this.usuario.datos.nombre = res.additionalUserInfo.profile.name;
+                    this.usuario.datos.correo = res.additionalUserInfo.profile.email;
+                    ///valida si el email que entra para registro existe
+                    this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
+                        .then((valid) => {
+                            //si no existe puedes registrate
+                            if (valid.error) {
+                                this.fase = 1;
+                            }
+                            //si existe anuncia con alerta
+                            if (valid.success) {
+                                this.signInWithFB()
+                            }
+                        });
+                }
+            })
     }
 
     //!registro con google
-    signUpGoogle(){
-      //inicia sesion facebook
-      this.GoogleServiceService.GoogleAuth()
-      .then((res:any)=>{
-        ///comprueba si el facebook trae correro
-        if(res.additionalUserInfo.profile.email != null || res.additionalUserInfo.profile.email != undefined){
-          this.usuario.tipo = 3;
-          this.usuario.datos.nombre = res.additionalUserInfo.profile.name;
-          this.usuario.datos.correo = res.additionalUserInfo.profile.email;
-          ///valida si el email que entra para registro existe
-          this.AuthServiceService.ValEmail({tipo:this.usuario.tipo,email:this.usuario.datos.correo})
-          .then((valid)=>{
-            //si no existe puedes registrate
-            if(valid.error){
-              this.fase = 1;
-            }
-            //si existe anuncia con alerta
-            if(valid.success){
-              this.signInWithGoogle()
-            }
-          });
-        }
-      })
+    signUpGoogle() {
+        //inicia sesion facebook
+        this.GoogleServiceService.GoogleAuth()
+            .then((res: any) => {
+                ///comprueba si el facebook trae correro
+                if (res.additionalUserInfo.profile.email != null || res.additionalUserInfo.profile.email != undefined) {
+                    this.usuario.tipo = 3;
+                    this.usuario.datos.nombre = res.additionalUserInfo.profile.name;
+                    this.usuario.datos.correo = res.additionalUserInfo.profile.email;
+                    ///valida si el email que entra para registro existe
+                    this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
+                        .then((valid) => {
+                            //si no existe puedes registrate
+                            if (valid.error) {
+                                this.fase = 1;
+                            }
+                            //si existe anuncia con alerta
+                            if (valid.success) {
+                                this.signInWithGoogle()
+                            }
+                        });
+                }
+            })
     }
 
     //!inicio de sesion con google en caso de estar registrado
     signInWithGoogle(): void {
-      //valida que el email esté registrado
-      this.AuthServiceService.ValEmail({tipo:this.usuario.tipo,email:this.usuario.datos.correo})
-      .then(email=>{
-        //si existe procede a iniciar sesison
-        if(email.success){
-          this.AuthServiceService.loginSocial(this.usuario)
-          .then(login=>{
-            sessionStorage.setItem('usuario', JSON.stringify(login.data));
-              sessionStorage.setItem('ruta_img', JSON.stringify(login.data.img_route));
-              sessionStorage.setItem('token', login.access_token);
-              location.href = '/home';
-          })
-        }
-        //error si no es un usuario facebook o no registrado
-        if(email.error){
-          alert('error, compruebe su email o compruebe otro metodo de logueo')
-        }
-      })
+        //valida que el email esté registrado
+        this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
+            .then(email => {
+                //si existe procede a iniciar sesison
+                if (email.success) {
+                    this.AuthServiceService.loginSocial(this.usuario)
+                        .then(login => {
+                            sessionStorage.setItem('usuario', JSON.stringify(login.data));
+                            sessionStorage.setItem('ruta_img', JSON.stringify(login.data.img_route));
+                            sessionStorage.setItem('token', login.access_token);
+                            location.href = '/home';
+                        })
+                }
+                //error si no es un usuario facebook o no registrado
+                if (email.error) {
+                    alert('error, compruebe su email o compruebe otro metodo de logueo')
+                }
+            })
 
     }
     //!inicio de sesion con facebook en caso de estar registrado
     signInWithFB(): void {
-      //valida que el email esté registrado
-      this.AuthServiceService.ValEmail({tipo:this.usuario.tipo,email:this.usuario.datos.correo})
-      .then(email=>{
-        //si existe procede a iniciar sesison
-        if(email.success){
-          this.AuthServiceService.loginSocial(this.usuario)
-          .then(login=>{
-            sessionStorage.setItem('usuario', JSON.stringify(login.data));
-              sessionStorage.setItem('ruta_img', JSON.stringify(login.data.img_route));
-              sessionStorage.setItem('token', login.access_token);
-              location.href = '/home';
-          })
-        }
-        //error si no es un usuario facebook o no registrado
-        if(email.error){
-          alert('error, compruebe su email o compruebe otro metodo de logueo')
-        }
-      })
+        //valida que el email esté registrado
+        this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
+            .then(email => {
+                //si existe procede a iniciar sesison
+                if (email.success) {
+                    this.AuthServiceService.loginSocial(this.usuario)
+                        .then(login => {
+                            sessionStorage.setItem('usuario', JSON.stringify(login.data));
+                            sessionStorage.setItem('ruta_img', JSON.stringify(login.data.img_route));
+                            sessionStorage.setItem('token', login.access_token);
+                            location.href = '/home';
+                        })
+                }
+                //error si no es un usuario facebook o no registrado
+                if (email.error) {
+                    alert('error, compruebe su email o compruebe otro metodo de logueo')
+                }
+            })
     }
 
     CrearCuenta() {
-      if (!this.CanSignUp) {
-        Swal.fire({
-            title: 'Complete y valide todos los campos',
-            icon: 'error',
-        });
-        return;
-      }
-      this.usuario.tipo = 1;
-      this.AuthServiceService.ValEmail({tipo:this.usuario.tipo,email:this.usuario.datos.correo})
-      .then(valid=>{
-        //si no existe puedes registrate
-        if(valid.error){
-          this.fase = 1;
+        if (!this.CanSignUp) {
+            Swal.fire({
+                title: 'Complete y valide todos los campos',
+                icon: 'error',
+            });
+            return;
         }
-        //si existe anuncia con alerta
-        if(valid.success){
-          alert("YA EXISTE");
-        }
-      })
+        this.usuario.tipo = 1;
+        this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
+            .then(valid => {
+                //si no existe puedes registrate
+                if (valid.error) {
+                    this.fase = 1;
+                }
+                //si existe anuncia con alerta
+                if (valid.success) {
+                    alert("YA EXISTE");
+                }
+            })
     }
 
     CargarImagen(event: any) {
@@ -229,7 +230,7 @@ export class SignupComponent implements OnInit {
         reader.readAsDataURL(event.target.files[0]);
         let formData = new FormData();
         let file = event.target.files[0];
-        formData.append('imagen',file);
+        formData.append('imagen', file);
         this.img_user = formData;
     }
 
@@ -256,58 +257,69 @@ export class SignupComponent implements OnInit {
     }
 
     ///REGISTRO DE USUARIO
-    SignUp(){
-      if(this.usuario.tipo == 1){
-        this.AuthServiceService.signUp(this.usuario)
-        .then(res=>{
-          if(res.success){
-            //guarda imagen de usuario
-            this.AuthServiceService.UpImage(this.img_user, res.data.id)
-            .then(img=>{
-              // inicia sesion y redirige
-              this.AuthServiceService.login(this.usuario)
-              .then(login=>{
-                  sessionStorage.setItem('usuario', JSON.stringify(login.data));
-                  sessionStorage.setItem('ruta_img', JSON.stringify(img));
-                  sessionStorage.setItem('token', login.access_token);
-                  //redirige
-                  location.href = '/home';
-              })
+    SignUp() {
+        if (this.usuario.tipo == 1) {
+            this.AuthServiceService.signUp(this.usuario)
+            .then(res => {
+                if (res.success) {
+                    //guarda imagen de usuario
+                    this.AuthServiceService.UpImage(this.img_user, res.data.id)
+                    .then(img => {
+                        // inicia sesion y redirige
+                        this.AuthServiceService.login(this.usuario)
+                        .then(login => {
+                            sessionStorage.setItem('usuario', JSON.stringify(login.data));
+                            sessionStorage.setItem('ruta_img', JSON.stringify(img));
+                            sessionStorage.setItem('token', login.access_token);
+                            //redirige
+                            location.href = '/home';
+                        })
+                    })
+                }
             })
-          }
-        })
-      }
-      if(this.usuario.tipo == 2 || this.usuario.tipo == 3){
-        //comienza el registro con redes sociales
-        this.AuthServiceService.signUpSocial(this.usuario)
-        .then(res=>{
-          if(res.success){
-            //guarda imagen de usuario
-            this.AuthServiceService.UpImage(this.img_user, res.data.id)
-            .then(img=>{
-              // inicia sesion y redirige
-              this.AuthServiceService.loginSocial(this.usuario)
-              .then(login=>{
-                  sessionStorage.setItem('usuario', JSON.stringify(login.data));
-                  sessionStorage.setItem('ruta_img', JSON.stringify(img));
-                  sessionStorage.setItem('token', login.access_token);
-                  //redirige
-                  location.href = '/home';
-              })
-            })
-          }
-        })
-      }
+        }
+        if (this.usuario.tipo == 2 || this.usuario.tipo == 3) {
+            //comienza el registro con redes sociales
+            this.AuthServiceService.signUpSocial(this.usuario)
+                .then(res => {
+                    if (res.success) {
+                        //guarda imagen de usuario
+                        this.AuthServiceService.UpImage(this.img_user, res.data.id)
+                            .then(img => {
+                                // inicia sesion y redirige
+                                this.AuthServiceService.loginSocial(this.usuario)
+                                    .then(login => {
+                                        sessionStorage.setItem('usuario', JSON.stringify(login.data));
+                                        sessionStorage.setItem('ruta_img', JSON.stringify(img));
+                                        sessionStorage.setItem('token', login.access_token);
+                                        //redirige
+                                        location.href = '/home';
+                                    })
+                            })
+                    }
+                })
+        }
     }
 
-    VerificarCodigoSMS(){
-      this.fase_modal_sms = 1;
-      this.ctrl_modal_sms = false;
-      this.fase = 1;
+    VerificarCodigoSMS() {
+        this.fase_modal_sms = 1;
+        this.ctrl_modal_sms = false;
+        this.fase = 1;
     }
 
+    SelectCodeTlf(code_phone:string,  country_short_name:string){
+        this.usuario.datos.code_phone = code_phone;
+        this.country_short_name = country_short_name;
+        this.ctrl_modal_sms_tlf = false;
+        this.ctrl_modal_sms = true;
+    }
 
     //?CONTROL==============================================================================
+
+    SelectTlf(){
+        this.ctrl_modal_sms_tlf = true;
+    }
+
     selectIdentidad(id: number, event: any) {
         console.log(id);
         if (!$(event.target).hasClass("btn-genero-active")) {
@@ -410,7 +422,7 @@ export class SignupComponent implements OnInit {
             }
         }
 
-        else{
+        else {
             if (this.ctrl_identidad.length == 0 && this.ctrl_servicios.length == 0) {
                 Swal.fire({
                     title: 'Seleccione almenos una opción',
@@ -432,11 +444,11 @@ export class SignupComponent implements OnInit {
         setTimeout(() => { this.ExportClose.emit(this.close); }, 200);
     }
 
-    SoloLetra(evt:any) {
+    SoloLetra(evt: any) {
         return SoloLetra(evt)
     }
 
-    SoloNumero(evt:any){
+    SoloNumero(evt: any) {
         return SoloNumero(evt)
     }
 
