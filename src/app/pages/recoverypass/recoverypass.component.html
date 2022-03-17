@@ -22,14 +22,13 @@
                 </div>
 
                 <div class="group-logins justify-content-center">
-                    <button class="btn-type-login"> <img src="../../assets/imagenes/Facebook.png" alt="">  </button>
-                    <button class="btn-type-login"> <img src="../../assets/imagenes/Google.png" alt="">  </button>
-                    <button class="btn-type-login"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
+                    <button class="btn-type-login" (click)="signUpFacebook()"> <img src="../../assets/imagenes/Facebook.png" alt="">  </button>
+                    <button class="btn-type-login" (click)="signUpGoogle()"> <img src="../../assets/imagenes/Google.png" alt="">  </button>
+                    <button class="btn-type-login" (click)="OpenModalSms()"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
                 </div>
             </div>
 
             <!-- ! FASE 2 ========================================= -->
-
             <div class="section_uno" *ngIf="fase == 1">
                 <h5>¿Cómo deseas recuperar tu contraseña? </h5>
 
@@ -42,7 +41,6 @@
 
 
             <!-- ! FASE 3 SELECCION MAIL/PHONE ========================================= -->
-
             <div class="section_dos" *ngIf="fase == 2">
 
                 <div class="grid justify-items-center" *ngIf="recovery_type == 0">
@@ -64,7 +62,6 @@
             </div>
 
             <!-- ! FASE 4 LLENADO DE CODIGO ========================================= -->
-
             <div class="section_tres" *ngIf="fase == 3">
 
                 <h4 *ngIf="recovery_type == 0">Ingresa el código que fue enviado al correo lu*************ro@gmail.com</h4>
@@ -88,7 +85,6 @@
             </div>
 
             <!-- ! FASE 5 INGRESO NUEVA CONTRASEÑA ========================================= -->
-
             <div class="section_cuatro" *ngIf="fase == 4">
 
                 <h4 >Elige una contraseña más de 8 caracteres. Recomendable con un carácter especial y un carácter numérico </h4>

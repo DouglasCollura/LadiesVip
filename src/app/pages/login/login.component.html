@@ -25,13 +25,13 @@
                     <div class="group-logins">
                         <button class="btn-type-login" (click)="signInWithFB()"> <img src="../../assets/imagenes/Facebook.png" alt=""> </button>
                         <button class="btn-type-login" (click)="signInWithGoogle()"> <img src="../../assets/imagenes/Google.png" alt=""> </button>
-                        <button class="btn-type-login"> <img src="../../assets/imagenes/Phone.png" alt=""> </button>
+                        <button class="btn-type-login" (click)="OpenModalSms()"> <img src="../../assets/imagenes/Phone.png" alt=""> </button>
                     </div>
                 </div>
 
                 <div class="display-column">
                     <h5>¿Aún no tienes una cuenta?</h5>
-                    <a href="">Crear cuenta</a>
+                    <button class="btn-link" (click)="OpenSignUp()">Crear cuenta</button>
                 </div>
             </div>
 
@@ -44,15 +44,33 @@
             </div>
 
             <div class="section-login-right">
+                <div *ngIf="error == 1" class="card-danger flex-d-row gap-10">
+                    <span class="icon icon-circle-warning"></span>
+                    <p>No estás registrado. Crea una cuenta para poder comenzar en Ladies VIP.</p>
+                </div>
                 <div>
                     <div class="form-group">
-                        <label for="">Email </label>
-                        <input type="text" [(ngModel)]="usuario.datos.correo" (keyup)="ValAcceso()" placeholder="Email">
+                        <div class="group-input-icon-right">
+                            <span class="icon icon-circle-close" *ngIf="error == 2"></span>
+                            <label for="">Email </label>
+                            <input type="text" [ngClass]="error==2?'input-error':''" [(ngModel)]="usuario.datos.correo" (keyup)="ValAcceso()" placeholder="Email">
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="">Contraseña </label>
-                        <input type="password" [(ngModel)]="usuario.datos.clave" (keyup)="ValAcceso()" placeholder="Contraseña">
+                    <div class="form-group ">
+                        <div class="group-input-icon-right">
+                            <span class="icon icon-circle-close" *ngIf="error == 2"></span>
+                            <span class="icon" [ngClass]="viewPass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass()" ></span>
+                            <label for="">Contraseña </label>
+                            <input type="password" 
+                                id="password"
+                                [(ngModel)]="usuario.datos.clave" 
+                                (keyup)="ValAcceso()" 
+                                placeholder="Contraseña"
+                                [ngClass]="error==2?'input-error':''"
+                            >
+                        </div>
+                        <p class="text-error" *ngIf="error == 2">Las credenciales ingresadas son incorrectas</p>
                     </div>
 
                     <div class="checkbox-group">
@@ -76,3 +94,7 @@
         <app-recoverypass (ExportClose)="CloseRecovery($event)" *ngIf="load_recoverypass"></app-recoverypass>
     </ng-template>
 </div>
+
+
+<!-- ! MODAL SMS ======================================================================= -->
+<app-sms></app-sms>

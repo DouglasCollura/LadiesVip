@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { GeoLocationService } from 'src/app/services/location/geo-location.service';
 import { LoginServiceService } from '../login/login-service.service';
-
+import { SignupService } from '../signup/signup.service';
 @Component({
     selector: 'app-landing',
     templateUrl: './landing.component.html',
@@ -15,6 +15,7 @@ export class LandingComponent implements OnInit {
         private ApiService:ApiService,
         private GeoLocationService:GeoLocationService,
         private LoginServiceService:LoginServiceService,
+        private SignupService:SignupService
     ) {
     }
 
@@ -30,8 +31,7 @@ export class LandingComponent implements OnInit {
     }
 
     LoadSignUp(): void{
-        this.load_signup = true;
-        this.blur=true
+        this.SignupService.toggle()
     }
 
     CloseModal(newItem: boolean) {
@@ -46,6 +46,10 @@ export class LandingComponent implements OnInit {
         this.LoginServiceService.change.subscribe(res=>{
             this.blur = res.blur;
         })
+        this.SignupService.change.subscribe(res=>{
+            this.blur = res.blur;
+        })
+        
     }
 
 

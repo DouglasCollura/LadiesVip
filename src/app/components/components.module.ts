@@ -8,7 +8,7 @@ import { ModalesComponent } from './modales/modales.component';
 
 @NgModule({
   declarations: [
-    ModalesComponent
+    ModalesComponent,
   ],
   imports: [
     CommonModule,

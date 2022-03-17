@@ -1,0 +1,42 @@
+
+.temp-modal-sms-tlf{
+    display: grid;
+    grid-template: 
+	"section-search" 80px
+    "section-body-sms" auto/
+		100%
+}
+
+.section-search input{
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid var(--neutro-500);
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    -ms-border-radius: 0px;
+    -o-border-radius: 0px;
+}
+
+.section-body-sms{
+	grid-area: section-body-sms;
+    display: grid;
+    max-height: 500px;
+    overflow: auto;
+    padding: 5px 10px;
+}
+
+.group-input-code{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: center;
+    grid-gap: 10px;
+}
+
+.group-input-code>input{
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+    background: #ECECEC;
+    border-radius: 8px;
+    text-align: center;
+}

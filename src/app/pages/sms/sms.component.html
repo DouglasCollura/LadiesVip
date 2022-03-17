@@ -1,0 +1,79 @@
+<div class="container" *ngIf="isOpen">
+
+    <div class="card card-xs" *ngIf="!ctrl_modal_sms_tlf">
+        <button (click)="Close()" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+
+        <!-- ? FASE INGRESO NUMERO -->
+        <div class="grid" *ngIf="fase_modal_sms == 1">
+
+            <h1 >Registrarse por número</h1>
+
+            <div class="from-group">
+                <span>Número de teléfono</span>
+                
+                <div class="input-group-append">
+                    <button (click)="SelectTlf()"> {{country_short_name}} <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
+                    <input type="text"
+                        placeholder="Ingresar número"
+                        [(ngModel)]="telefono"
+                        (keypress)="SoloNumero($event)"  
+                    >
+                </div>
+            </div>       
+            
+            <h4 >Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros Términos y condiciones y con nuestra Política de Privacidad</h4>
+                
+            <button class="btn btn-primary btn-block" (click)="fase_modal_sms = 2">Continuar</button>
+
+        </div>
+
+        <!-- ? FASE INGRESO CODIGO -->
+        <div class="grid"  *ngIf="fase_modal_sms == 2">
+
+            <h1 >Registrarse por número</h1>
+
+            <h3>Ingresa el código que fue enviado al número +34 984572496</h3>
+            <div class="group-input-code">
+                <input type="text" placeholder="0" maxlength="1">
+                <input type="text" placeholder="0" maxlength="1">
+                <input type="text" placeholder="0" maxlength="1">
+                <input type="text" placeholder="0" maxlength="1">
+                <input type="text" placeholder="0" maxlength="1">
+            </div>      
+            
+            <div class="flex-d-row">
+                <button class="btn btn-recibir-code">No has recibido el código?</button>
+                <button class="btn btn-reenviar">Reenviar código</button>
+            </div>
+                
+            <button class="btn btn-primary btn-block" (click)="VerificarCodigoSMS()">Continuar</button>
+
+        </div>
+
+    </div>
+
+    <div class="card card-xs" *ngIf="ctrl_modal_sms_tlf">
+        <div class="header-card">
+            <h3 class="font-500">Seleccionar otro país</h3>
+            <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+        </div>
+
+        <div class="temp-modal-sms-tlf">
+            <div class="section-search">
+                <div class="group-input-icon-left">
+                    <span class="icon icon-search"></span>
+                    <input type="text" placeholder="Buscar">
+                </div>
+            </div>
+
+            <div class="section-body-sms" >
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+                    <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
+                    <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

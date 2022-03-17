@@ -1,14 +1,20 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+
+// ! SERVICIOS ============================================
+import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
+import { GeoLocationService } from 'src/app/services/location/geo-location.service';
+import { GoogleServiceService } from 'src/app/services/google/google-service.service';
+import { FacebookServiceService } from 'src/app/services/facebook/facebook-service.service';
+import { LoginServiceService } from '../login/login-service.service';
+import { SignupService } from '../signup/signup.service';
+import { SmsService } from '../sms/sms.service';
+
+// ! ASSETS ============================================
 import Swal from 'sweetalert2';
 declare var $: any;
 import { Vacio, VacioU, SoloLetra, SoloNumero } from '../../../assets/script/general';
-import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
-import { GeoLocationService } from 'src/app/services/location/geo-location.service';
-import { FacebookServiceService } from 'src/app/services/facebook/facebook-service.service';
-import { GoogleServiceService } from 'src/app/services/google/google-service.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
 
 @Component({
     selector: 'app-signup',
@@ -24,6 +30,9 @@ export class SignupComponent implements OnInit {
         private AuthServiceService: AuthServiceService,
         private FacebookServiceService: FacebookServiceService,
         private GoogleServiceService: GoogleServiceService,
+        private LoginServiceService:LoginServiceService,
+        private SignupService:SignupService,
+        private SmsService:SmsService
     ) {
     }
 
@@ -42,7 +51,7 @@ export class SignupComponent implements OnInit {
         datos: {
             nombre: "",
             correo: "",
-            code_phone: '',
+            code_phone: '+',
             telefono: "",
             clave: ""
         },
@@ -65,18 +74,26 @@ export class SignupComponent implements OnInit {
     user_imagen_show: any;
     country_short_name:string ='';
     //?CONTROL===================================================================================
+    isOpen:boolean=false;
     canSignUp: boolean = false;
     close: boolean = false;
     fase = 0;
     ctrl_modal_sms: boolean = false;
     fase_modal_sms: number = 1;
     ctrl_modal_sms_tlf: boolean = false;
+    viewPass:boolean=false;
+    viewRePass: boolean = false;
+
     @Output() ExportClose = new EventEmitter<boolean>();
 
     ngOnInit() {
         this.GeoLocationService.getCountries().then(res => {
             this.locaciones = res;
         });
+
+        this.SignupService.change.subscribe(res=>{
+            this.isOpen = res.isOpen;
+        })
     }
 
     //!FUNCIONES=============================================================
@@ -201,15 +218,16 @@ export class SignupComponent implements OnInit {
     }
 
     CrearCuenta() {
-        if (!this.CanSignUp) {
-            Swal.fire({
-                title: 'Complete y valide todos los campos',
-                icon: 'error',
-            });
-            return;
-        }
-        this.usuario.tipo = 1;
-        this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
+        if(this.canSignUp){
+            if (!this.CanSignUp) {
+                Swal.fire({
+                    title: 'Complete y valide todos los campos',
+                    icon: 'error',
+                });
+                return;
+            }
+            this.usuario.tipo = 1;
+            this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
             .then(valid => {
                 //si no existe puedes registrate
                 if (valid.error) {
@@ -220,6 +238,8 @@ export class SignupComponent implements OnInit {
                     alert("YA EXISTE");
                 }
             })
+        }
+
     }
 
     CargarImagen(event: any) {
@@ -364,8 +384,14 @@ export class SignupComponent implements OnInit {
     }
 
     CanSignUp() {
-        alert("asd")
-        if (Vacio(this.usuario.datos) || this.usuario.datos.code_phone == '+' || this.rep_clave != this.usuario.datos.clave) {
+        if (
+            this.usuario.datos.nombre == "" || 
+            this.usuario.datos.clave == "" || 
+            this.usuario.datos.correo == "" || 
+            this.usuario.datos.code_phone == '+' || 
+            this.usuario.datos.telefono == "" ||
+            this.rep_clave != this.usuario.datos.clave
+            ) {
             this.canSignUp = false;
         } else {
             this.canSignUp = true;
@@ -440,8 +466,7 @@ export class SignupComponent implements OnInit {
     }
 
     Cerrar() {
-        this.close = true;
-        setTimeout(() => { this.ExportClose.emit(this.close); }, 200);
+        this.SignupService.toggle();
     }
 
     SoloLetra(evt: any) {
@@ -450,6 +475,23 @@ export class SignupComponent implements OnInit {
 
     SoloNumero(evt: any) {
         return SoloNumero(evt)
+    }
+
+    IniciarSesion(){
+        this.SignupService.toggle();
+        this.LoginServiceService.toggle()
+    }
+
+    OpenModalSms(){
+        this.SmsService.toggle()
+    }
+
+    tooglePass(tipo:boolean){
+        if(tipo){
+            this.viewPass = !this.viewPass;
+        }else{
+            this.viewRePass = !this.viewRePass;
+        }
     }
 
 }

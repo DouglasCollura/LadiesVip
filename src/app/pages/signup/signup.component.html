@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="isOpen">
 
     <!-- ! COMPONENT ======================================================================= -->
     <div *ngIf="fase == 0" class="card" [ngClass]="close ? 'fade-out' : 'fade-in'">
@@ -25,13 +25,13 @@
                     <div class="group-logins">
                         <button class="btn-type-login" (click)="signUpFacebook()"> <img src="../../assets/imagenes/Facebook.png" alt="">  </button>
                         <button class="btn-type-login" (click)="signUpGoogle()"> <img src="../../assets/imagenes/Google.png" alt="">  </button>
-                        <button class="btn-type-login" (click)="ctrl_modal_sms = true"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
+                        <button class="btn-type-login" (click)="OpenModalSms()"> <img src="../../assets/imagenes/Phone.png" alt="">  </button>
                     </div>
                 </div>
 
                 <div class="display-column">
                     <h5>¿Ya tienes una cuenta?</h5>
-                    <button class="btn-link">Iniciar sesión</button>
+                    <button class="btn-link" (click)="IniciarSesion()">Iniciar sesión</button>
                 </div>
             </div>
 
@@ -45,11 +45,12 @@
 
             <div class="section-signup-right" >
                 <div class="form-group">
+
                     <label for="">Nombre </label>
                     <input type="text"
                         [(ngModel)]="usuario.datos.nombre"
                         placeholder="Ingresar nombre y apellido"
-                        (keypress)="SoloLetra($event)"  
+                        (keyup)="[SoloLetra($event),CanSignUp()]"  
                     >
                 </div>
 
@@ -58,6 +59,7 @@
                     <input type="text"
                         [(ngModel)]="usuario.datos.correo"
                         placeholder="Ingresar email"
+                        (keyup)="CanSignUp()"  
                     >
                 </div>
 
@@ -72,22 +74,34 @@
                         <input type="text"
                             placeholder="Ingresar número"
                             [(ngModel)]="usuario.datos.telefono"
-                            (keypress)="SoloNumero($event)"  
+                            (keyup)="CanSignUp()" 
+                            (keypress)="SoloNumero($event)" 
                         >
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="">Contraseña </label>
-                    <input type="password"
-                        placeholder="Ingresar una contraseña"
-                        [(ngModel)]="usuario.datos.clave"
-                    >
+                    <div class="group-input-icon-right">
+                        <span class="icon" [ngClass]="viewPass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass(true)" ></span>
+                        <label for="">Contraseña </label>
+                        <input [type]="viewPass ? 'text' : 'password'"
+                            placeholder="Ingresar una contraseña"
+                            [(ngModel)]="usuario.datos.clave"
+                            (keyup)="CanSignUp()"  
+                        >
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="">Confirmar contraseña </label>
-                    <input type="password" [(ngModel)]="rep_clave" placeholder="Confirmar contraseña">
+                    <div class="group-input-icon-right">
+                        <span class="icon" [ngClass]="viewRePass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass(false)" ></span>
+                        <label for="">Confirmar contraseña </label>
+                        <input  [type]="viewRePass ? 'text' : 'password'"
+                            [(ngModel)]="rep_clave" 
+                            placeholder="Confirmar contraseña"
+                            (keyup)="CanSignUp()"  
+                        >
+                    </div>
                 </div>
 
                 <div class="checkbox-group">
@@ -106,85 +120,7 @@
 
 
     <!-- ! MODAL SMS ======================================================================= -->
-    <div class="container" *ngIf="ctrl_modal_sms">
-
-        <div class="card card-xs" *ngIf="!ctrl_modal_sms_tlf">
-            <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
-
-            <!-- ? FASE INGRESO NUMERO -->
-            <div class="grid" *ngIf="fase_modal_sms == 1">
-
-                <h1 >Registrarse por número</h1>
-
-                <div class="from-group">
-                    <span>Número de teléfono</span>
-                    
-                    <div class="input-group-append">
-                        <button (click)="SelectTlf()"> {{country_short_name}} <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
-                        <input type="text"
-                            placeholder="Ingresar número"
-                            [(ngModel)]="usuario.datos.telefono"
-                            (keypress)="SoloNumero($event)"  
-                        >
-                    </div>
-                </div>       
-                
-                <h4 >Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros Términos y condiciones y con nuestra Política de Privacidad</h4>
-                    
-                <button class="btn btn-primary btn-block" (click)="fase_modal_sms = 2">Continuar</button>
-
-            </div>
-
-            <!-- ? FASE INGRESO CODIGO -->
-            <div class="grid"  *ngIf="fase_modal_sms == 2">
-
-                <h1 >Registrarse por número</h1>
-
-                <h3>Ingresa el código que fue enviado al número +34 984572496</h3>
-                <div class="group-input-code">
-                    <input type="text" placeholder="0" maxlength="1">
-                    <input type="text" placeholder="0" maxlength="1">
-                    <input type="text" placeholder="0" maxlength="1">
-                    <input type="text" placeholder="0" maxlength="1">
-                    <input type="text" placeholder="0" maxlength="1">
-                </div>      
-                
-                <div class="flex-d-row">
-                    <button class="btn btn-recibir-code">No has recibido el código?</button>
-                    <button class="btn btn-reenviar">Reenviar código</button>
-                </div>
-                    
-                <button class="btn btn-primary btn-block" (click)="VerificarCodigoSMS()">Continuar</button>
-
-            </div>
-
-        </div>
-
-        <div class="card card-xs" *ngIf="ctrl_modal_sms_tlf">
-            <div class="header-card">
-                <h3 class="font-500">Seleccionar otro país</h3>
-                <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
-            </div>
-
-            <div class="temp-modal-sms-tlf">
-                <div class="section-search">
-                    <div class="group-input-icon-left">
-                        <span class="icon icon-search"></span>
-                        <input type="text" placeholder="Buscar">
-                    </div>
-                </div>
-
-                <div class="section-body-sms" >
-                    <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
-                        <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
-                        <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [id]="i" name="tlf" type="radio">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
+    <app-sms></app-sms>
 
 
     <!-- ! FASE LLENADO -->
@@ -342,4 +278,5 @@
         </div>
 
     </div>
+
 </div>

@@ -63,3 +63,35 @@ a{
 #fb-root{
     display: none!important;
 }
+
+.card-danger{
+    background: rgba(242, 71, 71, 0.12);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.card-danger *{
+    color: var(--alerts-error);
+}
+
+
+.icon-circle-close{
+    font-size: 20px; 
+    margin-top: 13px; 
+    color: var(--alerts-error);
+    right: 40px;
+}
+
+.icon-eyes-close,.icon-eyes{
+    font-size: 20px; 
+    margin-top: 13px; 
+    color: var(--neutro-500);
+    cursor: pointer;  
+}
+.icon-eyes{
+    font-size:18px; 
+}
+
+#password{
+    padding-right: 60px;
+}

@@ -23,6 +23,7 @@ import { firebaseApp } from 'src/environments/firebaseConfig';
 import { AdminMarketSolicitudesComponent } from './admin/market-components/admin-market-solicitudes/admin-market-solicitudes.component';
 import { AdminMarketPublicadosShowComponent } from './admin/market-components/admin-market-publicados/admin-market-publicados-show/admin-market-publicados-show.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SmsComponent } from './sms/sms.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     AdminHomeComponent,
     AdminMarketSolicitudesComponent,
     AdminMarketPublicadosShowComponent,
-    
+    SmsComponent,
     ],
   imports: [
     CommonModule,
