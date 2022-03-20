@@ -27,11 +27,6 @@ export class AuthServiceService {
     }
 
 
-
-
-
-
-
     //// LOGIN Y RESGISTRO POR REDES ////
     async signUpSocial(data:any): Promise<any> {
         const send = this.http.post(`${this.url}signup-social`, data).toPromise()

@@ -291,7 +291,7 @@ input[type=radio]:checked:before{
 
 /* * ###################### BOTONES ##################################################### */
 
-.btn, .btn-primary, .btn-secondary,.btn-primary-invert{
+.btn, .btn-primary, .btn-secondary,.btn-primary-invert, .btn-disable{
     background: none;
     border: none;
     outline: none;
@@ -756,6 +756,10 @@ input[type=range]::-ms-thumb{
     color: white;
     font-weight: 500;
     cursor: pointer;
+}
+
+.icon-loader{
+    animation: load 1.2s linear infinite;
 }
 
 /* * 

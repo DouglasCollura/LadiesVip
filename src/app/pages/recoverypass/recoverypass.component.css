@@ -6,6 +6,7 @@
 
 .section_uno{
     display: grid;
+    grid-template-rows: 1fr 1fr;
     align-items: space-around;
     align-content: start;
     grid-gap: 30px;
@@ -61,10 +62,31 @@
     text-align: center;
 }
 
-.btn-reenviar{
+.btn-reenviar,.btn-reenviar-disable{
     background: none;
     border: none;
     color: #3B82F6;
     text-decoration: underline;
     cursor: pointer;
+}
+
+.temp-modal-sms-tlf{
+    display: grid;
+    grid-template: 
+	"section-search" 80px
+    "section-body-sms" auto/
+		100%
+}
+
+.section-body-sms{
+	grid-area: section-body-sms;
+    display: grid;
+    max-height: 500px;
+    overflow: auto;
+    padding: 5px 10px;
+}
+
+.btn-reenviar-disable{
+    color: var(--neutro-500) !important;
+    cursor: not-allowed;
 }

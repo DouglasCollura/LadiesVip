@@ -7,6 +7,15 @@
 		100%
 }
 
+.section-body-sms{
+	grid-area: section-body-sms;
+    display: grid;
+    max-height: 500px;
+    overflow: auto;
+    padding: 5px 10px;
+}
+
+
 .section-search input{
     border: none;
     border-radius: 0px;
@@ -17,13 +26,6 @@
     -o-border-radius: 0px;
 }
 
-.section-body-sms{
-	grid-area: section-body-sms;
-    display: grid;
-    max-height: 500px;
-    overflow: auto;
-    padding: 5px 10px;
-}
 
 .group-input-code{
     display: grid;
@@ -39,4 +41,12 @@
     background: #ECECEC;
     border-radius: 8px;
     text-align: center;
+}
+
+.btn-recibir-code{
+    color: var(--neutro-500);
+}
+
+.btn-reenviar{
+    color: var(--alerts-info);
 }

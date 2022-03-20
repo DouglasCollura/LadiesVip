@@ -61,6 +61,10 @@ export class SignupComponent implements OnInit {
             estado: null,
             ciudad: null
         },
+        geo:{
+            long:null,
+            lat:null
+        },
         identidad: null,
         servicio: null,
         interes_identidad: null,
@@ -83,7 +87,10 @@ export class SignupComponent implements OnInit {
     ctrl_modal_sms_tlf: boolean = false;
     viewPass:boolean=false;
     viewRePass: boolean = false;
-
+    pass:boolean=false;
+    error:number=0;
+    edad:number=0;
+    loading:boolean=false;
     @Output() ExportClose = new EventEmitter<boolean>();
 
     ngOnInit() {
@@ -217,27 +224,36 @@ export class SignupComponent implements OnInit {
             })
     }
 
+    SignUpSms(event:any){
+        this.usuario.tipo = 4;
+        this.usuario.datos.code_phone =  this.SmsService.sms.code_phone;
+        this.usuario.datos.telefono =  this.SmsService.sms.telefono;
+        this.fase = 1;
+        console.log(this.usuario)
+    }
+
     CrearCuenta() {
+        this.error =0;
+
         if(this.canSignUp){
-            if (!this.CanSignUp) {
-                Swal.fire({
-                    title: 'Complete y valide todos los campos',
-                    icon: 'error',
-                });
-                return;
-            }
+            
+            this.loading = true;
             this.usuario.tipo = 1;
             this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
             .then(valid => {
                 //si no existe puedes registrate
+                this.loading =false;
                 if (valid.error) {
                     this.fase = 1;
+                    this.error=0;
                 }
                 //si existe anuncia con alerta
                 if (valid.success) {
-                    alert("YA EXISTE");
+                    this.error=2;
                 }
             })
+        }else{
+            this.error = 1;
         }
 
     }
@@ -262,18 +278,13 @@ export class SignupComponent implements OnInit {
             console.log(`Latitude : ${crd.latitude}`);
             console.log(`Longitude: ${crd.longitude}`);
             console.log(`More or less ${crd.accuracy} meters.`);
+            this.usuario.geo.lat = crd.latitude;
+            this.usuario.geo.long = crd.longitude;
             this.SignUp();
         }, (err: any) => {
             console.log(`ERROR(${err.code}): ${err.message}`);
-            Swal.fire({
-                title: 'Debe conceder permisos para continuar',
-                text: 'tiene los permisos de geolocalización bloqueados, actívelos para continuar',
-                icon: 'info',
-            });
         });
 
-        // let geo = navigator.geolocation
-        // console.log(geo);
     }
 
     ///REGISTRO DE USUARIO
@@ -298,10 +309,11 @@ export class SignupComponent implements OnInit {
                 }
             })
         }
-        if (this.usuario.tipo == 2 || this.usuario.tipo == 3) {
+        if (this.usuario.tipo == 2 || this.usuario.tipo == 3 || this.usuario.tipo == 4) {
             //comienza el registro con redes sociales
             this.AuthServiceService.signUpSocial(this.usuario)
                 .then(res => {
+                    console.log(res)
                     if (res.success) {
                         //guarda imagen de usuario
                         this.AuthServiceService.UpImage(this.img_user, res.data.id)
@@ -319,6 +331,7 @@ export class SignupComponent implements OnInit {
                     }
                 })
         }
+
     }
 
     VerificarCodigoSMS() {
@@ -346,6 +359,7 @@ export class SignupComponent implements OnInit {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
             this.ctrl_identidad.push(id);
+            this.pass = true;
         } else {
             $(event.target).removeClass("btn-genero-active");
             $(event.target).addClass("btn-genero");
@@ -354,6 +368,9 @@ export class SignupComponent implements OnInit {
                     object.splice(index, 1);
                 }
             });
+            if(this.ctrl_identidad.length == 0 && this.ctrl_servicios.length == 0){
+                this.pass = false;
+            }
         }
         console.log(this.ctrl_identidad)
     }
@@ -364,6 +381,7 @@ export class SignupComponent implements OnInit {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
             this.ctrl_servicios.push(id);
+            this.pass = true;
         } else {
             $(event.target).removeClass("btn-genero-active");
             $(event.target).addClass("btn-genero");
@@ -372,6 +390,10 @@ export class SignupComponent implements OnInit {
                     object.splice(index, 1);
                 }
             });
+
+            if(this.ctrl_identidad.length == 0 && this.ctrl_servicios.length == 0){
+                this.pass = false;
+            }
         }
     }
 
@@ -400,60 +422,69 @@ export class SignupComponent implements OnInit {
 
     CtrlForm() {
         if (this.fase == 2) {
+            this.error = 0;
             if (VacioU(this.usuario.fecha_nac)) {
-                Swal.fire({
-                    title: 'Complete todos los campos',
-                    icon: 'error',
-                });
+                this.error = 1;
                 return;
             }
-            this.fase = 3;
+
+            var hoy = new Date();
+            var cumpleanos = new Date(this.usuario.fecha_nac);
+            var edad = hoy.getFullYear() - cumpleanos.getFullYear();
+            var m = hoy.getMonth() - cumpleanos.getMonth();
+
+            if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
+                edad--;
+            }
+            if(edad < 18){
+                this.edad = edad;
+                this.error = 2;
+            }else{
+                this.pass = false;
+                this.fase = 3;
+            }
         }
         else if (this.fase == 3) {
+            this.error =0;
+
             if (Vacio(this.usuario.locacion)) {
-                Swal.fire({
-                    title: 'Complete todos los campos',
-                    icon: 'error',
-                });
+                this.error =1;
                 return;
             }
-            console.log(this.usuario)
             this.fase = 4;
         }
-
+        
         else if (this.fase == 4) {
+            this.error = 0;
             if (this.ctrl_identidad.length == 0 && this.ctrl_servicios.length == 0) {
-                Swal.fire({
-                    title: 'Seleccione al menos una opción',
-                    icon: 'error',
-                });
+                this.error = 1;
                 return;
             }
+
             this.usuario.identidad = this.ctrl_identidad.join();
             this.usuario.servicio = this.ctrl_servicios.join();
             this.ctrl_identidad = [];
             this.ctrl_servicios = [];
             this.fase = 5;
+            this.error = 0;
+            this.pass = false;
         }
 
         else if (this.fase == 5) {
             if (this.user_imagen_show) {
                 this.fase = 6;
+                this.pass = false;
             } else {
-                Swal.fire({
-                    title: 'Seleccione una imagen',
-                    icon: 'error',
-                });
+                this.error = 1;
                 return;
             }
         }
 
         else {
+            this.error = 0;
+            this.pass = false;
             if (this.ctrl_identidad.length == 0 && this.ctrl_servicios.length == 0) {
-                Swal.fire({
-                    title: 'Seleccione almenos una opción',
-                    icon: 'error',
-                });
+                this.error = 1;
                 return;
             }
             this.usuario.interes_identidad = this.ctrl_identidad.join();
@@ -461,6 +492,8 @@ export class SignupComponent implements OnInit {
             this.ctrl_identidad = [];
             this.ctrl_servicios = [];
             this.fase = 7;
+            this.error = 0;
+            this.pass = false;
         }
 
     }
@@ -492,6 +525,10 @@ export class SignupComponent implements OnInit {
         }else{
             this.viewRePass = !this.viewRePass;
         }
+    }
+
+    VacioU(obj:any){
+        return VacioU(obj)
     }
 
 }

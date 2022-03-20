@@ -51,6 +51,8 @@ export class LoginComponent implements OnInit {
     habLogin = false;
     error: number = 0;
     viewPass:boolean=false;
+    loading:boolean = false;
+    
     ngOnInit(): void {
         this.LoginServiceService.change.subscribe(res => {
             this.isOpen = res.isOpen;
@@ -117,10 +119,17 @@ export class LoginComponent implements OnInit {
             });
     }
 
+    LoginSms(event:any){
+        sessionStorage.setItem('usuario', JSON.stringify(event.data));
+        sessionStorage.setItem('token', event.access_token);
+        location.href = '/home';
+    }
+
     facebookUser: any;
     LogIn() {
-        this.error = 0;
+        this.error = 0; 
         if(this.habLogin){
+            this.loading = true;
             this.usuario.tipo = 1;
             //valida el email
             this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
@@ -145,10 +154,12 @@ export class LoginComponent implements OnInit {
                     if (email.error) {
                         this.error = 1;
                     }
+                    this.loading=false;
                 })
         }
         
     }
+
     
     //?CONTROL==============================================================================
 

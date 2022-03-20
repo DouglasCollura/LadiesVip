@@ -134,15 +134,6 @@
     text-align: center;
 }
 
-.btn-recibir-code{
-    color: var(--neutro-500);
-}
-
-.btn-reenviar{
-    color: var(--alerts-info);
-}
-
-
 .icon-eyes-close,.icon-eyes{
     font-size:18px; 
     margin-top: 13px; 

@@ -2,7 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GoogleServiceService } from 'src/app/services/google/google-service.service';
 import { FacebookServiceService } from 'src/app/services/facebook/facebook-service.service';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
+import { SoloNumero, Vacio,VacioU } from 'src/assets/script/general';
 import { SmsService } from '../sms/sms.service';
+import { GeoLocationService } from 'src/app/services/location/geo-location.service';
+import { RecoverypassService } from './recoverypass.service';
 
 @Component({
     selector: 'app-recoverypass',
@@ -15,44 +18,56 @@ export class RecoverypassComponent implements OnInit {
         private GoogleServiceService: GoogleServiceService,
         private FacebookServiceService: FacebookServiceService,
         private AuthServiceService: AuthServiceService,
-        private SmsService:SmsService
+        private GeoLocationService: GeoLocationService,
+        private SmsService:SmsService,
+        private RecoverypassService:RecoverypassService
 
     ) { }
 
+
+    ngOnInit(): void {
+        this.GeoLocationService.getCountries().then(res => {
+            this.locaciones = res;
+        });
+
+        setTimeout(function(){
+            console.log("Hola Mundo");
+        }, 2000);
+    }
+
     //!DATA=====================================================================
     //?CARGA===================================================================================
-
+    locaciones: any = null;
 
     //?GESTION===================================================================================
     @Output() ExportClose = new EventEmitter<boolean>();
     
     usuario:any={
-        tipo:null,
-        correo:null
+        correo:null,
+        code_phone:null,
+        country_short_name:null,
+        telefono:null,
+        codigo:null,
+        clave:null
     }
+    rep_clave:string="";
+    code_1:string="";
+    code_2:string="";
+    code_3:string="";
+    code_4:string="";
+    code_5:string="";
 
     //?CONTROL===================================================================================
     fase:number=0;
     recovery_type:number=0;
+    ctrl_modal_sms_tlf: boolean = false;
+    error:number=0;
+    loading:boolean=false;
+    re_code:boolean=false;
+    //!FUNCIONES=====================================================================
 
-    Cerrar() {
-        this.ExportClose.emit(false); 
-    }
 
-    RecuperarEmail(){
-        this.recovery_type = 0;
-        this.fase = 2;
-    }
-
-    RecuperarPhone(){
-        this.recovery_type = 1;
-        this.fase = 2;
-    }
-
-  
-
-    ngOnInit(): void {
-    }
+    //?GESTION===================================================================================
 
     //!registro con facebook
     signUpFacebook() {
@@ -150,8 +165,139 @@ export class RecoverypassComponent implements OnInit {
             })
     }
 
+    ValidarCorreo(){
+        this.error = 0;
+        this.loading =true;
+        this.re_code =false;
+        this.RecoverypassService.usuario.correo = this.usuario.correo;
+        this.RecoverypassService.ValidateEmail().then(res =>{
+            console.log(res);
+            if(!res.error){
+                this.fase = 2;
+                this.loading =false;
+                setTimeout(()=>{
+                    this.re_code =true;
+                }, 120000);
+            }else{
+                this.error = 1;
+                this.loading =false;
+            }
+        })
+    }
+
+    ValidarPhone(){
+        this.error = 0;
+        this.loading =true;
+        this.re_code =false;
+        this.RecoverypassService.usuario.code_phone = this.usuario.code_phone;
+        this.RecoverypassService.usuario.telefono = this.usuario.telefono;
+        this.RecoverypassService.ValidatePhone()
+            .then( res=>{
+                console.log(res)
+                if(res.success){
+                    this.fase = 2;
+                    this.loading = false;
+                    setTimeout(()=>{
+                        this.re_code =true;
+                    }, 120000);
+                }else{
+                    this.error = 1;
+                    this.loading = false;
+                }
+            })
+            .catch(error=>{
+                if(error.status == "200"){
+                    this.error = 2;
+                    this.loading = false;
+                }
+                if(error.status == "429" || error.status == "503"){
+                    this.error = 3;
+                    this.loading = false;
+                }
+            })
+    }
+
+    ValidarCodigo(tipo:number){
+        this.error = 0;
+        this.loading =true;
+        this.RecoverypassService.usuario.codigo = this.code_1 + this.code_2 + this.code_3 + this.code_4 + this.code_5;
+        this.RecoverypassService.ValCode(tipo).then(res=>{
+            if(res.success){
+                this.fase = 4;
+                this.loading =false;
+            }else{
+                this.error = 1;
+                this.loading =false;
+            }
+        })
+    }
+
+    CambiarClave(tipo:number){
+        this.error = 0;
+        this.loading =true;
+        if(this.rep_clave == this.usuario.clave && this.usuario.clave.length >=8){
+            this.RecoverypassService.usuario.clave = this.usuario.clave;
+            this.RecoverypassService.ChangePass(tipo).then(()=>{
+                this.Cerrar();
+                this.loading =false;
+            })
+        }else if(this.usuario.clave.length <8){
+            this.error = 2;
+            this.loading =false;
+        }else{
+            this.error = 1;
+            this.loading =false;
+        }
+    }
+
+    //?CONTROL===================================================================================
+
+    SelectCodeTlf(code_phone: string, country_short_name: string) {
+        this.usuario.code_phone = code_phone;
+        this.usuario.country_short_name = country_short_name;
+        this.ctrl_modal_sms_tlf = false;
+    }
+
+    Cerrar() {
+        this.error=0;
+        this.usuario.correo = null;
+        this.usuario.codigo = null;
+        this.usuario.clave = null;
+        this.usuario.code_phone = null;
+        this.usuario.telefono = null;
+        this.usuario.country_short_name = null;
+        this.code_1 = "";
+        this.code_2 = "";
+        this.code_3 = "";
+        this.code_4 = "";
+        this.code_5 = "";
+        this.ExportClose.emit(false); 
+    }
+
+    RecuperarEmail(){
+        this.recovery_type = 0;
+        this.fase =1;
+    }
+
+    RecuperarPhone(){
+        this.recovery_type = 1;
+        this.fase = 1;
+    }
+
+    SoloNumero(evt: any) {
+        return SoloNumero(evt)
+    }
+
+
     OpenModalSms(){
         this.SmsService.toggle()
+    }
+
+    VacioU(obj:any){
+        return VacioU(obj)
+    }
+    CanPass(tipo:number, fase:number){
+        
     }
 
 }

@@ -103,16 +103,19 @@
                         >
                     </div>
                 </div>
-
+                <p class="text-error" *ngIf="error==1">Complete y valide todos los campos</p>
+                <p class="text-error" *ngIf="error==2">Esta cuenta ya existe.</p>
+                
                 <div class="checkbox-group">
                     <input type="checkbox" checked="true" id="session-open ">
                     <label for="session-open"> Recordar Contraseña</label>
                 </div>
+                
                 <button
                     class="btn btn-block"
                     [ngClass]="canSignUp?'btn-primary':'btn-disable'"
-                    (click)="CrearCuenta()"
-                >Crear cuenta</button>
+                    (click)="(!loading) && CrearCuenta()"
+                >Crear cuenta <span *ngIf="loading" class="icon icon-loader"></span> </button>
             </div>
 
         </div>
@@ -120,7 +123,7 @@
 
 
     <!-- ! MODAL SMS ======================================================================= -->
-    <app-sms></app-sms>
+    <app-sms [importTipo]="0" (exportRes)="SignUpSms($event)"></app-sms>
 
 
     <!-- ! FASE LLENADO -->
@@ -152,7 +155,10 @@
             <div class="grid" *ngIf="fase == 2">
                 <div class="grid gap-20 align-self-start">
                     <h1 class="form-title">¿Cuando es tu cumpleaños?</h1>
-                    <input type="date" [(ngModel)]="usuario.fecha_nac">
+                    <input type="date" (change)="(VacioU(usuario.fecha))? pass=true:pass=false " [(ngModel)]="usuario.fecha_nac">
+                    <p class="text-error" *ngIf="error == 1">llene todos los campos</p>  
+                    <p class="text-error" *ngIf="error == 2">tienes {{edad}} años </p>  
+                    <p class="text-error" *ngIf="error == 2">Estás tratando de crear una cuenta en LadiesVip con una edad que no está permitida dentro de nuestras políticas de uso. </p>
                 </div>
 
                 <h5>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</h5>
@@ -164,7 +170,7 @@
 
                 <div class="form-group">
                     <label for="">Pais </label>
-                    <select name="" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">
+                    <select name="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">
                         <option value="0" disabled>Seleccionar</option>
                         <option [value]="pais.country_name" *ngFor="let pais of locaciones">
                             {{ pais.country_name}}
@@ -174,7 +180,7 @@
 
                 <div class="form-group">
                     <label for="">Estado </label>
-                    <select name="" id="" [(ngModel)]="usuario.locacion.estado" (change)="CargarCiudad()">
+                    <select name="" id="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.estado" (change)="CargarCiudad()">
                         <option [value]="estado.state_name"  *ngFor="let estado of estados">
                             {{ estado.state_name}}
                         </option>
@@ -183,12 +189,13 @@
 
                 <div class="form-group">
                     <label for="">Ciudad </label>
-                    <select name="" id="" [(ngModel)]="usuario.locacion.ciudad">
+                    <select name="" id="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.ciudad">
                         <option [value]="ciudad.city_name"  *ngFor="let ciudad of ciudades">
                             {{ ciudad.city_name}}
                         </option>
                     </select>
                 </div>
+                <p class="text-error" *ngIf="error == 1">llene todos los campos</p>
 
                 <h5>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</h5>
             </div>
@@ -215,6 +222,8 @@
                     <button class="btn btn-genero" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
                     <button class="btn btn-genero" (click)="selectServicio(4,$event)">Otros</button>
                 </div>
+                <p class="text-error" *ngIf="error == 1">Seleccione al menos una opción</p>
+
             </div>
 
             <!-- ? CARGAR FOTO PERFIL -->
@@ -225,10 +234,11 @@
                         <img *ngIf="user_imagen_show == null" src="../../assets/imagenes/user.png"  alt="">
                         <img [src]="user_imagen_show" alt="">
                     </div>
-                    <button (click)="SelectImg()" class="sub-circle-img">+</button>
+                    <button (click)="[SelectImg()]" class="sub-circle-img">+</button>
                 </div>
+                <p class="text-error" *ngIf="error == 1">Seleccione una imagen</p>
 
-                <input type="file" id="img" (change)="CargarImagen($event)" style="display:none" accept="image/png, image/gif, image/jpeg">
+                <input type="file" id="img" (change)="[CargarImagen($event), VacioU(img_user)? pass = false: pass = true]" style="display:none" accept="image/png, image/gif, image/jpeg">
                 <h5 class="text-center">Esta foto será visible para <br> todos los usuarios</h5>
             </div>
 
@@ -254,6 +264,8 @@
                     <button class="btn btn-genero" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
                     <button class="btn btn-genero" (click)="selectServicio(4,$event)">Otros</button>
                 </div>
+                <p class="text-error" *ngIf="error == 1">Seleccione al menos una opción</p>
+
             </div>
 
             <!-- ? GEOLOCALIZACION -->
@@ -265,14 +277,15 @@
             </div>
 
             <button
-                class="btn-primary btn-circle"
+                class="btn-circle"
                 *ngIf="fase != 7"
                 (click)="CtrlForm()"
+                [class]="pass?'btn-primary':'btn-disable'"
             ><i class="icon icon-arrow-right"></i></button>
 
             <div class="grid gap-10 align-content-start justify-self-stretch">
                 <button *ngIf="fase == 7" (click)="ActivarGeo()" class="btn-primary btn-block">Activar</button>
-                <button *ngIf="fase == 7" [routerLink]="'/home'" class="btn-secondary btn-block">No por el momento   </button>
+                <button *ngIf="fase == 7" (click)="SignUp()" class="btn-secondary btn-block">No por el momento</button>
             </div>
 
         </div>

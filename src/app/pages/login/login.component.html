@@ -81,8 +81,8 @@
                 <button
                     class="btn btn-block"
                     [ngClass]="habLogin?'btn-primary':'btn-disable'"
-                    (click)="LogIn()"
-                >Iniciar sesión</button>
+                    (click)="(!loading) && LogIn()"
+                >Iniciar sesión <span *ngIf="loading" class="icon icon-loader"></span> </button>
 
                 <button class="btn-recovery" (click)="load_recoverypass = true">Olvidé mi contraseña</button>
 
@@ -97,4 +97,4 @@
 
 
 <!-- ! MODAL SMS ======================================================================= -->
-<app-sms></app-sms>
+<app-sms [importTipo]="1" (exportRes)="LoginSms($event)"></app-sms>

@@ -6,40 +6,47 @@
         <!-- ? FASE INGRESO NUMERO -->
         <div class="grid" *ngIf="fase_modal_sms == 1">
 
-            <h1 >Registrarse por número</h1>
+            <h1 *ngIf="ctrl_tipo == 0">Registrarse por número</h1>
+            <h1 *ngIf="ctrl_tipo == 1">Inicia sesión por número</h1>
 
             <div class="from-group">
                 <span>Número de teléfono</span>
-                
                 <div class="input-group-append">
-                    <button (click)="SelectTlf()"> {{country_short_name}} <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
+                    <button (click)="SelectTlf()"> {{sms.country_short_name}} <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
                     <input type="text"
                         placeholder="Ingresar número"
-                        [(ngModel)]="telefono"
+                        [(ngModel)]="sms.telefono"
                         (keypress)="SoloNumero($event)"  
                     >
                 </div>
+                <p class="text-error" *ngIf="(error == 1 && ctrl_tipo == 0)">El número ingresado ya está registrado</p>
+                <p class="text-error" *ngIf="error == 1 && ctrl_tipo == 1">El número ingresado no está registrado</p>
+                <p class="text-error" *ngIf="error == 2">llene todos los campos</p>
+                <p class="text-error" *ngIf="error == 3">El número ingresado es invalido</p>
+                <p class="text-error" *ngIf="error == 4">La plataforma está presentando problemas, intente mas tarde</p>
             </div>       
             
             <h4 >Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros Términos y condiciones y con nuestra Política de Privacidad</h4>
                 
-            <button class="btn btn-primary btn-block" (click)="fase_modal_sms = 2">Continuar</button>
+            <button class="btn btn-primary btn-block" (click)="Continuar()">Continuar</button>
 
         </div>
 
         <!-- ? FASE INGRESO CODIGO -->
         <div class="grid"  *ngIf="fase_modal_sms == 2">
 
-            <h1 >Registrarse por número</h1>
+            <h1 *ngIf="ctrl_tipo == 0">Registrarse por número</h1>
+            <h1 *ngIf="ctrl_tipo == 1">Inicia sesión por número</h1>
 
-            <h3>Ingresa el código que fue enviado al número +34 984572496</h3>
+            <h3>Ingresa el código que fue enviado al número +{{sms.code_phone}} {{sms.telefono}}</h3>
             <div class="group-input-code">
-                <input type="text" placeholder="0" maxlength="1">
-                <input type="text" placeholder="0" maxlength="1">
-                <input type="text" placeholder="0" maxlength="1">
-                <input type="text" placeholder="0" maxlength="1">
-                <input type="text" placeholder="0" maxlength="1">
-            </div>      
+                <input type="text" [(ngModel)]="code_1" placeholder="0" maxlength="1">
+                <input type="text" [(ngModel)]="code_2" placeholder="0" maxlength="1">
+                <input type="text" [(ngModel)]="code_3" placeholder="0" maxlength="1">
+                <input type="text" [(ngModel)]="code_4" placeholder="0" maxlength="1">
+                <input type="text" [(ngModel)]="code_5" placeholder="0" maxlength="1">
+            </div>     
+            <p *ngIf="error == 1" class="text-error">El código ingresado no es correcto.</p> 
             
             <div class="flex-d-row">
                 <button class="btn btn-recibir-code">No has recibido el código?</button>
@@ -55,7 +62,7 @@
     <div class="card card-xs" *ngIf="ctrl_modal_sms_tlf">
         <div class="header-card">
             <h3 class="font-500">Seleccionar otro país</h3>
-            <button  class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+            <button (click)="ctrl_modal_sms_tlf=false" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
         </div>
 
         <div class="temp-modal-sms-tlf">
