@@ -1,11 +1,11 @@
 export const firebaseApp = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyB3NCy9ZsoxmSMupvMAGiyXRumRsSAsRZ4",
-    authDomain: "ladiesvip-799cf.firebaseapp.com",
-    projectId: "ladiesvip-799cf",
-    storageBucket: "ladiesvip-799cf.appspot.com",
-    messagingSenderId: "240525146735",
-    appId: "1:240525146735:web:f5513fd951bf7988a0ab9a",
+    apiKey: "AIzaSyBW8nS-4P7_GmBNy2pPaMYjoFjxpQs_pII",
+    authDomain: "ladiesvip-544e3.firebaseapp.com",
+    projectId: "ladiesvip-544e3",
+    storageBucket: "ladiesvip-544e3.appspot.com",
+    messagingSenderId: "66805066171",
+    appId: "1:66805066171:web:918a14e3ebf24444677c9e"
   }
 };

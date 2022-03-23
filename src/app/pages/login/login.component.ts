@@ -141,7 +141,13 @@ export class LoginComponent implements OnInit {
                                 sessionStorage.setItem('usuario', JSON.stringify(login.data));
                                 sessionStorage.setItem('ruta_img', JSON.stringify(login.data.img_route));
                                 sessionStorage.setItem('token', login.access_token);
-                                location.href = '/home';
+                                this.AuthServiceService.ValUser().then(res=>{
+                                    if(res.length != 0){
+                                        location.href = '/admin/main';
+                                    }else{
+                                        location.href = '/home';
+                                    }
+                                })
                             })
                             ///erro de credenciales
                             .catch(err => {
@@ -175,7 +181,10 @@ export class LoginComponent implements OnInit {
     }
 
     ValAcceso() {
-        if (Vacio(this.usuario.datos)) {
+        if (
+            Vacio(this.usuario.datos) ||
+            !/^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(this.usuario.datos.correo)
+        ) {
             this.habLogin = false;
         } else {
             this.habLogin = true;

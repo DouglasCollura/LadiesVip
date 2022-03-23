@@ -6,18 +6,116 @@
         </div>
 
         <div class="menu-nav">
-            <button class="menu-nav-active" id="home" (click)="nav('home')" ><i class="icon icon-home"></i></button>
-            <button id="store" (click)="nav('store')"><i class="icon icon-store"></i></button>
-            <button id="message" (click)="nav('message')"><i class="icon icon-message" ></i></button>
-            <button id="notificacion" (click)="nav('notificacion')"><i class="icon icon-bell"></i></button>
-            <button id="perfil" (click)="nav('perfil')"><i class="icon icon-profile"></i></button>
+            <button [class]="ctrl_menu == 0?'menu-nav-active':''" id="home" (click)="nav(0)" ><i class="icon icon-home"></i></button>
+            <button [class]="ctrl_menu == 1?'menu-nav-active':''" id="store" (click)="nav(1)"><i class="icon icon-store"></i></button>
+            <button [class]="ctrl_menu == 2?'menu-nav-active':''" id="message" (click)="nav(2)"><i class="icon icon-message" ></i></button>
+            <button [class]="ctrl_menu == 3?'menu-nav-active':''" id="notificacion" (click)="nav(3)"><i class="icon icon-bell"></i></button>
+            <button [class]="ctrl_menu == 4?'menu-nav-active':''" id="perfil" (click)="nav(4)"><i class="icon icon-profile"></i></button>
         </div>
+
+        <button *ngIf="ctrl_menu == 0" (click)="signOut()">Log Out</button>
+
+        <app-market *ngIf="ctrl_menu == 1"></app-market>
+
 
     </div>
 
     <div class="section-main">
-        <p>home works!</p>
-        <button (click)="signOut()">Log Out</button>
+        <div class="content-main">
+            <!-- ! FILTRO Y POPULARES ================================================ -->
+            <div class="section-cont-populares">
+                <div class="top">
+                    <h4>Miembros populares</h4>
+
+                    <button class="btn-simple"><span class="icon icon-filtro"></span></button>
+                </div>
+
+                <div class="center">
+                        <div class="content-img-popular">
+                            <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        </div>
+
+                        <div class="content-img-popular">
+                            <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        </div>
+
+                        <div class="content-img-popular">
+                            <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        </div>
+
+                        <div class="content-img-popular">
+                            <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        </div>
+
+                        <div class="content-img-popular">
+                            <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        </div>  
+                </div>
+            </div>
+
+            <!-- ! FILTRO Y POPULARES ================================================ -->
+
+            <div class="section-cont-anuncios">
+
+                <!-- !CARD  ANUNCIO============================= -->
+                <div class="card-anuncio">
+
+                    <div class="card-anuncio-img" (click)="ctrl_modal_detalles = true">
+                        <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                    </div>
+
+                    <div class="card-anuncio-info">
+                        <div class="content-btn">
+                            <button> <img src="../../../assets/imagenes/anuncio_close.svg" alt=""> </button>
+                            <button> <img src="../../../assets/imagenes/anuncio_start.svg" alt=""> </button>
+                            <button> <img src="../../../assets/imagenes/anuncio_check.svg" alt=""> </button>
+                        </div>
+                        <div class="grid align-self-center justify-items-center gap-10">
+                            <h2 class="font-500 ">Nataly Torres</h2>
+                            <h3>23 años . Sevilla, España</h3>
+                        </div>
+                    </div>
+                </div><!-- !FINCARD =============================   -->
+                
+            </div>
+
+
+            <!-- ! MODAL DETALLE USUARIO ================================================ -->
+            <div class="container" *ngIf="ctrl_modal_detalles">
+                <div class="card card-anuncio-detalles">
+                    <button (click)="ctrl_modal_detalles = false" class="btn-icon align-self-start justify-self-end" style="z-index: 2;"><i class="icon icon-close"></i></button>
+                    
+                    <div class="card-anuncio-detalles-body">
+                        <div class="section-anuncio-detalles-img">
+                            <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        </div>
+    
+                        <div class="section-anuncio-detalles">
+                            <div class="grid align-content-start gap-10">
+                                <h1 class="font-600">Nataly Torres</h1>
+                                <h3 class="text-alert">23 años • Sevilla, España</h3>
+                            </div>
+
+                            <div class="grid align-content-start gap-10">
+                                <h4><span class="icon icon-mail"></span> natalytorres@gmail.com</h4>
+                                <h4><span class="icon icon-phone font-500"></span> +34  984 572 496</h4>
+                                <h4><span class="icon icon-brujula"></span> Busco: pareja</h4>
+                            </div>
+
+                            <p>Hola, seré directa. me gusta mucho las personas que son divertidas, que no necesitan que una excusa tonta para ligar. Si puedes ser esa persona dale like y conversamos! 😉</p>
+                       
+                            <div class="content-redes">
+                                <button> <img src="../../../assets/imagenes/cont_phone.png" alt=""> </button>
+                                <button> <img src="../../../assets/imagenes/cont_wts.png" alt=""> </button>
+                                <button> <img src="../../../assets/imagenes/cont_sms.png" alt=""> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </div>

@@ -20,7 +20,7 @@
                     >
                 </div>
                 <p class="text-error" *ngIf="(error == 1 && ctrl_tipo == 0)">El número ingresado ya está registrado</p>
-                <p class="text-error" *ngIf="error == 1 && ctrl_tipo == 1">El número ingresado no está registrado</p>
+                <p class="text-error" *ngIf="error == 1 && ctrl_tipo == 1">No estás registrado. Crea una cuenta para poder comenzar en Ladies VIP.</p>
                 <p class="text-error" *ngIf="error == 2">llene todos los campos</p>
                 <p class="text-error" *ngIf="error == 3">El número ingresado es invalido</p>
                 <p class="text-error" *ngIf="error == 4">La plataforma está presentando problemas, intente mas tarde</p>
@@ -28,7 +28,10 @@
             
             <h4 >Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros Términos y condiciones y con nuestra Política de Privacidad</h4>
                 
-            <button class="btn btn-primary btn-block" (click)="Continuar()">Continuar</button>
+            <button 
+                class="btn btn-primary btn-block" 
+                (click)="(!loading)&&Continuar()"
+            >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
 
         </div>
 
@@ -50,7 +53,9 @@
             
             <div class="flex-d-row">
                 <button class="btn btn-recibir-code">No has recibido el código?</button>
-                <button class="btn btn-reenviar">Reenviar código</button>
+                <button 
+                [class]="re_code? 'btn-reenviar':'btn-reenviar-disable'" 
+                (click)="(re_code) && Continuar()">Reenviar código <span *ngIf="!re_code">(espere 2min)</span>  </button>
             </div>
                 
             <button class="btn btn-primary btn-block" (click)="VerificarCodigoSMS()">Continuar</button>
@@ -69,12 +74,18 @@
             <div class="section-search">
                 <div class="group-input-icon-left">
                     <span class="icon icon-search"></span>
-                    <input type="text" placeholder="Buscar">
+                    <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
                 </div>
             </div>
 
-            <div class="section-body-sms" >
-                <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+            <div class="section-body-sms" *ngIf="locaciones_filtro.length == 0">
+                <div class="radio-group"  style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+                    <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
+                    <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+            <div class="section-body-sms align-content-start" *ngIf="locaciones_filtro.length != 0">
+                <div class="radio-group"  style="justify-content: space-between;" *ngFor="let locacion of locaciones_filtro;let i = index">
                     <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
                     <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [id]="i" name="tlf" type="radio">
                 </div>

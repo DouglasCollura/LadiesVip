@@ -2,17 +2,17 @@
 
     <div class="section-home-header">
         <div class="container-cifras">
-            <h1>1,200</h1>
+            <h1 *ngIf="countData" > {{countData.usuarios}} </h1>
             <h5 class="font-400 align-self-end">USUARIOS</h5>
         </div>
 
         <div class="container-cifras">
-            <h1>847</h1>
+            <h1 *ngIf="countData" > {{countData.anuncios}} </h1>
             <h5 class="font-400 align-self-end">ANUNCIOS</h5>
         </div>
 
         <div class="container-cifras">
-            <h1>7</h1>
+            <h1 *ngIf="countData" >  {{countData.reportes}}  </h1>
             <h5 class="font-400 align-self-end">REPORTES</h5>
         </div>
     </div>

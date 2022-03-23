@@ -14,6 +14,11 @@
     box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.08);
 }
 
+.section-main{
+	grid-area: section-main;
+    display: grid;
+}
+
 .menu-top-logo{
     background-color: var(--primario-rosa-2);
     display: grid;
@@ -75,4 +80,178 @@
   -moz-border-radius: 50%;
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
+}
+
+
+.content-main{
+    display: grid;
+    max-width: 430px;
+    min-width: 330px;
+    margin: 0px auto;
+    margin-top:40px;
+    grid-gap:20px;
+    grid-template: 
+	"section-cont-populares"100px
+    "section-cont-anuncios"auto/
+    100%;
+}
+
+.section-cont-populares{
+	grid-area: section-cont-populares;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-rows: 30px auto;
+}
+
+.section-cont-populares .top{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+}
+
+.section-cont-populares .center{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    grid-gap: 10px;
+}
+
+.btn-simple{
+    color: var(--neutro-600);
+    padding: 10px;
+}
+
+
+.content-img-popular{
+    width: 70px;
+    height: 70px;
+    border:2px solid #F59E0B;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    overflow: hidden;
+}
+
+.content-img-popular img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+
+}
+
+.section-cont-anuncios{
+	grid-area: section-cont-anuncios;
+    margin-top: 30px;
+}
+
+.card-anuncio{
+    margin: 0px auto;
+    width: 340px;
+    height: 500px;
+    filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, .31));
+    -webkit-filter: drop-shadow(0px 2px 12px rgba(0, 0, 0, .31));
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+    grid-template: 	    
+    "card-anuncio-img"370px        
+    "card-anuncio-info" 130px/        
+    100%;
+    overflow: hidden;
+}
+
+.card-anuncio-img{
+    grid-area: card-anuncio-img;
+
+    overflow: hidden;
+    max-height: 370px;
+    height: 370px;
+    width: 100%;
+    display: grid;
+}
+
+.card-anuncio-img img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.card-anuncio-info{
+    grid-area: card-anuncio-info;
+    background-color: white;
+    display: grid;
+    height: 130px;
+    position: relative;
+}
+
+.content-btn{
+    position: absolute;
+    display: grid;
+    grid-auto-flow: column;
+    width: 100%;
+    justify-content: space-around;
+    top: -30px;
+}
+
+.content-btn button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.card-anuncio-detalles{
+    width: 780px;
+    height: 500px;
+    max-height: 500px;
+    display: grid;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-anuncio-detalles-body{
+    display: grid;
+    grid-template-columns: 380px auto;
+    width: 100%;
+    position: absolute;
+}
+
+.section-anuncio-detalles-img{
+    overflow: hidden;
+    display: grid;
+    height: 500px;
+    width: 380px;
+}
+
+.section-anuncio-detalles-img img{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+
+.section-anuncio-detalles{
+    display: grid;
+    padding: 40px;
+    align-content: space-around;
+}
+
+
+.content-redes{
+    display: grid;
+    width: 200px;
+    grid-auto-flow: column;
+    justify-content: space-around;
+}
+
+.content-redes button{
+    background: none;
+    padding: none;
+    border: none;
+    width: max-content;
+    height: max-content;
+    cursor: pointer;
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminUsersService } from '../services/admin-users.service';
+
 declare var $: any;
 
 @Component({
@@ -8,8 +10,9 @@ declare var $: any;
 })
 export class AdminHomeComponent implements OnInit {
 
-    constructor() { }
-    ctrl_menu = 0;
+    constructor(
+        private AdminUsersService:AdminUsersService
+    ) { }
 
     ngOnInit(): void {
 
@@ -22,8 +25,6 @@ export class AdminHomeComponent implements OnInit {
         }
 
         $( function() {
-
-           
 
             $(document).on("click","#open_filtro",function(){
                 color_linea("rango-distancia-min","rango-distancia-max","line-distancia");
@@ -65,8 +66,33 @@ export class AdminHomeComponent implements OnInit {
             }
         });
 
+        this.AdminUsersService.GetCountData().then(res=>{
+            this.countData = res;
+        })
+
     }
 
+    //!DATA=====================================================================
+
+    //?CARGA===================================================================================
+    countData:any=null;
+
+    //?GESTION===================================================================================
+
+
+    //?CONTROL===================================================================================
+    ctrl_menu = 0;
+
+
+    //!FUNCIONES=====================================================================
+
+    //?CARGA===================================================================================
+
+
+    //?GESTION===================================================================================
+
+
+    //?CONTROL===================================================================================
 
     nav(event: any, fase: number) {
         this.ctrl_menu = fase;

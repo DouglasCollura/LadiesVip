@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 
 declare var $: any;
@@ -13,27 +13,49 @@ export class HomeComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private AuthServiceService:AuthServiceService
+        private AuthServiceService: AuthServiceService
     ) { }
 
-    loggedIn: boolean = false;
 
     ngOnInit(): void {
 
     }
+    //!DATA=====================================================================
+    //?CARGA===================================================================================
 
+
+
+    //?GESTION===================================================================================
+
+
+
+    //?CONTROL===================================================================================
+    loggedIn: boolean = false;
+
+    // * MODALES ================================
+    ctrl_modal_detalles:boolean=false;
+    ctrl_menu:number=1;
+
+    //!FUNCIONES=============================================================
+    //?CARGA=============================================================
+
+
+
+    //?GESTION============================================================
 
     signOut(): void {
-      this.AuthServiceService.logOut()
-      .then(()=>{
-        sessionStorage.clear()
-        this.router.navigate(['/'])
-      })
+        this.AuthServiceService.logOut()
+            .then(() => {
+                sessionStorage.clear()
+                this.router.navigate(['/'])
+            })
     }
 
-    nav(event: any) {
-        $(".menu-nav-active").removeClass("menu-nav-active");
-        $("#" + event).addClass("menu-nav-active");
+
+    //?CONTROL==============================================================================
+
+    nav(menu:number) {
+        this.ctrl_menu = menu;
     }
 
 }

@@ -1,0 +1,93 @@
+.temp-market{
+    display: grid;
+    padding: 20px 15px;
+    height: 100%;
+    grid-template-rows: 100px 200px auto;
+    grid-gap: 10px;
+}
+
+.market-section-filtro{
+    display: grid;
+}
+
+.market-section-filtro input{
+    width: 100%;
+    background: #ECECEC;
+    border-radius: 12px;
+    height: 35px;
+}
+
+.btn-simple{
+    color: var(--neutro-600);
+}
+
+.market-section-destacados{
+    background-color: white;
+    display: grid;
+    align-content: space-between;
+}
+
+.market-section-destacados .carousel{
+    height: 180px;
+    display: grid;
+    overflow: auto;
+    grid-auto-flow: column;
+    grid-gap: 10px;
+    
+}
+
+.market-section-destacados .carousel .card-carousel{
+    background-color: var(--neutro-200);
+    position: relative;
+    display: grid;
+    height: 160px;
+    width: 115px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    overflow: hidden;
+}
+.carousel .card-carousel img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel .card-carousel h4,.card-categorias h4 {
+    position: absolute;
+    font-weight: 500;
+    color: white;
+    align-self: end;
+    margin: 5px;
+    line-height: 22px;
+}
+
+.market-section-categorias{
+    display: grid;
+    overflow: auto;
+    max-height: calc(100vh - 450px);
+    grid-gap: 10px;
+    align-content: start;
+}
+
+.card-categorias{
+    position: relative;
+    display: grid;
+    background-color: violet;
+    width: 100%;
+    height: 90px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-categorias img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

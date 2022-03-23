@@ -1,11 +1,20 @@
 
 <!-- ! FILTRO ========================================== -->
 <div class="section-filtro">
-    <div class="group-input-icon-left">
-        <span class="icon icon-search"></span>
-        <input type="text" class="input-square" placeholder="Buscar">
+    <div class="grid align-self-start">
+        <div class="group-input-icon-left">
+            <span class="icon icon-search"></span>
+            <input type="text" 
+                class="input-square" 
+                [(ngModel)]="busqueda" 
+                (keyup.enter)="Buscar()" 
+                (keyup.backspace)="busqueda ==''&&Buscar()"
+                placeholder="Buscar"
+            >
+        </div>
+        <p class="text-alert" *ngIf="!VacioU(busqueda)">Presione Enter para buscar</p>
     </div>
-    <button class="justify-self-end" class="btn btn-square" id="open_filtro" (click)="OpenFiltro()">Filtrar por <span class="icon icon-filter"></span> </button>
+    <button class="justify-self-end align-self-start btn btn-square" id="open_filtro" (click)="OpenFiltro()">Filtrar por <span class="icon icon-filter"></span> </button>
 </div>
 
 
@@ -22,28 +31,48 @@
             <th></th>
         </thead>
 
-        <tbody>
-            <tr *ngFor="let number of [0,1,2,3,4]; let i = index">
-                <td>Matías Saldivar Rojas</td>
-                <td>matiassaldivar@gmail.com</td>
-                <td>24</td>
-                <td>Barcelona, España</td>
-                <td>+34  984 572 496</td>
+        <tbody *ngIf="usuarios_busqueda.length == 0 && !loading">
+            <tr *ngFor="let usuario of usuarios; let i = index">
+                <td>{{usuario.name != null?usuario.name:"No posee"}}</td>
+                <td> {{usuario.email != null?usuario.email:"No posee"}} </td>
+                <td>  {{GetEdad(usuario.fecha_nac)}} </td>
+                <td> {{usuario.ciudad}}, {{usuario.pais}} </td>
+                <td>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee': '+'+usuario.code_phone }} {{usuario.telefono}} </td>
                 <td >
-                    <button (click)="ctrl_modal_user = true"><i class="icon icon-eyes"></i></button>
+                    <button (click)="VerUsuario(usuario)"><i class="icon icon-eyes"></i></button>
+                </td>
+                <td style="position: relative;">
+                    <button (click)="ToggleOptionTable(i)" id="btnToggle"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
+                    <div class="table-options"  [id]="i">
+                        <button class="btn-icon" (click)="OpenModalBloqueo(usuario)"> <i class="icon icon-flag"></i> Bloquear cuenta </button>
+                        <button class="btn-icon" (click)="OpenModalDelete(usuario)"> <i class="icon icon-trash"></i> Eliminar cuenta </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody *ngIf="usuarios_busqueda.length != 0 && !loading">
+            <tr *ngFor="let usuario of usuarios_busqueda; let i = index">
+                <td>{{usuario.name != null?usuario.name:"No posee"}}</td>
+                <td> {{usuario.email != null?usuario.email:"No posee"}} </td>
+                <td>  {{GetEdad(usuario.fecha_nac)}} </td>
+                <td> {{usuario.ciudad}}, {{usuario.pais}} </td>
+                <td>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee': '+'+usuario.code_phone }} {{usuario.telefono}} </td>
+                <td >
+                    <button (click)="VerUsuario(usuario)"><i class="icon icon-eyes"></i></button>
                 </td>
                 <td style="position: relative;">
                     <button (click)="ToggleOptionTable(i)"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
                     <div class="table-options"  [id]="i">
-                        <button class="btn-icon" (click)="OpenModalBloqueo()"> <i class="icon icon-flag"></i> Bloquear cuenta </button>
-                        <button class="btn-icon" (click)="OpenModalDelete()"> <i class="icon icon-trash"></i> Eliminar cuenta </button>
+                        <button class="btn-icon" (click)="OpenModalBloqueo(usuario)"> <i class="icon icon-flag"></i> Bloquear cuenta </button>
+                        <button class="btn-icon" (click)="OpenModalDelete(usuario)"> <i class="icon icon-trash"></i> Eliminar cuenta </button>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-
+<div *ngIf="loading" class="loading"></div>
 
 <!-- ! MODAL USER ===================================================================================== -->
 <div class="container" *ngIf="ctrl_modal_user">
@@ -53,22 +82,22 @@
         <div class="grid align-items-end">
             <div class="content-circle-img" style="width: 200px; height: 200px;">
                 <div class="circle-img" >
-                    <img src="../../assets/imagenes/user_example.jpg"  alt="">
+                    <img [src]="'https://backend-ladies.dattatech.com/'+usuario.img_route"  alt="">
                 </div>
             </div>
         </div>
 
 
         <div class="grid align-self-center align-content-start text-center gap-10">
-            <h1 class="font-600">Matías Saldivar Rojas</h1>
+            <h1 class="font-600"> {{usuario.name != null?usuario.name:"No posee nombre"}} </h1>
 
             <div class="flex-column gap-10" >
-                <h2 style="color:var(--neutro-400)">24 años</h2>
-                <h2 style="color:var(--neutro-400)">Barcelona, España</h2>
+                <h2 style="color:var(--neutro-400)">{{GetEdad(usuario.fecha_nac)}} años</h2>
+                <h2 style="color:var(--neutro-400)">{{usuario.ciudad}}, {{usuario.pais}}</h2>
             </div>
 
-            <h3>matíassaldivar@gmail.com</h3>
-            <h2>+34  984 572 496</h2>
+            <h3>{{usuario.email != null?usuario.email:"No posee correo"}}</h3>
+            <h2>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee teléfono': '+'+usuario.code_phone }} {{usuario.telefono}}</h2>
         </div>
     </div>
 </div>
@@ -78,7 +107,7 @@
 <div class="container" *ngIf="ctrl_modal_delete">
 
     <div class="card  temp-card-delete text-center">
-        <button (click)="ctrl_modal_delete = false" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+        <button (click)="CloseModalDelete()" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
         
         <h1 style="line-height: 25px;" class="align-self-center"><i style="font-size: 65px; " class="icon icon-trash"></i></h1>
         
@@ -102,12 +131,13 @@
 
             <div class="form-group">
                 <label for="">Contraseña administrativa </label>
-                <input type="text" (keyup)="ValDelete()" [(ngModel)]="clave_delete" placeholder="Contraseña">
+                <input type="password" (keyup)="ValDelete()" [(ngModel)]="clave_delete" placeholder="Contraseña">
+                <p class="text-error" *ngIf="error == 1">La contraseña ingresada no es valida</p>
             </div>
 
             <div class="grid gc-2x-g gap-10">
-                <button class="btn btn-cancel">Cancelar</button>
-                <button class="btn" [ngClass]="CanDelete ? 'btn-primary' : 'btn-disable'" (click)="EliminarCuenta()">Eliminar cuenta</button>
+                <button class="btn btn-cancel" (click)="CloseModalDelete()" >Cancelar</button>
+                <button class="btn" [ngClass]="CanDelete ? 'btn-primary' : 'btn-disable'" (click)="(CanDelete && !load) && EliminarCuenta()">Eliminar cuenta <p *ngIf="load" class="icon icon-loader"></p> </button>
             </div>
         </div>
 
@@ -127,19 +157,28 @@
             </div>
         </div>
 
-        <div class="grid">
+        <div class="grid" *ngIf="!openInputBloqueo">
             <button class="btn-option" (click)="BloquearCuenta($event)">Uso inapropiado de la plataforma</button>
             <button class="btn-option" (click)="BloquearCuenta($event)">Información personal falsa</button>
             <button class="btn-option" (click)="openInputBloqueo = true">Otro</button>
+            
+        </div>
+
+        <div  class="grid" *ngIf="openInputBloqueo" >
+            <h2 *ngIf="usuario.name">Tranquil@, “ {{usuario.name}} ” no lo sabrá</h2>
+            <h2 *ngIf="!usuario.name">Tranquil@, el usuario no lo sabrá</h2>
             <div *ngIf="openInputBloqueo" class="form-group">
-                <label for=""> Ingrese el motivo del bloqueo: </label>
-                <textarea name="" id="" rows="2"></textarea>
-                <button class="btn-primary" (click)="BloquearCuenta($event)">Continuar</button>
+                <label for=""> Describe “otro motivo” </label>
+                <textarea [(ngModel)]="motivo" name="" id="" rows="2"></textarea>
+                <button  
+                    [class]="VacioU(motivo)?'btn-cancel':'btn-delete' " 
+                    (click)="(!VacioU(motivo))&&BloquearCuenta($event)">Continuar</button>
             </div>
         </div>
 
     </div>
 </div>
+
 
 <div class="modal-filtro" *ngIf="ctrl_modal_filtro" >
     <h3 class="font-500"> <span class="icon icon-filter"></span> Filtrar por</h3>

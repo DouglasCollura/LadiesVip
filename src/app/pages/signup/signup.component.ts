@@ -72,7 +72,7 @@ export class SignupComponent implements OnInit {
     };
 
     img_user: any = null;
-    rep_clave = null;
+    rep_clave:any = null;
     ctrl_identidad: any = [];
     ctrl_servicios: any = [];
     user_imagen_show: any;
@@ -159,9 +159,10 @@ export class SignupComponent implements OnInit {
         //inicia sesion facebook
         this.GoogleServiceService.GoogleAuth()
             .then((res: any) => {
-                ///comprueba si el facebook trae correro
+                console.log(res)
+                //comprueba si el facebook trae correro
                 if (res.additionalUserInfo.profile.email != null || res.additionalUserInfo.profile.email != undefined) {
-                    this.usuario.tipo = 3;
+                    this.usuario.tipo = 2;
                     this.usuario.datos.nombre = res.additionalUserInfo.profile.name;
                     this.usuario.datos.correo = res.additionalUserInfo.profile.email;
                     ///valida si el email que entra para registro existe
@@ -253,7 +254,25 @@ export class SignupComponent implements OnInit {
                 }
             })
         }else{
-            this.error = 1;
+            if(
+                this.usuario.datos.nombre == "" || 
+                this.usuario.datos.clave == "" || 
+                this.usuario.datos.correo == "" || 
+                this.usuario.datos.code_phone == '+' || 
+                this.usuario.datos.telefono == "" ||
+                !/^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(this.usuario.datos.correo)
+            ){
+                this.error = 1;
+                this.canSignUp = false;
+            }
+            else if(this.usuario.datos.clave.length < 8){
+                this.error = 3;
+                this.canSignUp = false;
+            }
+            else if(this.rep_clave != this.usuario.datos.clave){
+                this.error = 4;
+                this.canSignUp = false;
+            }
         }
 
     }
@@ -289,6 +308,7 @@ export class SignupComponent implements OnInit {
 
     ///REGISTRO DE USUARIO
     SignUp() {
+        this.fase=8;
         if (this.usuario.tipo == 1) {
             this.AuthServiceService.signUp(this.usuario)
             .then(res => {
@@ -406,16 +426,23 @@ export class SignupComponent implements OnInit {
     }
 
     CanSignUp() {
-        if (
+        this.error = 0;
+
+        if(this.usuario.datos.clave.length < 8){
+            this.canSignUp = false;
+        }else
+        if(this.rep_clave != this.usuario.datos.clave){
+            this.canSignUp = false;
+        }else if(
             this.usuario.datos.nombre == "" || 
             this.usuario.datos.clave == "" || 
             this.usuario.datos.correo == "" || 
             this.usuario.datos.code_phone == '+' || 
-            this.usuario.datos.telefono == "" ||
-            this.rep_clave != this.usuario.datos.clave
-            ) {
+            this.usuario.datos.telefono == "" || 
+            !/^\w+([\.-]?\w+)*@(?:|hotmail|outlook|yahoo|live|gmail)\.(?:|com|es)+$/.test(this.usuario.datos.correo)
+        ){
             this.canSignUp = false;
-        } else {
+        }else{
             this.canSignUp = true;
         }
     }

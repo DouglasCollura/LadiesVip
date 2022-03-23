@@ -24,6 +24,7 @@ import { AdminMarketSolicitudesComponent } from './admin/market-components/admin
 import { AdminMarketPublicadosShowComponent } from './admin/market-components/admin-market-publicados/admin-market-publicados-show/admin-market-publicados-show.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SmsComponent } from './sms/sms.component';
+import { MarketComponent } from './market/market.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { SmsComponent } from './sms/sms.component';
     AdminMarketSolicitudesComponent,
     AdminMarketPublicadosShowComponent,
     SmsComponent,
+    MarketComponent,
     ],
   imports: [
     CommonModule,

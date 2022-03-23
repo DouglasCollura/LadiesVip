@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router} from '@angular/router';
+
 declare var $: any;
 
 @Component({
@@ -8,9 +10,11 @@ declare var $: any;
 })
 export class MainComponent implements OnInit {
 
-    constructor() { }
+    constructor(
+        private router: Router,
+    ) { }
 
-    ctrl_menu = 1;
+    ctrl_menu = 0;
 
     ngOnInit(): void {
 
@@ -20,6 +24,11 @@ export class MainComponent implements OnInit {
         this.ctrl_menu = fase;
         $(".btn-nav-active").removeClass("btn-nav-active");
         $("#" + event).addClass("btn-nav-active");
+    }
+
+    LogOut(){
+        sessionStorage.clear()
+        this.router.navigate(['/'])
     }
 
 }

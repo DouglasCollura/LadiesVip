@@ -47,6 +47,15 @@
     color: var(--neutro-500);
 }
 
-.btn-reenviar{
-    color: var(--alerts-info);
+.btn-reenviar,.btn-reenviar-disable{
+    background: none;
+    border: none;
+    color: #3B82F6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.btn-reenviar-disable{
+    color: var(--neutro-500) !important;
+    cursor: not-allowed;
 }

@@ -30,8 +30,8 @@ export class RecoverypassComponent implements OnInit {
             this.locaciones = res;
         });
 
-        setTimeout(function(){
-            console.log("Hola Mundo");
+        setTimeout(()=>{
+            this.re_code = true;
         }, 2000);
     }
 
@@ -56,6 +56,9 @@ export class RecoverypassComponent implements OnInit {
     code_3:string="";
     code_4:string="";
     code_5:string="";
+
+    filtro:string="";
+    locaciones_filtro:any=[];
 
     //?CONTROL===================================================================================
     fase:number=0;
@@ -166,6 +169,12 @@ export class RecoverypassComponent implements OnInit {
     }
 
     ValidarCorreo(){
+        this.code_1 = "";
+        this.code_2 = "";
+        this.code_3 = "";
+        this.code_4 = "";
+        this.code_5 = "";
+        
         this.error = 0;
         this.loading =true;
         this.re_code =false;
@@ -186,6 +195,12 @@ export class RecoverypassComponent implements OnInit {
     }
 
     ValidarPhone(){
+        this.code_1 = "";
+        this.code_2 = "";
+        this.code_3 = "";
+        this.code_4 = "";
+        this.code_5 = "";
+
         this.error = 0;
         this.loading =true;
         this.re_code =false;
@@ -296,8 +311,17 @@ export class RecoverypassComponent implements OnInit {
     VacioU(obj:any){
         return VacioU(obj)
     }
-    CanPass(tipo:number, fase:number){
-        
+    filtrar(){
+        this.locaciones_filtro = [];
+        this.locaciones.forEach((arrayItem:any)=> {
+            if(arrayItem.country_name.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
+                this.locaciones_filtro.push(arrayItem)
+            }
+
+            if(String(arrayItem.country_phone_code).indexOf(this.filtro)> -1){
+                this.locaciones_filtro.push(arrayItem)
+            }
+        });
     }
 
 }

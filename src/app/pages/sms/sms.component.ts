@@ -46,6 +46,8 @@ export class SmsComponent implements OnInit {
         codigo:null
     }
 
+    filtro:string="";
+    locaciones_filtro:any=[];
     //?CONTROL===================================================================================
     ctrl_tipo=0;
     isOpen: boolean = false;
@@ -57,18 +59,29 @@ export class SmsComponent implements OnInit {
     code_3:string="";
     code_4:string="";
     code_5:string="";
-
+    loading:boolean=false;
     error:number=0;
+    re_code:boolean=false;
 
     //!FUNCIONES=====================================================================
 
     //?GESTION===================================================================================
 
     Continuar(){
+
+        this.code_1="";
+        this.code_2="";
+        this.code_3="";
+        this.code_4="";
+        this.code_5="";
+
+        this.loading = true;
         this.SmsService.sms = this.sms;
+        this.re_code = false;
         this.error = 0;
         if(Vacio({code_phone:this.sms.code_phone, telefono:this.sms.telefono})){
             this.error =2;
+            this.loading = false;
             return
         }
         if(this.ctrl_tipo == 1){
@@ -77,16 +90,24 @@ export class SmsComponent implements OnInit {
                 console.log(res)
                 if(res.success){
                     this.fase_modal_sms = 2;
+                    this.loading = false;
+                    setTimeout(()=>{
+                        this.re_code =true;
+                    }, 120000);
                 }else{
                     this.error = 1;
+                    this.loading = false;
                 }
             })
             .catch(error=>{
                 if(error.status == "200"){
                     this.error = 3;
+                    this.loading = false;
+
                 }
                 if(error.status == "429" || error.status == "503"){
-                 this.error = 4;
+                    this.error = 4;
+                    this.loading = false;
                 }
             })
         }else{
@@ -95,16 +116,23 @@ export class SmsComponent implements OnInit {
                 console.log(res)
                 if(res.success){
                     this.fase_modal_sms = 2;
+                    this.loading = false;
+                    setTimeout(()=>{
+                        this.re_code =true;
+                    }, 120000);
                 }else{
                     this.error = 1;
+                    this.loading = false;
                 }
             })
             .catch(error=>{
                if(error.status == "200"){
                    this.error = 3;
+                   this.loading = false;
                }
                if(error.status == "429" || error.status == "503"){
                 this.error = 4;
+                this.loading = false;
             }
             })
         }
@@ -156,6 +184,18 @@ export class SmsComponent implements OnInit {
         this.fase_modal_sms = 1;
         this.SmsService.toggle()
     }
-
+    
+    filtrar(){
+        this.locaciones_filtro = [];
+        this.locaciones.forEach((arrayItem:any)=> {
+            if(arrayItem.country_name.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
+                this.locaciones_filtro.push(arrayItem)
+            }
+            
+            if(String(arrayItem.country_phone_code).indexOf(this.filtro)> -1){
+                this.locaciones_filtro.push(arrayItem)
+            }
+        });
+    }
 
 }

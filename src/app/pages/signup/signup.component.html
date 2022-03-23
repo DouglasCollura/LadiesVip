@@ -76,6 +76,7 @@
                             [(ngModel)]="usuario.datos.telefono"
                             (keyup)="CanSignUp()" 
                             (keypress)="SoloNumero($event)" 
+                            maxlength="14"
                         >
                     </div>
                 </div>
@@ -88,6 +89,7 @@
                             placeholder="Ingresar una contraseña"
                             [(ngModel)]="usuario.datos.clave"
                             (keyup)="CanSignUp()"  
+                            maxlength="25"
                         >
                     </div>
                 </div>
@@ -100,11 +102,14 @@
                             [(ngModel)]="rep_clave" 
                             placeholder="Confirmar contraseña"
                             (keyup)="CanSignUp()"  
+                            maxlength="25"
                         >
                     </div>
                 </div>
                 <p class="text-error" *ngIf="error==1">Complete y valide todos los campos</p>
                 <p class="text-error" *ngIf="error==2">Esta cuenta ya existe.</p>
+                <p class="text-error" *ngIf="error==3">La contraseña es menor de 8 caracteres.</p>
+                <p class="text-error" *ngIf="error==4">Las contraseñas no coinciden.</p>
                 
                 <div class="checkbox-group">
                     <input type="checkbox" checked="true" id="session-open ">
@@ -154,7 +159,7 @@
 
             <div class="grid" *ngIf="fase == 2">
                 <div class="grid gap-20 align-self-start">
-                    <h1 class="form-title">¿Cuando es tu cumpleaños?</h1>
+                    <h1 class="form-title">¿Cuándo es tu cumpleaños?</h1>
                     <input type="date" (change)="(VacioU(usuario.fecha))? pass=true:pass=false " [(ngModel)]="usuario.fecha_nac">
                     <p class="text-error" *ngIf="error == 1">llene todos los campos</p>  
                     <p class="text-error" *ngIf="error == 2">tienes {{edad}} años </p>  
@@ -169,7 +174,7 @@
                 <h1 class="form-title">¿Dónde vives?</h1>
 
                 <div class="form-group">
-                    <label for="">Pais </label>
+                    <label for="">País </label>
                     <select name="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">
                         <option value="0" disabled>Seleccionar</option>
                         <option [value]="pais.country_name" *ngFor="let pais of locaciones">
@@ -276,9 +281,13 @@
                 <h5 class="text-center">Selecciona el modo <br> geolocalización para encontrar <br> personas cercanas a ti</h5>
             </div>
 
+            <div class="grid justify-items-center" *ngIf="fase == 8">
+              <img class="icon-loader" src="../../../assets/imagenes/loading.png" alt="">
+            </div>
+
             <button
                 class="btn-circle"
-                *ngIf="fase != 7"
+                *ngIf="fase < 7"
                 (click)="CtrlForm()"
                 [class]="pass?'btn-primary':'btn-disable'"
             ><i class="icon icon-arrow-right"></i></button>
