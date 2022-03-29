@@ -17,7 +17,6 @@ export class MainComponent implements OnInit {
     ctrl_menu = 0;
 
     ngOnInit(): void {
-
     }
 
     nav(event: any, fase: number) {

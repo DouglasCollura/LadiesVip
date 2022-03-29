@@ -22,6 +22,7 @@ export class LandingComponent implements OnInit {
     load_login:boolean = false;
     load_signup:boolean = false;
     blur = false;
+    displayDev:boolean=false;
 
     @Input() IMPORTCLOSE:any;
 

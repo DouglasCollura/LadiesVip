@@ -110,6 +110,12 @@ export class AdminHomeUsuarioComponent implements OnInit {
                         this.ModalesService.SetDescripcion(`El usuario ha sido eliminado con éxito`);
 
                     }
+                    this.loading = true;
+                    this.usuarios =[];
+                    this.AdminUsersService.GetUsersAll(1).then(res=>{
+                        this.usuarios = res.data;
+                        this.loading = false;
+                    })
                 })
             }else{
                 this.load=false;
@@ -139,6 +145,12 @@ export class AdminHomeUsuarioComponent implements OnInit {
             }else{
                 this.ModalesService.SetDescripcion(`El usuario ha sido bloqueado con éxito`);
             }
+            this.loading = true;
+            this.usuarios =[];
+            this.AdminUsersService.GetUsersAll(1).then(res=>{
+                this.usuarios = res.data;
+                this.loading = false;
+            })
         })
 
     }

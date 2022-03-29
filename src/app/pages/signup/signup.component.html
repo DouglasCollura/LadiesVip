@@ -172,7 +172,7 @@
 
             <div class="grid" *ngIf="fase == 3">
                 <h1 class="form-title">¿Dónde vives?</h1>
-
+                
                 <div class="form-group">
                     <label for="">País </label>
                     <select name="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">

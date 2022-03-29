@@ -8,10 +8,10 @@
 
         <div class="grid section-menu align-items-center">
             <button class="btn-simple-active">Home</button>
-            <button class="btn-simple">Conecta y liga</button>
-            <button class="btn-simple">¿Cómo funciona?</button>
+            <button class="btn-simple" (click)="displayDev = true">Conecta y liga</button>
+            <button class="btn-simple" (click)="displayDev = true">¿Cómo funciona?</button>
 
-            <button class="btn"><i class="icon icon-world"></i> Español</button>
+            <button class="btn" (click)="displayDev = true"><i class="icon icon-world"></i> Español</button>
             <button class="btn" (click)="LoadLogin()" > Iniciar sesión</button>
         </div>
 
@@ -30,3 +30,10 @@
 <app-login  (ExportClose)="CloseModal($event)"></app-login>
 <app-signup (ExportClose)="CloseModal($event)"></app-signup>
 
+<div class="container" *ngIf="displayDev">
+    <div class="card" style="min-height:200px">
+        <button class="btn-icon align-self-start justify-self-end" (click)="displayDev = false"><i class="icon icon-close"></i></button>
+
+        <h1 class="text-center align-self-center">Muy pronto, aun en desarrollo</h1>
+    </div>
+</div>

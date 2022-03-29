@@ -25,6 +25,7 @@ import { AdminMarketPublicadosShowComponent } from './admin/market-components/ad
 import { ReactiveFormsModule } from '@angular/forms';
 import { SmsComponent } from './sms/sms.component';
 import { MarketComponent } from './market/market.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MarketComponent } from './market/market.component';
     AdminMarketPublicadosShowComponent,
     SmsComponent,
     MarketComponent,
+    MensajesComponent,
     ],
   imports: [
     CommonModule,

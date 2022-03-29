@@ -4,7 +4,7 @@
         <button class="btn-icon align-self-start justify-self-end" (click)="Cerrar()"><i class="icon icon-close"></i></button>
 
         <div class="temp-recovery">
-            <h1 class="font-500">Recuperar contraseña</h1>
+            <h2 class="font-500">Recuperar contraseña</h2>
             
             <!-- ! FASE 1 SELECCION MAIL/PHONE========================================= -->
             <div class="section_uno" *ngIf="fase == 0">
@@ -199,7 +199,7 @@
                     [class]="(VacioU(usuario.clave) || VacioU(rep_clave))?'btn-disable':'btn-primary'"
                     *ngIf="recovery_type == 0"  
                     (click)="(!VacioU(usuario.clave) && !VacioU(rep_clave)) && CambiarClave(1)"
-                > <span class="icon icon-loader" *ngIf="loading"></span></button>
+                > Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
 
                 <button 
                     class="btn-block" 

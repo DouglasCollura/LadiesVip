@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
     // * MODALES ================================
     ctrl_modal_detalles:boolean=false;
-    ctrl_menu:number=1;
+    ctrl_menu:number=0;
 
     //!FUNCIONES=============================================================
     //?CARGA=============================================================
