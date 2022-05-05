@@ -1,0 +1,342 @@
+<div class="temp-info" *ngIf="display_main">
+
+    <div class="header">
+        <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Información personal</h3>
+    </div>
+
+    <div class="body">
+
+        <div class="section">
+            <div class="title">
+                <h5>Foto de perfil</h5>
+
+                <button (click)="SelectImg()" class="btn text-primary">Editar foto</button>
+                <input style="display:none" accept="image/png, image/gif, image/jpeg"  type="file" id="img" (change)="CargarImagen($event)">
+            </div>
+
+            <div class="content-img">
+                <img  *ngIf="user_imagen_show == null" [src]="url+datos.img_route" alt="">
+                <img [src]="user_imagen_show" alt="">
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h5>Cumpleaños</h5>
+
+                <button 
+                    class="btn"
+                    (click)="display_fecha = true; display_main= false"
+                > <span class="icon icon-chevron-right"></span> </button>
+            </div>
+
+            <h2> {{GetEdad()}} años</h2>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h5>Lugar de residencia</h5>
+
+                <button 
+                    class="btn" 
+                    (click)="display_residencia = true; display_main= false"
+                > <span class="icon icon-chevron-right"></span> </button>
+            </div>
+
+            <h2> {{datos.estado}}, {{datos.pais}}</h2>
+            <h2> {{datos.ciudad}}</h2>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h5>Identificación</h5>
+
+                <button 
+                    class="btn"
+                    (click)="display_identidad = true; display_main= false"
+                > <span class="icon icon-chevron-right"></span> </button>
+            </div>
+
+            <div class="flex-column">
+                <button 
+                    class="btn-disable"
+                    *ngFor="let item of identidad_name"
+                >
+                    {{item}}
+                </button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h5>Gustos & Preferencias</h5>
+
+                <button 
+                    class="btn"
+                    (click)="display_preferencia = true; display_main= false"
+                > <span class="icon icon-chevron-right"></span> </button>
+            </div>
+
+            <div class="flex-column">
+                <button 
+                    class="btn-disable"
+                    *ngFor="let item of intereses_name"
+                >
+                    {{item}}
+                </button>
+                <button 
+                    class="btn-disable"
+                    *ngFor="let item of servicios_name"
+                >
+                    {{item}}
+                </button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h5>Geolocalización</h5>
+            </div>
+
+            <div class="geo">
+                <h4>Activar geolocalización</h4>
+                <input type="checkbox" class="check-button">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- !SECTION FECHA NAC -->
+<div class="temp-info" *ngIf="display_fecha">
+    <div class="header">
+        <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Cumpleaños</h3>
+    </div>  
+
+    <div class="body" style="align-content: space-between;">
+
+        <div class="grid gap-20">
+            <input type="date" [(ngModel)]="datos.fecha_nac">
+
+            <p>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</p>
+        </div>
+
+        <button class="btn-primary btn-block" (click)="UpdateUser()">Siguiente</button>
+    </div>
+</div>
+
+
+<!-- !SECTION RESIDENCIA -->
+<div class="temp-info" *ngIf="display_residencia">
+    <div class="header">
+        <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Lugar de residencia</h3>
+    </div>  
+
+    <div class="body form-location" style="align-content: space-between;">
+
+        <div class="grid gap-20">
+            <div class="form-group">
+                <label for="">País </label>
+                <button class="btn" (click)="display_pais = true"  > {{datos.pais}} <span class="icon icon-chevron-down"></span> </button>
+            </div>
+
+            <div class="form-group">
+                <label for="">Estado </label>
+                <button class="btn" (click)=" (datos.pais) && display_estado = true"> {{datos.estado}} <span class="icon icon-chevron-down"></span> </button>
+            </div>
+            
+            <div class="form-group">
+                <label for="">Ciudad </label>
+                <button class="btn" (click)=" (datos.estado) && display_ciudad = true"  > {{datos.ciudad}} <span class="icon icon-chevron-down"></span> </button>
+            </div>
+        </div>
+
+        <button class="btn-primary btn-block" (click)=" (datos.ciudad && datos.pais && datos.estado) && UpdateUser()" >Siguiente</button>
+    </div>
+</div>
+
+
+<!-- ! SECTION IDENTIDAD -->
+<div class="temp-info" *ngIf="display_identidad">
+    <div class="header">
+        <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Identificación</h3>
+    </div>  
+
+    <div class="body" style="align-content: space-between;">
+
+        <div class="grid gap-20">
+            <p>
+                Elige una, varias opciones o servicios que brindas como usuario
+            </p>
+
+            <div class="group-btn-identidad">
+                <button [ngClass]="filtrarSelect(0,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(0,$event, 1)">Mujer</button>
+                <button [ngClass]="filtrarSelect(1,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(1,$event, 1)">Hombre</button>
+                <button [ngClass]="filtrarSelect(2,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(2,$event, 1)">No binario</button>
+                <button [ngClass]="filtrarSelect(3,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event, 1)">Pareja</button>
+                <button [ngClass]="filtrarSelect(4,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(4,$event, 1)">Gay</button>
+                <button [ngClass]="filtrarSelect(5,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(5,$event, 1)">Transexual</button>
+                <button [ngClass]="filtrarSelect(6,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(6,$event, 1)">Travestie</button>
+                <button [ngClass]="filtrarSelect(7,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(7,$event, 1)">Lesbiana</button>
+                <button [ngClass]="filtrarSelect(8,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(8,$event, 1)">Otros</button>
+            </div>
+        </div>
+
+        <button class="btn-primary btn-block" (click)="UpdateIdentidad()" >Siguiente</button>
+    </div>
+</div>
+
+<!-- ! SECTION PREFERENCIA -->
+<div class="temp-info" *ngIf="display_preferencia">
+    <div class="header">
+        <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Gustos & preferencias</h3>
+    </div>  
+
+    <div class="body" style="align-content: space-between;">
+
+        <div class="grid gap-20">
+            <p>
+                Elige una, varias opciones o servicios que buscas en Ladies VIP
+            </p>
+
+            <div class="group-btn-identidad">
+                <button [ngClass]="filtrarSelect(0,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">Mujer</button>
+                <button [ngClass]="filtrarSelect(1,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">Hombre</button>
+                <button [ngClass]="filtrarSelect(2,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">No binario</button>
+                <button [ngClass]="filtrarSelect(3,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">Pareja</button>
+                <button [ngClass]="filtrarSelect(4,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(4,$event,2)">Gay</button>
+                <button [ngClass]="filtrarSelect(5,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(5,$event,2)">Transexual</button>
+                <button [ngClass]="filtrarSelect(6,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(6,$event,2)">Travestie</button>
+                <button [ngClass]="filtrarSelect(7,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(7,$event,2)">Lesbiana</button>
+                <button [ngClass]="filtrarSelect(8,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(8,$event,2)">Otros</button>
+                <button [ngClass]="filtrarSelect(0,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(0,$event)">Masajes eróticos</button>
+                <button [ngClass]="filtrarSelect(1,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
+                <button [ngClass]="filtrarSelect(2,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(2,$event)">Espacios sexuales</button>
+                <button [ngClass]="filtrarSelect(3,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
+                <button [ngClass]="filtrarSelect(4,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(4,$event)">Otros</button>
+            </div>
+        </div>
+
+        <button class="btn-primary btn-block" (click)="UpdateInteres()" >Siguiente</button>
+    </div>
+</div>
+
+<!-- ? PAIS ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_pais">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">País</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="pais_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+                <label [for]="i"> {{locacion.country_name}}</label>
+                <input (click)="SelectPais( locacion.country_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="pais_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of pais_filtro;let i = index">
+                <label [for]="i"> {{locacion.country_name}} </label>
+                <input (click)="SelectPais( locacion.country_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ? ESTADO ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_estado">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">Estado</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+            </div>
+        </div>
+        <div *ngIf="loading" class="loading"></div>
+        <div class="card-option-body" *ngIf="estado_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estados;let i = index">
+                <label [for]="i"> {{estado.state_name}}</label>
+                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="estado_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estado_filtro;let i = index">
+                <label [for]="i"> {{estado.state_name}} </label>
+                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ? CIUDAD ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_ciudad">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">Ciudad</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+            </div>
+        </div>
+
+        <div *ngIf="loading" class="loading"></div>
+
+        <h2 class="text-center" *ngIf="ciudades.length == 0">No posee, continue a la siguiente fase</h2>
+        <div class="card-option-body" *ngIf="ciudad_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudades;let i = index">
+                <label [for]="i"> {{ciudad.city_name}}</label>
+                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="ciudad_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudad_filtro;let i = index">
+                <label [for]="i"> {{ciudad.city_name}} </label>
+                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="container-lateral" *ngIf="loading_global"> 
+    <span class="icon icon-loading loading"></span>
+</div>

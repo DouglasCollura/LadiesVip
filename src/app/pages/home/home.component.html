@@ -13,11 +13,12 @@
             <button [class]="ctrl_menu == 4?'menu-nav-active':''" id="perfil" (click)="nav(4)"><i class="icon icon-profile"></i></button>
         </div>
 
-        <button *ngIf="ctrl_menu == 0" (click)="signOut()">Log Out</button>
+        <!-- <button *ngIf="ctrl_menu == 0" (click)="signOut()">Log Out</button> -->
 
         <app-market *ngIf="ctrl_menu == 1"></app-market>
         <app-mensajes *ngIf="ctrl_menu == 2"></app-mensajes>
-
+        <app-notify *ngIf="ctrl_menu == 3"></app-notify>
+        <app-profile *ngIf="ctrl_menu == 4"></app-profile>
     </div>
 
     <div class="section-main">
@@ -58,10 +59,10 @@
             <div class="section-cont-anuncios">
 
                 <!-- !CARD  ANUNCIO============================= -->
-                <div class="card-anuncio">
+                <div class="card-anuncio" #card  *ngFor="let anuncio of anuncios.data">
 
                     <div class="card-anuncio-img" (click)="ctrl_modal_detalles = true">
-                        <img src="../../../assets/imagenes/user_example.jpg" alt="">
+                        <img [src]="showImage(anuncio.urls)" alt="">
                     </div>
 
                     <div class="card-anuncio-info">
@@ -78,7 +79,6 @@
                 </div><!-- !FINCARD =============================   -->
                 
             </div>
-
 
             <!-- ! MODAL DETALLE USUARIO ================================================ -->
             <div class="container" *ngIf="ctrl_modal_detalles">

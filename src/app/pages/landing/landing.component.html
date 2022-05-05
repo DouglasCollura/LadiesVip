@@ -1,28 +1,157 @@
 <div class="temp-landing" [ngClass]="blur ? 'blurOn' : 'blur(0px)'" >
 
-    <div class="section-landing-top">
+    <!-- ! SECTION INIT ============================================================= -->
+    <div class="section-init" id="home">
 
-        <div class="grid">
-            <img src="../../assets/imagenes/logo-white.png" alt="">
+        <!-- * SECTION INIT TOP ============================================================= -->
+
+        <div class="section-init-top">
+
+            <div class="grid">
+                <img src="../../assets/imagenes/logo-white.png" alt="">
+            </div>
+    
+            <div class="grid section-menu align-items-center">
+                <a class="btn-simple-active" href="#home">Home</a>
+                <a class="btn-simple" href="#conecta" >Conecta y liga</a>
+                <a class="btn-simple" href="#funciona">¿Cómo funciona?</a>
+    
+                <button class="btn" (click)="displayDev = true"><i class="icon icon-world"></i> Español</button>
+                <button class="btn" (click)="LoadLogin()" > Iniciar sesión</button>
+            </div>
+    
         </div>
 
-        <div class="grid section-menu align-items-center">
-            <button class="btn-simple-active">Home</button>
-            <button class="btn-simple" (click)="displayDev = true">Conecta y liga</button>
-            <button class="btn-simple" (click)="displayDev = true">¿Cómo funciona?</button>
+        <!-- * SECTION INIT BODY ============================================================= -->
 
-            <button class="btn" (click)="displayDev = true"><i class="icon icon-world"></i> Español</button>
-            <button class="btn" (click)="LoadLogin()" > Iniciar sesión</button>
+        <div class="section-init-body text-center justify-items-center">
+
+            <h1 class="big-title">Encuentra la pareja <br> que estás buscando</h1>
+            <h2 class="text-white text">Conoce nuevas personas, en diferentes lugares,<br> pero con los mismos gustos que tú</h2>
+    
+            <button class="btn-primary" (click)="LoadSignUp()">Crear una cuenta</button>
+        </div>
+    </div>
+
+
+    <!-- ! SECTION CONECTA ============================================================= -->
+
+    <div class="section-conecta" id="conecta">
+
+        <h1 class="font-600 text-center">Conecta y liga</h1>
+
+        <div class="content">
+            
+            <div class="card-content">
+
+                <img src="../../../assets/imagenes/landing-conecta1.png" alt="">
+
+                <div class="grid gap-10">
+                    <h2>Busca personas</h2>
+                    <p>Descubre personas que buscan lo mismo que tu. En donde sea y cuando sea</p>
+                </div>
+            </div>
+
+
+            <div class="card-content">
+
+                <img src="../../../assets/imagenes/landing-conecta2.png" alt="">
+
+                <div class="grid gap-10">
+                    <h2>Chatea en todo momento</h2>
+                    <p>Envía mensajes cuando sea. Busca las mejores maneras de ligar y encuentra a tu gusto</p>
+                </div>
+            </div>
+
+
+            <div class="card-content">
+
+                <img src="../../../assets/imagenes/landing-conecta3.png" alt="">
+
+                <div class="grid gap-10">
+                    <h2>Ten una cita</h2>
+                    <p>Aprovecha la oportunidad y conoce más a la persona. Cada cita te puede sorprender</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="section-funciona" id="funciona">
+        <div class="grid gap-10">
+            <h1 class="font-600 text-center">¿Cómo funciona?</h1>
+            <p class="text-center">3 simples pasos para encontrar a tu futura pareja</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <img src="../../../assets/imagenes/paso 1.png" alt="">
+
+                <div class="content-text">
+                    <h1 class="number-left">01</h1>
+                    <h1 class="font-600">Ingresa a nuestro aplicativo</h1>
+                    <p>Registrate, ingresa tus datos para mostrarte los mejores perfiles de acuerdo a tus gustos</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="content-text">
+                    <h1 class="number-right">02</h1>
+                    <h1 class="font-600">Ingresa a nuestro aplicativo</h1>
+                    <p>Registrate, ingresa tus datos para mostrarte los mejores perfiles de acuerdo a tus gustos</p>
+                </div>
+                <img src="../../../assets/imagenes/paso2.png" alt="">
+            </div>
+
+            <div class="section">
+                <img src="../../../assets/imagenes/paso3.png" alt="">
+
+                <div class="content-text">
+                    <h1 class="number-left">03</h1>
+                    <h1 class="font-600">Ingresa a nuestro aplicativo</h1>
+                    <p>Registrate, ingresa tus datos para mostrarte los mejores perfiles de acuerdo a tus gustos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="app">
+            <h1 class="text-center font-600">Descarga nuestra app y descubre <br> nuevas experiencias</h1>
+
+            <img src="../../../assets/imagenes/Phone-apps.png" alt="">
+
+            <div class="grid">
+                <p class="text-center"> Disponible en las principales tiendas de aplicaciones</p>
+
+                <div class="group-button">
+                    <img src="../../../assets/imagenes/btn-appstore.png" alt="">
+                    <img src="../../../assets/imagenes/btn-playstore.png" alt="">
+                </div>
+            </div>
         </div>
 
     </div>
 
-    <div class="section-landing-body text-center justify-items-center">
 
-        <h1 class="big-title">Encuentra la pareja <br> que estás buscando</h1>
-        <h2 class="text-white text">Conoce nuevas personas, en diferentes lugares,<br> pero con los mismos gustos que tú</h2>
+    <div class="footer">
+        <div class="top">
 
-        <button class="btn-primary" (click)="LoadSignUp()">Crear una cuenta</button>
+            <div class="top-content">
+                <img src="../../../assets/imagenes/megafono.png" alt="">
+
+                <div class="grid gap-10 ">
+                    <h1>Tu negocio en Ladie Vip</h1>
+                    <p>Con Market Vip podrás llegar a muchos potenciales clientes. Dale click al botón y promociona tu negocio</p>
+                    <button class="btn-primary">Promocionar negocio</button>
+                </div>
+            </div>
+            
+        </div>
+        <div class="bottom">
+
+            <img src="../../../assets/imagenes/logo-white.png" alt="">
+
+            <p>Política de privacidad • Términos y condiciones • Ayuda al usuario • Promocionar mi negocio</p>
+        </div>
     </div>
 
 </div>

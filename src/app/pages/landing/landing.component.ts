@@ -4,10 +4,12 @@ import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { GeoLocationService } from 'src/app/services/location/geo-location.service';
 import { LoginServiceService } from '../login/login-service.service';
 import { SignupService } from '../signup/signup.service';
+declare var $: any;
+
 @Component({
     selector: 'app-landing',
     templateUrl: './landing.component.html',
-    styleUrls: ['./landing.component.css']
+    styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent implements OnInit {
 
@@ -49,6 +51,17 @@ export class LandingComponent implements OnInit {
         })
         this.SignupService.change.subscribe(res=>{
             this.blur = res.blur;
+        })
+
+        $(document).scroll(function(){
+
+            if($(document).scrollTop()>= $("#conecta")[0].offsetTop){
+                $(".section-init-top").addClass("section-init-top-stiky").removeClass("section-init-top")
+            }else{
+                if($(".section-init-top-stiky")){
+                    $(".section-init-top-stiky").removeClass("section-init-top-stiky").addClass("section-init-top")
+                }
+            }
         })
         
     }

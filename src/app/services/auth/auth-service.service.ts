@@ -10,10 +10,16 @@ export class AuthServiceService {
 
     constructor(
         private http: HttpClient,
-    ) { }
+    ) {
+        if(sessionStorage.getItem('token') != undefined){
+            this.token = sessionStorage.getItem('token')
+        }else{
+            this.token = localStorage.getItem('token')
+        }
+     }
 
     url = environment.serverUrl;
-    token = sessionStorage.getItem('token');
+    token:any;
 
     /// VALIDAR EMAIL
     async ValEmail(data: any): Promise<any> {

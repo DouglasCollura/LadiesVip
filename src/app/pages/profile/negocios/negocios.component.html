@@ -1,0 +1,392 @@
+<div class="temp-negocios" *ngIf="display_main">
+    <div class="header">
+        <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Negocio</h3>
+    </div>
+
+    <div class="body">
+        <h4>Aquí podrás gestionar y crear tus negocios en Ladies VIP</h4>
+
+        <button class="btn btn-create" (click)="openMCreate()" > <span>+</span> Crear negocio</button>
+
+        <span *ngIf="loading" class="icon icon-loading loading"></span>
+
+        <div class="section-negocio" *ngFor="let negocio of negocios">
+            <div class="img">
+                <img [src]="url+GetFirstPhoto(negocio)" alt="">
+            </div>
+
+            <div class="content">
+                <h3 class="font-600"> {{negocio.nombre}} </h3>
+
+                <h4 class="font-600"> <span class="icon icon-location"></span> {{negocio.estado}} </h4>
+            </div>
+
+            <div class="grid align-content-center">
+                <button class="btn" (click)="openMShow(negocio)" ><span class="icon icon-chevron-right"></span></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="temp-negocios" *ngIf="display_show">
+    <div class="header">
+        <button class="btn" (click)="closeMShow()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center"> {{show_negocio.nombre}} </h3>
+
+        <div class=" justify-self-end" style="position: relative;">
+            <button class="btn" id="btnToggle" (click)="ToggleOptionTable()" > <span class="icon icon-dots-horizontal"></span> </button>
+            <div class="table-options" >
+                <button > <i class="icon icon-square-edit"></i> Editar</button>
+                <button (click)="OpenDelete()"> <i class="icon icon-trash"></i> Eliminar negocio </button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="body-show">
+        <div class="show-img">
+            <img [src]="showImage(show_negocio.images)" alt="">
+        </div>
+
+        <div class="content-show">
+            <h2 class="font-600">{{show_negocio.nombre}}</h2>
+
+            <h3> <span class="icon icon-location"></span> {{show_negocio.estado}}, {{show_negocio.pais}} </h3>
+            <h3> <span class="icon icon-phone"></span> +{{usuario.code_phone}} {{show_negocio.telefono}} </h3>
+
+            <h3>
+                {{
+                    show_negocio.descripcion
+                }}
+            </h3>
+
+            <button class="btn-primary">Ir a página <span class="icon icon-arrow-right" style="color:white !important" ></span> </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ! CREAR -->
+<div class="temp-negocios" *ngIf="display_create">
+    <div class="header">
+        <button class="btn" (click)="closeMCreate()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Crear Negocio</h3>
+    </div>
+
+    <div class="body">
+        
+        <div class="header-negocio">
+            <h4>PASO {{fase}} </h4>
+
+            <div class="group-circle">
+                <div [class]="fase == 1? 'circle-active':'circle' " ></div>
+                <div [class]="fase == 2? 'circle-active':'circle' "></div>
+                <div [class]="fase == 3? 'circle-active':'circle' "></div>
+            </div>
+        </div>
+
+        <h4 *ngIf="fase == 1">Ingresar información sobre el negocio</h4>
+        <h4 *ngIf="fase == 2">Ingresar información sobre el lugar</h4>
+        <h4 *ngIf="fase == 3">Ingresar imagenes que identifiquen al negocio</h4>
+
+        <div class="grid justify-content-start gap-10" *ngIf="fase == 1">
+
+            <div class="form-group">
+                <label for="">Nombre del negocio</label>
+                <input type="text" [(ngModel)]="negocio.p1.nombre" placeholder="Ingresar un nombre" >
+            </div>
+
+            <div class="form-group">
+                <label for="">Categoría</label>
+                <button class="btn btn-block btn-select" (click)="display_interes = true"> {{!VacioU(servicios_name)?servicios_name:'Selecciona una categoría'}}    <span class="icon icon-chevron-down" ></span> </button>
+            </div>
+
+            <div class="form-group">
+                <label for="">WhatsApp (negocio)</label>
+                <input type="text"
+                    inputmode="numeric" 
+                    pattern="[-+]?[0-9]*[.,]?[0-9]+"
+                    [placeholder]="'+'+usuario.code_phone"
+                    [(ngModel)]="negocio.p1.telefono"
+                    (keypress)="SoloNumero($event)" 
+                    maxlength="14"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="">Sitio web</label>
+                <input type="text" [(ngModel)]="negocio.p1.pagina" placeholder="www." >
+            </div>
+
+            <div class="form-group">
+                <label for="">Descripción</label>
+                <textarea name="" id="" cols="30" rows="5" [(ngModel)]="negocio.p1.descripcion" ></textarea>
+            </div>
+
+            <button 
+                class=" btn-block"
+                (click)="( !Vacio(negocio.p1)) && FaseDos()"  
+                [ngClass]="( Vacio(negocio.p1))?'btn-disable':'btn-primary'"
+            >Siguiente</button>
+        </div>
+
+        <div class="grid justify-content-start gap-10" *ngIf="fase == 2">
+
+            <div class="form-group">
+                <label for="">Dirección</label>
+                <input type="text" placeholder="Ingrese una dirección" [(ngModel)]="negocio.p2.direccion" >
+            </div>
+
+            <div class="form-group">
+                <label for="">País</label>
+                <button class="btn btn-block btn-select"  (click)="display_pais = true" > {{negocio.p2.pais}} <span class="icon icon-chevron-down" ></span> </button>
+            </div>
+
+            <div class="form-group">
+                <label for="">Estado</label>
+                <button class="btn btn-block btn-select" (click)=" (negocio.p2.pais) && display_estado = true" > {{negocio.p2.estado}} <span class="icon icon-chevron-down" ></span> </button>
+            </div>
+
+            <div class="form-group">
+                <label for="">Ciudad</label>
+                <button class="btn btn-block btn-select" (click)=" (negocio.p2.estado) && display_ciudad = true" > {{negocio.p2.ciudad}} <span class="icon icon-chevron-down" ></span> </button>
+            </div>
+
+            <div class="form-group">
+                <label for="">Ubicar dentro del mapa</label>
+                <div class="section-map">
+                    
+                <google-map 
+                    [options]="options" 
+                    [center]="center" 
+                    height="100%"
+                    width="100%"
+                    #markerElem
+                >
+                <map-marker
+                    [position]="marker.position" 
+                    [options]="marker.options" 
+                    
+                ></map-marker>
+                </google-map>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="">Coordenadas</label>
+                <div class="section-coords">
+                    <input type="text" placeholder="Latitud" [(ngModel)]="negocio.p2.latitud">
+                    <input type="text" placeholder="Longitud" [(ngModel)]="negocio.p2.longitud">
+                </div>
+            </div>
+
+            <button class=" btn-block" 
+                *ngIf="fase == 2"
+                (click)="( !Vacio(negocio.p2)) && fase =3" 
+                [ngClass]="( Vacio(negocio.p2))?'btn-disable':'btn-primary'"
+                >Siguiente</button>
+        </div>
+
+        <div class="grid justify-content-start gap-10" *ngIf="fase == 3">
+
+            <div class="group-img">
+
+                <div class="primary-img" (click)="CargarImagen()">
+                    <div *ngIf="!user_imagen_show[0]" class="content-more" >
+                        <span>+</span>
+                    </div>
+                    <img *ngIf="user_imagen_show[0]" [src]="user_imagen_show[0].img" alt="">
+                </div>
+
+                <div class="carrousel">
+                    <div class="content-img" (click)="CargarImagen()">
+                        <div *ngIf="!user_imagen_show[1]" class="content-more" >
+                            <span>+</span>
+                        </div>
+                        <img *ngIf="user_imagen_show[1]" [src]="user_imagen_show[1].img" alt="">
+                    </div>
+                    <div class="content-img" (click)="CargarImagen()">
+                        <div *ngIf="!user_imagen_show[2]" class="content-more" >
+                            <span>+</span>
+                        </div>
+                        <img *ngIf="user_imagen_show[2]" [src]="user_imagen_show[2].img" alt="">
+                    </div>
+                    <div class="content-img" (click)="CargarImagen()">
+                        <div *ngIf="!user_imagen_show[3]" class="content-more" >
+                            <span>+</span>
+                        </div>
+                        <img *ngIf="user_imagen_show[3]" [src]="user_imagen_show[3].img" alt="">
+                    </div>
+                    <div class="content-img" (click)="CargarImagen()">
+                        <div *ngIf="!user_imagen_show[4]" class="content-more" >
+                            <span>+</span>
+                        </div>
+                        <img *ngIf="user_imagen_show[4]" [src]="user_imagen_show[4].img" alt="">
+                    </div>
+                </div>
+
+            </div>
+
+            <button style="margin-top: 30px;" (click)="CrearNegocio()" class="btn-primary btn-block">Siguiente</button>
+            
+        </div>
+        
+    </div>
+</div>
+
+<div class="container-lateral" *ngIf="loading_global"> 
+    <span class="icon icon-loading loading"></span>
+</div>
+
+<div class="container-lateral fadeIn" *ngIf="display_delete">
+    <div class="card card-delete">
+        <span class="icon icon-trash"></span>
+
+        <h2 class="font-600">¿Estás seguro que deseas eliminar tu negocio ?</h2>
+
+        <h3>Al eliminar tu negocio se borrarán todos la información, fotos y demás de manera permanente y ya no podrá ser recuperada</h3>
+        
+        <button class="btn text-error" (click)="DeleteNegocio()" >Eliminar negocio</button>
+        <button class="btn" (click)="display_delete = false" >Cancelar</button>
+    </div>
+</div>
+
+<!-- ! CATEGORIAS =================================================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_interes">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">Categoría</h3>
+
+            <button class="btn justify-self-end" (click)="[CerrarModal(), JoinCategoria()]" > <span class="icon icon-close"></span> </button>
+        </div>
+
+
+        <div class="card-option-body">
+        
+            <div class="group-btn-identidad">
+                <button [ngClass]="filtrarSelect(0)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(0,$event)">Masajes eróticos</button>
+                <button [ngClass]="filtrarSelect(1)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
+                <button [ngClass]="filtrarSelect(2)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(2,$event)">Espacios sexuales</button>
+                <button [ngClass]="filtrarSelect(3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
+                <button [ngClass]="filtrarSelect(4)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(4,$event)">Otros</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ? PAIS ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_pais">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">País</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="pais_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+                <label [for]="i"> {{locacion.country_name}}</label>
+                <input (click)="SelectPais( locacion.country_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="pais_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of pais_filtro;let i = index">
+                <label [for]="i"> {{locacion.country_name}} </label>
+                <input (click)="SelectPais( locacion.country_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ? ESTADO ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_estado">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">Estado</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+            </div>
+        </div>
+        <div *ngIf="loading" class="loading"></div>
+        <div class="card-option-body" *ngIf="estado_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estados;let i = index">
+                <label [for]="i"> {{estado.state_name}}</label>
+                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="estado_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estado_filtro;let i = index">
+                <label [for]="i"> {{estado.state_name}} </label>
+                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ? CIUDAD ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_ciudad">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">Ciudad</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+            </div>
+        </div>
+
+        <div *ngIf="loading" class="loading"></div>
+
+        <h2 class="text-center" *ngIf="ciudades.length == 0">No posee, continue a la siguiente fase</h2>
+        <div class="card-option-body" *ngIf="ciudad_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudades;let i = index">
+                <label [for]="i"> {{ciudad.city_name}}</label>
+                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="ciudad_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudad_filtro;let i = index">
+                <label [for]="i"> {{ciudad.city_name}} </label>
+                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>

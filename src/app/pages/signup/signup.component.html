@@ -85,7 +85,8 @@
                     <div class="group-input-icon-right">
                         <span class="icon" [ngClass]="viewPass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass(true)" ></span>
                         <label for="">Contraseña </label>
-                        <input [type]="viewPass ? 'text' : 'password'"
+                        <input 
+                            [type]="viewPass ? 'text' : 'password'"
                             placeholder="Ingresar una contraseña"
                             [(ngModel)]="usuario.datos.clave"
                             (keyup)="CanSignUp()"  
@@ -275,7 +276,7 @@
 
             <!-- ? GEOLOCALIZACION -->
             <div class="grid justify-items-center" *ngIf="fase == 7">
-                <h1 class="form-title">Geolozalización</h1>
+                <h1 class="form-title">Geolocalización</h1>
 
                 <h1><i style="font-size: 48px;" class="icon icon-location"></i></h1>
                 <h5 class="text-center">Selecciona el modo <br> geolocalización para encontrar <br> personas cercanas a ti</h5>

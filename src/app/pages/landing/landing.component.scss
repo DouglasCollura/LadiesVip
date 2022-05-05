@@ -1,0 +1,245 @@
+.temp-landing{
+    min-height: 100%;
+	display: grid;
+    grid-gap: 80px;
+	grid-template:
+	"section-init" 836px
+	"section-conecta" 400px
+    "section-funciona" auto
+    "footer" 450px/
+		100%
+    
+}
+
+a{
+    text-decoration: none;
+}
+
+// ! SECTION INIT ====================================================================
+.section-init{
+    grid-area:section-init;
+    background-image: url('../../../assets/imagenes/background.png') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 15px 3%;
+    min-height: 100%;
+	display: grid;
+	grid-gap: 20px;
+	grid-template:
+	"section-init-top" 40px
+	"section-init-body" auto/
+		100%
+}
+
+.section-init-top{
+	grid-area: section-init-top;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    &-stiky{
+        @extend.section-init-top;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        padding: 5px;
+        z-index: 2;
+        background-color: rgba(69,69,69,.4);
+        animation: .2s ease-in 0s 1 fadein;
+        -webkit-animation: .2s ease-in 0s 1 fadein;
+    }
+}
+
+
+.section-init-body{
+    grid-area: section-init-body;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    grid-gap: 2em;
+    animation: 1s ease-in 0s 1 fadein;
+    -webkit-animation: 1s ease-in 0s 1 fadein;
+}
+
+// ! SECTION INIT #############################################################################
+
+
+// ! SECTION CONECTA ====================================================================
+
+
+.section-conecta{
+    grid-area: "section-conecta";
+    display: grid;
+    padding: 20px;
+    grid-template-rows: 30px auto;
+    .content{
+        max-width: 1200px;
+        width: 100%;
+        grid-auto-flow: column;
+        justify-content: space-around;
+        align-items: center;
+        margin: 0px auto;
+        display: grid;
+    }
+
+    .card-content{
+        justify-items: center;
+        text-align: center;
+        display: grid;
+        max-width: 250px;
+        max-height: 200px;
+        align-content: space-between;
+        padding: 10px;
+        
+        h2{
+            font-weight: 500;
+        }
+    }
+}
+
+
+// ! SECTION FUNCIONA ====================================================================
+
+.section-funciona{
+    grid-area: section-funciona;
+    display: grid;
+    grid-gap: 50px;
+    grid-template-rows: 60px auto;
+
+    .content{
+        max-width: 1200px;
+        margin: 0px auto;
+        width: 100%;
+        padding: 20px 10px;
+        position: relative;
+        background-image: url("../../../assets/imagenes/splash.svg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: grid;
+        grid-gap: 30px;
+
+        .section{
+            display: flex;
+            justify-content: space-around;
+            align-items:center;
+            flex-wrap: nowrap;
+            height: max-content;
+
+            .content-text{
+                display: grid;
+                grid-gap: 20px;
+                max-width: 400px;
+                position: relative;
+                *{
+                    z-index: 1 !important;
+                }
+                .number{
+                    position: absolute;
+                    font-size: 250px;
+                    color: var(--neutro-100);
+                    font-weight: 600;
+                    &-left{
+                        @extend .number;
+                        left: -40%;
+                    }
+
+                    &-right{
+                        @extend .number;
+                        right: -40%;
+                    }
+                }
+
+                p{
+                    color: var(--neutro-500);
+                }
+            }
+        }
+    }
+
+    .app{
+        display: grid;
+        grid-gap: 80px;
+        justify-items: center;
+        align-content: space-between;
+        h1{
+            color: var(--primario-rosa-2);
+        }
+
+        .group-button{
+            display: grid;
+            grid-auto-flow: column;
+            grid-gap: 10px;
+            padding: 15px;
+        }
+    }
+}
+
+
+
+// ! SECTION FOOTER ====================================================================
+
+.footer{
+    grid-area: footer;
+    display: grid;
+    grid-template-rows: auto 150px;
+
+    .top{
+        background-color: var(--secondary-800);
+        display: grid;
+        align-items: center;
+        &-content{
+            max-width: 800px;
+            margin: 0px auto;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            *{
+                color: white;
+            }
+            img{
+                width: 150px;
+            }
+        }
+    }
+
+    .bottom{
+        background-color: var(--secondary-900);
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        grid-gap: 20px;
+        
+    }
+}
+
+@keyframes fadein {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+}
+
+.section-menu{
+    grid-auto-flow: column;
+    grid-gap: 10px;
+}
+
+.big-title{
+    color: white;
+    font-size: 64px;
+    line-height: 70px;
+    font-weight: 700;
+}
+
+
+.blurOn{
+    filter: blur(5px);
+    -webkit-filter: blur(5px);
+    transition: all .5s;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+}

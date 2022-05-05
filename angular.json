@@ -33,7 +33,7 @@
             "styles": [
               "src/styles.scss",
               "src/assets/theme/grid.css",
-              "src/assets/theme/custom.css",
+              "src/assets/theme/custom.scss",
               "src/assets/icons/style.css"
             ],
             "scripts": [
@@ -45,13 +45,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 }
               ],
               "fileReplacements": [

@@ -1,0 +1,190 @@
+
+<div class="temp-anuncio">
+    <div class="header">
+        <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Crear anuncio</h3>
+
+        <button class="btn" (click)="UpdateAnuncio()"> <img src="../../../../assets/imagenes/Boost.png"  alt=""> </button>
+
+    </div>
+    <div class="body">
+
+        <div class="top-select">
+            <button class="btn" [ngClass]="menu?'':'active'" (click)="menu = false" >Fotos</button>
+            <button class="btn" [ngClass]="menu?'active':''" (click)="menu = true">Videos</button>
+        </div>
+
+        <div class="grid align-content-start gap-20" *ngIf="!menu">
+            
+            <!-- ! SECTION SLIDE ============================================ -->
+            <div class="slide-photo">
+
+                <div class="card-photo" *ngFor="let foto of urls_image" >
+                    <img [src]="url+foto" alt="">
+                    <div class="delete" (click)="DeleteImg(foto,1)" >
+                        <span class="icon icon-close"></span>
+                    </div>
+                </div>
+
+                <div class="card-photo" [id]="foto.id" *ngFor="let foto of user_imagen_show" >
+                    <div class="delete" (click)="DeleteImg(foto,2)">
+                        <span class="icon icon-close" ></span>
+                    </div>
+                    <img [src]="foto.img" alt="">
+                </div>
+
+                <div class="card-photo-more" *ngIf="user_imagen_show.length == 0 && urls_image.length == 0" (click)="SelectImg()">
+                    <span class="icon icon-circle-more"></span>
+                </div>
+
+    
+                <div class="more" (click)="SelectImg()">
+                    <span class="icon icon-circle-more"></span>
+                    <p>Tienes un máximo de 10 fotos</p>
+                </div>
+
+                <input type="file" id="img" (change)="CargarImagen($event)" style="display:none" accept="image/png, image/gif, image/jpeg">
+
+    
+            </div>
+
+            <!-- ! SECTION INFORMACION-->
+
+            <div class="section">
+                <div class="titulo">
+                    <h4>INFORMACIÓN PERSONAL</h4>
+                    <div class="line"></div>
+                </div>
+
+                <h2 class="font-600 nombre"> {{datos.name}} </h2>
+
+                <h2 class="text-alert">23 años • {{datos.estado}},{{datos.pais}}</h2>
+
+                <div class="grid gap-10">
+                    <h3> <span class="icon icon-mail"></span> {{datos.email}} </h3>
+                    <h3> <span class="icon icon-phone"></span> + {{datos.code_phone}} {{datos.telefono}} </h3>
+
+                    <div class="flex-d-row">
+                        <h3>Busco: </h3> 
+                        <button class="btn" (click)="display_interes = true" > Selecciona una categoría <span class="icon icon-chevron-down" ></span> </button>
+                    </div>
+
+                    <div class="flex-column">
+                        <button class="btn-disable" *ngFor="let item of intereses_name" >
+                            {{item}}
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <h3>Descripción:</h3>
+                        <textarea name="" id="" cols="30" rows="2" [(ngModel)]="anuncio.descripcion" placeholder="Escribir aquí"></textarea>
+                    </div>
+                </div>
+
+
+            <!-- ! SECTION INFORMACION-->
+            <div class="section">
+                <div class="titulo">
+                    <h4>PERMISOS</h4>
+                    <div class="line"></div>
+                </div>
+
+                <div class="group-check">
+                    <h3>Activar todas las notificaciones</h3>
+                    <input type="checkbox" 
+                        (click)="change(1)"
+                        [(checked)]="anuncio.hab_notificacion"
+                        class="check-button"
+                    >
+                </div>
+
+                <div class="group-check">
+                    <h3>Chat online</h3>
+                    <input type="checkbox" 
+                        (click)="change(2)"
+                        [(checked)]="anuncio.hab_chat"
+                        class="check-button"
+                    >
+                    
+                </div>
+
+                <div class="group-check">
+                    <h3>Habilitar WhatsApp</h3>
+                    <input type="checkbox" 
+                    (click)="change(3)"
+                    [(checked)]="anuncio.hab_wts" 
+                    class="check-button"
+                >
+                    
+                </div>
+
+            </div>
+
+            <button class=" btn-block" 
+            [class]="( isFirstAdd && (anuncio.descripcion !='' && intereses_name.length >0 && img_length >0 ))? 'btn-primary':'btn-disable'"
+            (click)=" ( isFirstAdd && (anuncio.descripcion !='' && intereses_name.length >0 && img_length >0 )) && CrearAnuncio()">Publicar anuncio  </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ! FILTRO =================================================================== -->
+
+    <div class="bg-card fadeIn"  *ngIf="display_interes">
+        <div class="card-option onUp" >
+            <div class="card-option-header">
+                <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+                <h3 class=" justify-self-center text-center font-600">Busco intereses en...</h3>
+
+                <button class="btn justify-self-end" (click)="CerrarModal()" > <span class="icon icon-close"></span> </button>
+            </div>
+
+
+            <div class="card-option-body">
+            
+                <div class="group-btn-identidad">
+                    <button [ngClass]="filtrarSelect(0)? 'btn-genero-active':'btn-genero'" id="gen0" (click)="selectIdentidad(0,$event)">Mujer</button>
+                    <button [ngClass]="filtrarSelect(1)? 'btn-genero-active':'btn-genero'" id="gen1" (click)="selectIdentidad(1,$event)">Hombre</button>
+                    <button [ngClass]="filtrarSelect(2)? 'btn-genero-active':'btn-genero'" id="gen2" (click)="selectIdentidad(2,$event)">No binario</button>
+                    <button [ngClass]="filtrarSelect(3)? 'btn-genero-active':'btn-genero'" id="gen3" (click)="selectIdentidad(3,$event)">Pareja</button>
+                    <button [ngClass]="filtrarSelect(4)? 'btn-genero-active':'btn-genero'" id="gen4" (click)="selectIdentidad(4,$event)">Gay</button>
+                    <button [ngClass]="filtrarSelect(5)? 'btn-genero-active':'btn-genero'" id="gen5" (click)="selectIdentidad(5,$event)">Transexual</button>
+                    <button [ngClass]="filtrarSelect(6)? 'btn-genero-active':'btn-genero'" id="gen6" (click)="selectIdentidad(6,$event)">Travestie</button>
+                    <button [ngClass]="filtrarSelect(7)? 'btn-genero-active':'btn-genero'" id="gen7" (click)="selectIdentidad(7,$event)">Lesbiana</button>
+                    <button [ngClass]="filtrarSelect(8)? 'btn-genero-active':'btn-genero'" id="gen8" (click)="selectIdentidad(8,$event)">Otros</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="container-lateral" *ngIf="loading"> 
+    <span class="icon icon-loading loading"></span>
+</div>
+
+<div class="container-lateral" *ngIf="done">
+
+    <div class="card card-done">
+        <img src="../../../../assets/img/clock-yellow.png" alt="">
+
+        <h1>Anuncio en espera</h1>
+
+        <h5>
+            Tu anuncio será revisado por un moderador para asegurar que se encuentre dentro de los términos de uso de la aplicación. 
+        </h5>
+
+        <h5>
+            La revisión estimada es de 24 horas y se te notificará sobre el estado de tu anuncio
+        </h5>
+
+        <button class="btn text-primary" (click)="Done()" > Ok </button>
+    </div>
+
+</div>
+

@@ -3,6 +3,7 @@
     align-content: start;
     padding: 10px 30px;
     grid-gap: 35px;
+    background-color: #fff;
     grid-template: 
 	"section-signup-left section-signup-center section-signup-right" auto/
 		minmax(auto, 300px) 2px minmax(auto, 300px)

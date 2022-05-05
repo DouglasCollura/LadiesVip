@@ -68,7 +68,7 @@
 .market-section-categorias{
     display: grid;
     overflow: auto;
-    max-height: calc(100vh - 450px);
+    height: calc(100vh - 450px);
     grid-gap: 10px;
     align-content: start;
 }

@@ -1,0 +1,231 @@
+
+.temp-anuncio{
+    display: grid;
+    height: 100%;
+    background-color: white;
+    position: relative;
+    grid-template: 
+    "header" 60px 
+    "body" auto
+    
+}
+
+.header{
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    grid-template-columns: 0px auto;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 10px;
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+    .btn{
+        padding: 0  !important;
+        color: var(--neutro-500) !important;
+    }
+
+}
+
+// .footer{
+//     position: sticky;
+//     bottom: 0;
+//     padding: 0px 20px;
+//     background-color: #fff;
+//     display: grid;
+//     align-content: start;
+// }
+
+.body{
+    grid-area: body;
+    display: grid;
+    padding: 15px;
+    grid-gap: 20px;
+    align-content: start;
+    height: calc(100vh - 180px);
+    overflow-y: auto;
+}
+
+.top-select{
+    display: grid;
+    grid-auto-flow: column;
+    align-self: start;
+        
+    .btn{
+        width: 100%;
+        border-bottom: 2px solid;
+        border-radius: 0px;
+        -webkit-border-radius: 0px;
+        -moz-border-radius: 0px;
+        -ms-border-radius: 0px;
+        -o-border-radius: 0px;
+    }
+    .active{
+        color: var(--primario-rosa-2);
+        font-weight: 600;
+    }
+}
+
+.slide-photo{
+    height: 240px;
+    display: flex;
+    overflow: auto;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 10px;
+    justify-content: start;
+
+    .card-photo{
+        background-color: var(--neutro-100);
+        position: relative;
+        display: grid;
+        height: 100%;
+        width: 200px;
+        min-width: 200px;
+        border-radius: 15px;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        -ms-border-radius: 15px;
+        -o-border-radius: 15px;
+        overflow: hidden;
+
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &-more{
+            @extend .card-photo;
+            place-items: center;
+            span{
+                font-size: 38px;
+                color: var(--neutro-400) !important;
+            }
+        }
+    }
+
+    .more{
+        height: 100%;
+        width: 130px;
+        min-width: 130px;
+        display: grid;
+        place-content: center;
+        justify-items: center;
+        text-align: center;
+        span{
+            display: grid;
+            padding: 10px;
+            background-color: var(--neutro-100);
+            font-size: 38px;
+            color: var(--neutro-400) !important;
+            width: max-content;
+            border-radius: 50%;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            -ms-border-radius: 50%;
+            -o-border-radius: 50%;
+}
+    }
+    
+}
+
+.section{
+    display: grid;
+    grid-gap: 15px;
+    .titulo{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap:5px;
+        h4{
+            font-weight: 600;
+            color: var(--neutro-500);
+            min-width: max-content;
+        }
+
+        .line{
+            width: 100%;
+            height: 1px;
+            background-color: var(--neutro-300);
+        }
+
+    }
+
+    .nombre{
+        font-size: 30px;
+    }
+
+    h3{
+        font-weight: 500;
+        color: var(--neutro-600);
+    }
+}
+
+.icon-chevron-down{
+    font-size: 8px;
+    color: var(--neutro-200);
+}
+
+.group-check{
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+textarea{
+    border: none;
+    resize: none;
+}
+
+.group-btn-identidad{
+    display: flex;
+    align-content: start;
+    flex-wrap:wrap;
+    grid-gap: 7px;
+    padding: 10px;
+}
+
+.card{
+    align-self: center;
+    position: sticky !important;
+    width: 300px !important;
+    min-width: 300px !important;
+    height: 394px;
+    padding: 20px;
+    justify-items: center;
+    *{
+        text-align: center;
+    }
+    align-content: space-around;
+}
+
+.delete{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-content: center;
+    top: -3px;
+    right: -3px;
+    z-index: 1;
+    background: var(--primario-default);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    span{
+        font-size: 12px;
+    font-weight: 600;
+    color: white !important;
+    }
+}
+
+.btn{
+    color: var(--neutro-500);
+}
+
+.card-done{
+    
+}

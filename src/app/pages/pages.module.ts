@@ -26,6 +26,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SmsComponent } from './sms/sms.component';
 import { MarketComponent } from './market/market.component';
 import { MensajesComponent } from './mensajes/mensajes.component';
+import { NotifyComponent } from './notify/notify.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ConfigComponent } from './profile/config/config.component';
+import { AnuncioComponent } from './profile/anuncio/anuncio.component';
+import { CuentaAccesoComponent } from './profile/cuenta-acceso/cuenta-acceso.component';
+import { InformacionPersonalComponent } from './profile/informacion-personal/informacion-personal.component';
+import { NegociosComponent } from './profile/negocios/negocios.component';
+import { GoogleMapsModule } from '@angular/google-maps'
 
 @NgModule({
   declarations: [
@@ -47,6 +55,13 @@ import { MensajesComponent } from './mensajes/mensajes.component';
     SmsComponent,
     MarketComponent,
     MensajesComponent,
+    NotifyComponent,
+    ProfileComponent,
+    ConfigComponent,
+    AnuncioComponent,
+    CuentaAccesoComponent,
+    InformacionPersonalComponent,
+    NegociosComponent,
     ],
   imports: [
     CommonModule,
@@ -56,7 +71,8 @@ import { MensajesComponent } from './mensajes/mensajes.component';
     RouterModule,
     AngularFireModule.initializeApp(firebaseApp.firebase),
     AngularFireAuthModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    GoogleMapsModule  
   ],
 })
 export class PagesModule { }

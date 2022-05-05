@@ -1,0 +1,69 @@
+<div class="temp-config" *ngIf="display_main">
+
+    <div class="header">
+        <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
+        <h3 class="font-500 justify-self-center">Configuración</h3>
+    </div>
+    <div class="body">
+
+        <div class="section">
+            <div class="title">
+                <h4>CUENTA</h4>
+            </div>
+
+            <button class="btn">Planes <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" routerLink="packs_anuncios" >Pack de anuncios <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn">Método de pago <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="OpenAcceso()" >Cuenta de acceso <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="OpenInfo()"  >Información personal <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="OpenNegocio()" >Negocio <span class="icon icon-chevron-right"></span> </button>
+
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h4>PREFERENCIAS</h4>
+            </div>
+
+            <button class="btn">Idioma <span>Español <span class="icon icon-chevron-right"></span></span> </button>
+            
+            <div>
+                <h4>Activar todas las notificaciones</h4>
+                <input type="checkbox" class="check-button">
+            </div>
+
+            <div>
+                <h4>Recibir alertas de mensajes</h4>
+                <input type="checkbox" class="check-button">
+            </div>
+
+            <div>
+                <h4>Alerta 3 días antes sobre mi plan</h4>
+                <input type="checkbox" class="check-button">
+            </div>
+
+        </div>
+
+        <div class="section">
+            <div class="title">
+                <h4>LEGALES</h4>
+            </div>
+
+            <button class="btn">Políticas de privacidad <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn">Términos y condiciones <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn">Ayuda al usuario <span class="icon icon-chevron-right"></span> </button>
+
+        </div>  
+
+        <button class="btn btn-block cerrar" (click)="signOut()"> CERRAR SESIÓN</button>
+
+    </div>
+
+</div>
+
+
+<app-cuenta-acceso *ngIf="display_acceso" ></app-cuenta-acceso>
+
+<app-informacion-personal *ngIf="display_info" ></app-informacion-personal>
+
+<app-negocios *ngIf="display_negocio" ></app-negocios>
