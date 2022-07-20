@@ -13,11 +13,11 @@
     
             <div class="grid section-menu align-items-center">
                 <a class="btn-simple-active" href="#home">Home</a>
-                <a class="btn-simple" href="#conecta" >Conecta y liga</a>
-                <a class="btn-simple" href="#funciona">¿Cómo funciona?</a>
+                <a class="btn-simple" href="#conecta" >{{"landing.menu_conecta" | translate}}</a>
+                <a class="btn-simple" href="#funciona">{{"landing.menu_funciona" | translate}}</a>
     
-                <button class="btn" (click)="displayDev = true"><i class="icon icon-world"></i> Español</button>
-                <button class="btn" (click)="LoadLogin()" > Iniciar sesión</button>
+                <button class="btn" (click)="displayDev = true"><i class="icon icon-world"></i> {{"lang" | translate}}</button>
+                <button class="btn" (click)="LoadLogin()" > {{"landing.btn_iniciar" | translate}}</button>
             </div>
     
         </div>
@@ -26,10 +26,11 @@
 
         <div class="section-init-body text-center justify-items-center">
 
-            <h1 class="big-title">Encuentra la pareja <br> que estás buscando</h1>
-            <h2 class="text-white text">Conoce nuevas personas, en diferentes lugares,<br> pero con los mismos gustos que tú</h2>
+            <h1 class="big-title">{{"landing.title_prin" | translate}}</h1>
+            <h2 class="text-white text">{{"landing.sub_title_prin" | translate}}</h2>
     
-            <button class="btn-primary" (click)="LoadSignUp()">Crear una cuenta</button>
+            <button class="btn-primary" (click)="display_inv =true;inv=false" >{{"landing.btn_crear" | translate}}</button>
+            <button class="btn invitado justify-self-center" (click)="display_inv =true;inv=true" >{{"landing.btn_invitado" | translate}}</button>
         </div>
     </div>
 
@@ -38,7 +39,7 @@
 
     <div class="section-conecta" id="conecta">
 
-        <h1 class="font-600 text-center">Conecta y liga</h1>
+        <h1 class="font-600 text-center">{{"landing.conecta.titulo" | translate}}</h1>
 
         <div class="content">
             
@@ -47,8 +48,8 @@
                 <img src="../../../assets/imagenes/landing-conecta1.png" alt="">
 
                 <div class="grid gap-10">
-                    <h2>Busca personas</h2>
-                    <p>Descubre personas que buscan lo mismo que tu. En donde sea y cuando sea</p>
+                    <h2>{{"landing.conecta.p1_title" | translate}}</h2>
+                    <p>{{"landing.conecta.p1_text" | translate}}</p>
                 </div>
             </div>
 
@@ -58,8 +59,8 @@
                 <img src="../../../assets/imagenes/landing-conecta2.png" alt="">
 
                 <div class="grid gap-10">
-                    <h2>Chatea en todo momento</h2>
-                    <p>Envía mensajes cuando sea. Busca las mejores maneras de ligar y encuentra a tu gusto</p>
+                    <h2>{{"landing.conecta.p2_title" | translate}}</h2>
+                    <p>{{"landing.conecta.p2_text" | translate}}</p>
                 </div>
             </div>
 
@@ -69,8 +70,8 @@
                 <img src="../../../assets/imagenes/landing-conecta3.png" alt="">
 
                 <div class="grid gap-10">
-                    <h2>Ten una cita</h2>
-                    <p>Aprovecha la oportunidad y conoce más a la persona. Cada cita te puede sorprender</p>
+                    <h2>{{"landing.conecta.p3_title" | translate}}</h2>
+                    <p>{{"landing.conecta.p3_text" | translate}}</p>
                 </div>
             </div>
 
@@ -79,8 +80,8 @@
 
     <div class="section-funciona" id="funciona">
         <div class="grid gap-10">
-            <h1 class="font-600 text-center">¿Cómo funciona?</h1>
-            <p class="text-center">3 simples pasos para encontrar a tu futura pareja</p>
+            <h1 class="font-600 text-center">{{"landing.funciona.title" | translate}}</h1>
+            <p class="text-center">{{"landing.funciona.text" | translate}}</p>
         </div>
 
         <div class="content">
@@ -89,16 +90,16 @@
 
                 <div class="content-text">
                     <h1 class="number-left">01</h1>
-                    <h1 class="font-600">Ingresa a nuestro aplicativo</h1>
-                    <p>Registrate, ingresa tus datos para mostrarte los mejores perfiles de acuerdo a tus gustos</p>
+                    <h1 class="font-600">{{"landing.funciona.p1_title" | translate}}</h1>
+                    <p>{{"landing.funciona.p1_text" | translate}}</p>
                 </div>
             </div>
 
             <div class="section">
                 <div class="content-text">
                     <h1 class="number-right">02</h1>
-                    <h1 class="font-600">Ingresa a nuestro aplicativo</h1>
-                    <p>Registrate, ingresa tus datos para mostrarte los mejores perfiles de acuerdo a tus gustos</p>
+                    <h1 class="font-600">{{"landing.funciona.p2_title" | translate}}</h1>
+                    <p>{{"landing.funciona.p2_text" | translate}}!</p>
                 </div>
                 <img src="../../../assets/imagenes/paso2.png" alt="">
             </div>
@@ -108,19 +109,19 @@
 
                 <div class="content-text">
                     <h1 class="number-left">03</h1>
-                    <h1 class="font-600">Ingresa a nuestro aplicativo</h1>
-                    <p>Registrate, ingresa tus datos para mostrarte los mejores perfiles de acuerdo a tus gustos</p>
+                    <h1 class="font-600">{{"landing.funciona.p3_title" | translate}}</h1>
+                    <p>{{"landing.funciona.p3_text" | translate}}</p>
                 </div>
             </div>
         </div>
 
         <div class="app">
-            <h1 class="text-center font-600">Descarga nuestra app y descubre <br> nuevas experiencias</h1>
+            <h1 class="text-center font-600">{{"landing.descarga.title" | translate}}</h1>
 
             <img src="../../../assets/imagenes/Phone-apps.png" alt="">
 
             <div class="grid">
-                <p class="text-center"> Disponible en las principales tiendas de aplicaciones</p>
+                <p class="text-center"> {{"landing.descarga.text" | translate}}</p>
 
                 <div class="group-button">
                     <img src="../../../assets/imagenes/btn-appstore.png" alt="">
@@ -139,9 +140,9 @@
                 <img src="../../../assets/imagenes/megafono.png" alt="">
 
                 <div class="grid gap-10 ">
-                    <h1>Tu negocio en Ladie Vip</h1>
-                    <p>Con Market Vip podrás llegar a muchos potenciales clientes. Dale click al botón y promociona tu negocio</p>
-                    <button class="btn-primary">Promocionar negocio</button>
+                    <h1>{{"landing.promocion.titulo" | translate}}</h1>
+                    <p>{{"landing.promocion.text" | translate}}</p>
+                    <button class="btn-primary" (click)="OpenPromo()" >{{"landing.promocion.btn" | translate}}</button>
                 </div>
             </div>
             
@@ -150,7 +151,7 @@
 
             <img src="../../../assets/imagenes/logo-white.png" alt="">
 
-            <p>Política de privacidad • Términos y condiciones • Ayuda al usuario • Promocionar mi negocio</p>
+            <p> <a href="" routerLink="politicas" > Política de privacidad </a>• <a href="" routerLink="terminos" > Términos y condiciones</a></p>
         </div>
     </div>
 
@@ -163,6 +164,64 @@
     <div class="card" style="min-height:200px">
         <button class="btn-icon align-self-start justify-self-end" (click)="displayDev = false"><i class="icon icon-close"></i></button>
 
-        <h1 class="text-center align-self-center">Muy pronto, aun en desarrollo</h1>
+        <div class="radio-group" style="justify-content: space-between;" >
+            <label > Spanish </label>
+            <input (click)="SetLang('es')" [(ngModel)]="lang" value="es"  name="lang" type="radio">
+        </div>
+        <div class="radio-group" style="justify-content: space-between;" >
+            <label > English </label>
+            <input (click)="SetLang('en')" [(ngModel)]="lang" value="en"  name="lang" type="radio">
+        </div>
+        <div class="radio-group" style="justify-content: space-between;" >
+            <label > German </label>
+            <input (click)="SetLang('ge')" [(ngModel)]="lang" value="ge"  name="lang" type="radio">
+        </div>
     </div>
 </div>
+
+<div class="container" *ngIf="display_inv" >
+    <div class="card inv">
+        <div class="subcard-18 align-self-center ">
+            <h1 >+18</h1>
+            <h5>>{{"landing.card_18" | translate}}</h5>
+        </div>
+
+        <div class="content">  
+            <p>
+                {{"landing.card_new.p1" | translate }}
+            </p>
+
+            <p>
+                {{"landing.card_new.p2" | translate }} 
+            </p>
+
+            <p>
+                {{"landing.card_new.p3" | translate }} 
+            </p>
+
+            <p>
+                {{"landing.card_new.p4" | translate }}
+            </p>
+
+            <p>
+                {{"landing.card_new.p5" | translate }}
+            </p>
+        </div>
+
+        <div class="checkbox-group term">
+            <input type="checkbox" [(ngModel)]="checkterm"  id="session-open">
+            <label for="session-open">  {{"landing.card_new.check_p1" | translate }} <a routerLink="terminos" > {{"landing.card_new.check_p2" | translate }} </a> </label>
+        </div>
+
+        <div class="ctrl-btn">
+            <button class="" [class]="checkterm?'btn-primary':'btn-disable'" *ngIf="inv" (click)=" checkterm && LogInAsGuest()" > {{"landing.card_new.aceptar" | translate }}  </button>
+            <button class="" [class]="checkterm?'btn-primary':'btn-disable'" *ngIf="!inv" (click)=" checkterm && LoadSignUp()" > {{"landing.card_new.aceptar" | translate }}  </button>
+            <button class="btn-secondary" (click)=" display_inv = false" > {{"landing.card_new.rechazar" | translate }} </button>
+        </div>
+        
+    </div>
+
+</div>
+
+
+<app-landing-promo *ngIf="display_promo" (Cerrar)="ClosePromo()" ></app-landing-promo>

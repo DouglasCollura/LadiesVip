@@ -2,68 +2,137 @@
 
     <div class="header">
         <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Configuración</h3>
+        <h3 class="font-500 justify-self-center">{{"configuracion.titulo" | translate}}</h3>
     </div>
     <div class="body">
 
         <div class="section">
             <div class="title">
-                <h4>CUENTA</h4>
+                <h4>{{"configuracion.seccion_cuenta.titulo" | translate}}</h4>
             </div>
 
-            <button class="btn">Planes <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn" routerLink="packs_anuncios" >Pack de anuncios <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn">Método de pago <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn" (click)="OpenAcceso()" >Cuenta de acceso <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn" (click)="OpenInfo()"  >Información personal <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn" (click)="OpenNegocio()" >Negocio <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="OpenPlanes()">{{"configuracion.seccion_cuenta.btn_planes" | translate}} <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="OpenPacks()" > {{"configuracion.seccion_cuenta.btn_pack" | translate}} <span class="icon icon-chevron-right"></span> </button>
+            <!-- <button class="btn">Método de pago <span class="icon icon-chevron-right"></span> </button> -->
+            <button class="btn" (click)="OpenAcceso()" > {{"configuracion.seccion_cuenta.btn_acceso" | translate}}<span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="OpenInfo()"  > {{"configuracion.seccion_cuenta.btn_informacion" | translate}}  <span class="icon icon-chevron-right"></span> </button>
+            <button class="btn" (click)="GoNegocio()" > {{"configuracion.seccion_cuenta.btn_negocio" | translate}} <span class="icon icon-chevron-right"></span> </button>
 
         </div>
 
         <div class="section">
             <div class="title">
-                <h4>PREFERENCIAS</h4>
+                <h4>{{"configuracion.seccion_preferencia.titulo" | translate}}</h4>
             </div>
 
-            <button class="btn">Idioma <span>Español <span class="icon icon-chevron-right"></span></span> </button>
+            <button class="btn" (click)="display_lang = true" >{{"configuracion.seccion_preferencia.btn_idioma" | translate}} <span>{{"lang" | translate}} <span class="icon icon-chevron-right"></span></span> </button>
             
-            <div>
-                <h4>Activar todas las notificaciones</h4>
+            <div hidden>
+                <h4>{{"configuracion.seccion_preferencia.btn_notificaciones" | translate}}</h4>
                 <input type="checkbox" class="check-button">
             </div>
 
-            <div>
-                <h4>Recibir alertas de mensajes</h4>
+            <div hidden>
+                <h4>{{"configuracion.seccion_preferencia.btn_mensaje" | translate}}</h4>
                 <input type="checkbox" class="check-button">
             </div>
 
-            <div>
-                <h4>Alerta 3 días antes sobre mi plan</h4>
-                <input type="checkbox" class="check-button">
+            <div >
+                <h4>{{"configuracion.seccion_preferencia.btn_alerta" | translate}}</h4>
+                <input type="checkbox" (click)="ChangeAlertPay()"  [checked]="check_alert_plan" class="check-button">
             </div>
 
         </div>
 
         <div class="section">
             <div class="title">
-                <h4>LEGALES</h4>
+                <h4>{{"configuracion.seccion_legales.titulo" | translate}}</h4>
             </div>
 
-            <button class="btn">Políticas de privacidad <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn">Términos y condiciones <span class="icon icon-chevron-right"></span> </button>
-            <button class="btn">Ayuda al usuario <span class="icon icon-chevron-right"></span> </button>
+            <a class="btn"   routerLink="../politicas"  >{{"configuracion.seccion_legales.btn_privacidad" | translate}} <span class="icon icon-chevron-right"></span> </a>
+            <a class="btn" routerLink="../terminos" >{{"configuracion.seccion_legales.btn_terminos" | translate}} <span class="icon icon-chevron-right"></span> </a>
+            <button class="btn" (click)="OpenHelp()" > {{"configuracion.seccion_legales.btn_ayuda" | translate}} <span class="icon icon-chevron-right"></span> </button>
 
         </div>  
 
-        <button class="btn btn-block cerrar" (click)="signOut()"> CERRAR SESIÓN</button>
+        <button class="btn btn-block cerrar" (click)="signOut()"> {{"configuracion.btn_cerrar" | translate}}</button>
 
     </div>
 
 </div>
 
 
+<app-planes *ngIf="display_planes"></app-planes>
+
+<app-packs-anuncios *ngIf="display_packs" ></app-packs-anuncios>
+
 <app-cuenta-acceso *ngIf="display_acceso" ></app-cuenta-acceso>
 
 <app-informacion-personal *ngIf="display_info" ></app-informacion-personal>
 
-<app-negocios *ngIf="display_negocio" ></app-negocios>
+<app-negocios  *ngIf="display_negocio" ></app-negocios>
+
+<app-pago *ngIf="display_pago"></app-pago>
+
+<app-help *ngIf="display_help"></app-help>
+
+<div class="container alert" *ngIf="alert">
+
+    <div class="content">
+        <button class="btn close" (click)="alert = false" ><span class="icon icon-close"></span></button>
+
+        <h1>{{"configuracion.val_premium.titulo" | translate}}</h1>
+
+        <h4>{{"configuracion.val_premium.parrafo" | translate}}</h4>
+
+        <button class="btn premium" (click)="OpenPlanes()" >{{"configuracion.val_premium.btn_premium" | translate}}</button>
+    </div>
+
+</div>
+
+<div class="container alert"  *ngIf="alert_guest">
+
+    <div class="content">
+        <button class="btn close" (click)="alert_guest=false"  ><span class="icon icon-close"></span></button>
+
+        <h1>{{"configuracion.val_gest.titulo" | translate}}</h1>
+
+        <h4>{{"configuracion.val_gest.parrafo" | translate}}</h4>
+
+        <button class="btn premium"(click)="GoLanding()" >{{"configuracion.val_gest.btn_premium" | translate}}</button>
+    </div>
+
+</div>
+
+
+<!-- ? IDIOMA ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_lang">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">{{"landing.title_lang" | translate}}</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-body">
+            <div class="radio-group" style="justify-content: space-between;" >
+                <label > Spanish </label>
+                <input (click)="SetLang('es')" [(ngModel)]="lang" value="es"  name="lang" type="radio">
+            </div>
+            <div class="radio-group" style="justify-content: space-between;" >
+                <label > English </label>
+                <input (click)="SetLang('en')" [(ngModel)]="lang" value="en"  name="lang" type="radio">
+            </div>
+            <div class="radio-group" style="justify-content: space-between;" >
+                <label > German </label>
+                <input (click)="SetLang('ge')" [(ngModel)]="lang" value="ge"  name="lang" type="radio">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-lateral" *ngIf="loading"> 
+    <span class="icon icon-loading loading"></span>
+</div>

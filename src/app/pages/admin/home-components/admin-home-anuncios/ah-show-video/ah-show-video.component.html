@@ -1,0 +1,24 @@
+
+<div class="content-video" >
+    <video 
+        (click)="Play()"
+        id="video_here"
+        data-html5-video=""
+        data-state="visible"
+        [controlsList]="['nodownload']"
+        (timeupdate)="ProgressBar()"
+        muted="true"
+        [src]="url+video"
+    >
+    </video>
+
+    <button class="btn-play icon-play" (click)="Play()" >  </button>
+    <div class="bg-control"></div>
+    <div class="controls" data-media-control="">
+        <div class="progress-bar">
+
+        </div>
+
+        <button class="btn-volume" (click)="Muted()" >   <img src="../../../../../assets/imagenes/volume.svg" alt=""> </button> 
+    </div>
+</div>

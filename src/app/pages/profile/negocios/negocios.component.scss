@@ -113,6 +113,7 @@
     grid-gap: 20px;
     .primary-img{
         border-radius: 8px;
+        position: relative;
         width: 360px;
         height: 290px;
         background-color: var(--neutro-100);
@@ -151,6 +152,7 @@
     .carrousel{
 
         .content-img{
+            position: relative;
             border-radius: 8px;
             width: 90px;
             height: 100%;
@@ -185,7 +187,7 @@
 
 .group-btn-identidad{
     display: flex;
-    align-content: start;
+    align-content: flex-start;
     flex-wrap:wrap;
     grid-gap: 5px;
 }   
@@ -318,9 +320,33 @@ textarea{
 }
 
 button{
-    color: var(--neutro-500);
+    color: var(--neutro-500) !important;
 }
 
 span{
     color: var(--neutro-500) !important;
+}
+
+
+
+.delete{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-content: center;
+    top: -3px;
+    right: -3px;
+    z-index: 1;
+    background: var(--primario-default);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    span{
+        font-size: 12px;
+    font-weight: 600;
+    color: white !important;
+    }
 }

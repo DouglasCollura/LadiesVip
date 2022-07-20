@@ -13,7 +13,7 @@ import { AdminMarketPublicadosComponent } from './admin/market-components/admin-
 import { AdminHomeReportesComponent } from './admin/home-components/admin-home-reportes/admin-home-reportes.component';
 import { AdminHomeUsuarioComponent } from './admin/home-components/admin-home-usuario/admin-home-usuario.component';
 import { MainComponent } from './admin/main/main.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ComponentsModule } from '../components/components.module';
 import { RouterModule } from '@angular/router';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
@@ -33,7 +33,27 @@ import { AnuncioComponent } from './profile/anuncio/anuncio.component';
 import { CuentaAccesoComponent } from './profile/cuenta-acceso/cuenta-acceso.component';
 import { InformacionPersonalComponent } from './profile/informacion-personal/informacion-personal.component';
 import { NegociosComponent } from './profile/negocios/negocios.component';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
+import { PlanesComponent } from './profile/planes/planes.component';
+import { PacksAnunciosComponent } from './profile/packs-anuncios/packs-anuncios.component';
+import { PagoComponent } from './profile/pago/pago.component';
+import { FavoritoComponent } from './profile/favorito/favorito.component';
+import { ShowComponent } from './profile/favorito/show/show.component';
+import { HelpNewComponent } from './help-new/help-new.component';
+import { HelpComponent } from './profile/help/help.component';
+import { VideoComponent } from './home/video/video.component';
+import { CreateMarketComponent } from './admin/market-components/admin-market-publicados/create-market/create-market.component';
+import { AhShowVideoComponent } from './admin/home-components/admin-home-anuncios/ah-show-video/ah-show-video.component';
+import { LandingPromoComponent } from './landing/landing-promo/landing-promo.component';
+import { TerminosComponent } from './terminos/terminos.component';
+import { AmBloqueadosComponent } from './admin/market-components/am-bloqueados/am-bloqueados.component';
+import { PoliticasComponent } from './politicas/politicas.component';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -62,6 +82,20 @@ import { GoogleMapsModule } from '@angular/google-maps'
     CuentaAccesoComponent,
     InformacionPersonalComponent,
     NegociosComponent,
+    PlanesComponent,
+    PacksAnunciosComponent,
+    PagoComponent,
+    FavoritoComponent,
+    ShowComponent,
+    HelpNewComponent,
+    HelpComponent,
+    VideoComponent,
+    CreateMarketComponent,
+    AhShowVideoComponent,
+    LandingPromoComponent,
+    TerminosComponent,
+    AmBloqueadosComponent,
+    PoliticasComponent,
     ],
   imports: [
     CommonModule,
@@ -72,7 +106,14 @@ import { GoogleMapsModule } from '@angular/google-maps'
     AngularFireModule.initializeApp(firebaseApp.firebase),
     AngularFireAuthModule,
     ReactiveFormsModule,
-    GoogleMapsModule  
+    GoogleMapsModule ,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: (createTranslateLoader),
+          deps: [HttpClient]
+      }
+    }) 
   ],
 })
 export class PagesModule { }

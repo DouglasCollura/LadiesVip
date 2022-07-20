@@ -2,9 +2,9 @@
 
     <div class="section-market-header">
         <div class="nav-component">
-            <button id="gest_publicados" class="active" (click)="nav('gest_publicados', 0)">Negocios publicados</button>
-            <button id="gest_solicitudes" (click)="nav('gest_solicitudes', 1)">Solicitudes</button>
-            <button id="ges_bloqueados" (click)="nav('ges_bloqueados', 2)">Negocios bloqueados</button>
+            <button id="gest_publicados" [class]="ctrl_menu==0?'active':''" (click)="ctrl_menu =0">Negocios publicados</button>
+            <button id="gest_solicitudes" [class]="ctrl_menu==1?'active':''" (click)="ctrl_menu =1">Solicitudes</button>
+            <button id="ges_bloqueados" [class]="ctrl_menu==2?'active':''" (click)="ctrl_menu =2">Negocios bloqueados</button>
         </div>
     </div>
 
@@ -14,8 +14,6 @@
         
         <app-admin-market-solicitudes *ngIf="ctrl_menu == 1"></app-admin-market-solicitudes>
         
-        <app-admin-home-reportes *ngIf="ctrl_menu == 2"></app-admin-home-reportes>
+        <app-am-bloqueados *ngIf="ctrl_menu == 2"></app-am-bloqueados>
     </div>
 </div>
-
-<app-admin-market-publicados-show *ngIf="ctrl_show_negocio" (BoolShow)="CerrarShow($event)"></app-admin-market-publicados-show>

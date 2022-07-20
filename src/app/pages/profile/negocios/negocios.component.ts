@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { NegociosService } from 'src/app/services/negocios/negocios.service';
 import { environment } from 'src/environments/environment';
 import { GeoLocationService } from 'src/app/services/location/geo-location.service';
@@ -6,6 +6,7 @@ import { Vacio, VacioU, SoloLetra, SoloNumero  } from '../../../../assets/script
 import { ConfigService } from 'src/app/services/config/config.service';
 import { ControlService } from 'src/app/services/control/control.service';
 
+declare var google:any;
 declare var $: any;
 
 @Component({
@@ -13,32 +14,29 @@ declare var $: any;
     templateUrl: './negocios.component.html',
     styleUrls: ['./negocios.component.scss']
 })
-export class NegociosComponent implements OnInit {
+export class NegociosComponent implements OnInit, AfterViewInit {
 
-    @ViewChild('map_canvas',{static:false}) mapElement: ElementRef | undefined;
+    @ViewChild('map_canvas',{static:false}) mapElement: ElementRef | any;
 
     constructor(
         private GeoLocationService: GeoLocationService,
         private NegociosService:NegociosService,
         private ConfigService:ConfigService,
         private ControlService:ControlService
-    ) { }
+    ) { 
+        
+    }
+
 
     ngOnInit(): void {
-        
         navigator.geolocation.getCurrentPosition((position) => {
-            this.center = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            }
-            this.marker.position={
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            }
-        })
-
-        this.GeoLocationService.getCountries().then(res => {
-            this.locaciones = res;
+            this.lat= position.coords.latitude;
+            this.lng= position.coords.longitude;
+            console.log("asdsd", position.coords.latitude)
+        });
+        this.GeoLocationService.getStates('Spain').then(res => {
+            this.estados = res;
+            this.loading = false;
         });
 
         if(sessionStorage.getItem("usuario")){
@@ -62,32 +60,12 @@ export class NegociosComponent implements OnInit {
         })
     }
 
-
-    center: google.maps.LatLngLiteral={
-        lat:0,
-        lng:0
-    };
-    options: google.maps.MapOptions = {
-        mapTypeId: 'terrain',
-        zoomControl: false,
-        scrollwheel: true,
-        disableDoubleClickZoom: true,
-        maxZoom: 18,
-        minZoom: 16,
-        streetViewControl:false,
-        mapTypeControl:false
+    ngAfterViewInit(): void {
+        console.log(this.mapElement)
     }
 
-    marker:any={
-        position:{
-            lat: 0,
-            lng: 0,
-        },
-        options:{
-
-        }
-    };
-    
+    lat=0;
+    lng=0; 
     //!DATA===========================================================================================================
     //?CARGA=================================================================================
     map: any;
@@ -108,7 +86,7 @@ export class NegociosComponent implements OnInit {
         },
         p2:{
             direccion:null,
-            pais:null,
+            pais:'Spain',
             estado:null,
             ciudad:null,
             latitud:null,
@@ -121,7 +99,9 @@ export class NegociosComponent implements OnInit {
     img_length=0;
     intereses_name:any=[];
     user_imagen_show:any=[];
-
+    user_imagen_load:any=[];
+    user_imagen_new:any=[];
+    urls_delete:any=[];
     show_negocio:any;
     //?CONTROL=================================================================================
     url = environment.server;
@@ -135,6 +115,7 @@ export class NegociosComponent implements OnInit {
     ctrl_servicios: any = [];
     servicios_name:any="";
     id_delete=null;
+    is_update=false;
     //? DISPLAY==========================================================
     display_interes:boolean=false;
     display_pais:boolean=false;
@@ -147,27 +128,20 @@ export class NegociosComponent implements OnInit {
     ciudad_filtro:any=[];
 
 
-        //!FUNCIONES===========================================================================================================
+    //!FUNCIONES===========================================================================================================
     //?CARGA=================================================================================
-    CargarImagen() {
-        // Camera.getPhoto({
-        //     quality: 40,
-        //     source: CameraSource.Photos,
-        //     resultType: CameraResultType.Uri
-        // }).then(async res=>{
-        //     console.log(res);
-        //     let blob = await fetch(res.webPath).then(r => r.blob());
-        //     const reader = new FileReader();
-        //     reader.onload = (e: any) => {
-        //         this.user_imagen_show.push({img:e.target.result, id:this.img_length+1});
-        //     }
-        //     reader.readAsDataURL(blob);
-        //     this.img_length+=1;
+    SelectImg() {
+        $("#img").trigger("click");
+    }
 
-        //     this.formData.append("imagen"+this.img_length, blob);
-            
-        // });
- 
+    CargarImagen(event: any) {
+        const reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        let file = event.target.files[0];
+
+        reader.onload = (e: any) => {
+            this.user_imagen_show.push({img:e.target.result, id:this.img_length+1,blob:file});
+        }
     }
 
     CargarEstados() {
@@ -207,6 +181,7 @@ export class NegociosComponent implements OnInit {
     }
 
     //?GESTION=================================================================================
+    
     filtrarSelect(id:any){
         var res = this.ctrl_servicios.filter( (res:any) => res == id);
         return res.length > 0 ? true:false;
@@ -240,54 +215,62 @@ export class NegociosComponent implements OnInit {
     }
 
     async initMap() {
-        // const coordinates = await Geolocation.getCurrentPosition();
-        // var longitude =coordinates.coords.longitude
-        // var latitude = coordinates.coords.latitude
-        // this.negocio.p2.latitud = latitude;
-        // this.negocio.p2.longitud = longitude;
-        // var latLng = new google.maps.LatLng(latitude,longitude);
-        // this.map = new google.maps.Map(this.mapElement.nativeElement);
-        // var mapOptions = {
-        // center: latLng,
-        // zoom: 17,
-        // controls: {
-        //     'myLocationButton': true,
-        //     'myLocation': true
-        // },
-        // styles: [
-        //     {
-        //     "featureType": "all",
-        //     "stylers": [
-        //         { "visiblity": "hidden" }
-        //     ]
-        //     }
-        // ],
-        // disableDefaultUI: true
-        // };
-        // this.map.setOptions(mapOptions);
-
-        // let marker = new google.maps.Marker({
-        //     position: {lat:latitude, lng:longitude},
-        //     map: this.map,
-        //     draggable: true,
-        //     title: 'Ma position',
-        //     icon: 'assets/my_location.png'
-        //     });
-
-        // google.maps.event.addListener(this.map, 'click', (evt) =>{
-        //     var pos = {
-        //         lat: evt.latLng.lat(),
-        //         lng: evt.latLng.lng()
-        //     };
-        //     marker.setPosition(pos);
-        //     this.negocio.p2.latitud = pos.lat;
-        //     this.negocio.p2.longitud = pos.lng;
-        //     // this.map.setCenter(pos);
-
-        //     console.log(evt.latLng.lat() + ' Current Lng: ' + evt.latLng.lng())
-        // })
         
+        var longitude =null
+        var latitude = null;
         
+        if( VacioU(this.negocio.p2.latitud)){
+            this.negocio.p2.latitud = this.lat;
+            this.negocio.p2.longitud =this.lng;
+            
+        }else{
+            let arrLong=this.negocio.p2.latitud.split(".");
+            this.lng = parseFloat( this.negocio.p2.longitud);
+            this.lat =  parseFloat( this.negocio.p2.latitud); 
+            console.log("latitud:"+ parseFloat( this.negocio.p2.latitud) + " long:"+ parseFloat( this.negocio.p2.longitud))
+        }
+        var latLng = new google.maps.LatLng(this.lat ,this.lng);
+        console.log("latLng:"+latLng)
+        this.map = new google.maps.Map(this.mapElement.nativeElement);
+        var mapOptions = {
+        center: latLng,
+        zoom: 17,
+        controls: {
+            'myLocationButton': true,
+            'myLocation': true
+        },
+        styles: [
+            {
+            "featureType": "all",
+            "stylers": [
+                { "visiblity": "hidden" }
+            ]
+            }
+        ],
+        disableDefaultUI: true
+        };
+        this.map.setOptions(mapOptions);
+        
+        let marker = new google.maps.Marker({
+            position: {lat:this.lat, lng:this.lng},
+            map: this.map,
+            draggable: true,
+            title: 'Ma position',
+            icon: 'assets/my_location.png'
+            });
+
+        google.maps.event.addListener(this.map, 'click', (evt:any) =>{
+            var pos = {
+                lat: evt.latLng.lat(),
+                lng: evt.latLng.lng()
+            };
+            marker.setPosition(pos);
+            this.negocio.p2.latitud = pos.lat;
+            this.negocio.p2.longitud = pos.lng;
+            // this.map.setCenter(pos);
+
+            console.log(evt.latLng.lat() + ' Current Lng: ' + evt.latLng.lng())
+        })     
     }
 
     SelectPais(pais:string){
@@ -308,11 +291,43 @@ export class NegociosComponent implements OnInit {
     }
 
     CrearNegocio(){
+
+        this.user_imagen_show.forEach((car: any, index: any, object: any) => {
+            if(car.blob){
+                this.img_length+=1;
+                this.formData.append("imagen"+this.img_length, car.blob);
+            }
+        })
         this.formData.append("length", ""+this.img_length);
         this.formData.append("negocio",JSON.stringify(this.negocio))
         this.loading_global=true;
         this.NegociosService.CrearNegocio(this.formData).then(res=>{
             this.CargarNegocios().then(res=>{
+                this.display_create = false;
+                this.display_main = true;
+            })
+        });
+    }
+
+    UpdateNegocio(){
+        this.negocio.p2.latitud = this.negocio.p2.latitud.toString();
+        this.negocio.p2.longitud = this.negocio.p2.longitud.toString();
+        
+        this.user_imagen_show.forEach((car: any, index: any, object: any) => {
+            if(car.blob){
+                this.img_length+=1;
+                this.formData.append("imagen"+this.img_length, car.blob);
+            }
+        })
+
+        this.formData.append("length", ""+this.img_length);
+        this.formData.append("negocio",JSON.stringify(this.negocio))
+        this.formData.append("img_delete",JSON.stringify(this.urls_delete ))
+        this.loading_global=true;
+
+        this.NegociosService.UpdateNegocio(this.show_negocio.id, this.formData).then(res=>{
+            this.CargarNegocios().then(res=>{
+                this.Limpiar();
                 this.display_create = false;
                 this.display_main = true;
             })
@@ -330,6 +345,33 @@ export class NegociosComponent implements OnInit {
             })
 
         });
+    }
+
+    DeleteImg(img:any, tipo:number){
+        if(tipo == 1){
+            this.user_imagen_load.forEach((car: any, index: any, object: any) => {
+                
+                if (car == img) {
+                    this.urls_delete.push(img);
+                    object.splice(index, 1);
+                }
+            });
+            this.user_imagen_show.forEach((car: any, index: any, object: any) => {
+               
+                if (car == img) {
+                    object.splice(index, 1);
+                }
+            });
+        }else{
+            this.user_imagen_show.forEach((car: any, index: any, object: any) => {
+
+                if (car == img) {
+                    object.splice(index, 1);
+                }
+            });
+
+        }
+
     }
     
     //?CONTROL=================================================================================
@@ -370,6 +412,29 @@ export class NegociosComponent implements OnInit {
     OpenDelete(){
         $(".table-options").css("display", "none");
         this.display_delete = true
+    }
+
+    OpenUpdate(){
+        this.negocio.p1.nombre = this.show_negocio.nombre;
+        this.negocio.p1.categoria = this.show_negocio.categoria;
+        this.negocio.p1.telefono = this.show_negocio.telefono;
+        this.negocio.p1.pagina = this.show_negocio.web;
+        this.negocio.p1.descripcion = this.show_negocio.descripcion;
+        this.negocio.p2.direccion = this.show_negocio.direccion;
+        this.negocio.p2.pais = this.show_negocio.pais;
+        this.negocio.p2.estado = this.show_negocio.estado;
+        this.negocio.p2.ciudad = this.show_negocio.ciudad;
+        this.negocio.p2.latitud = this.show_negocio.latitud;
+        this.negocio.p2.longitud = this.show_negocio.longitud;
+        this.ctrl_servicios.push(this.show_negocio.categoria);
+        this.servicios_name = this.ControlService.servicios[this.show_negocio.categoria]
+        this.display_create=true;
+        this.display_show=false;
+        this.fase=1;
+        this.user_imagen_load= this.show_negocio.images.split(',');
+        this.user_imagen_show= this.show_negocio.images.split(',');
+        this.is_update =true;
+        this.initMap()
     }
 
     Vacio(obj:any){
@@ -453,6 +518,23 @@ export class NegociosComponent implements OnInit {
 
     Close(){
         this.ConfigService.toggleConfig()
+    }
+
+    Limpiar(){
+        this.negocio.p1.nombre=null;
+        this.negocio.p1.categoria=null;
+        this.negocio.p1.telefono=null;
+        this.negocio.p1.pagina=null;
+        this.negocio.p1.descripcion=null;
+        this.negocio.p2.pais=null;
+        this.negocio.p2.estado=null;
+        this.negocio.p2.ciudad=null;
+        this.negocio.p2.latitud=null;
+        this.negocio.p2.longitud=null;
+        this.servicios_name=[];
+        this.formData= new FormData()
+        this.img_length=0;
+        this.urls_delete=[];
     }
 
 }

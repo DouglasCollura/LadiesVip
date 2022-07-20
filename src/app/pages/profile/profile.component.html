@@ -6,43 +6,52 @@
 
         <div class="content">
             <div class="content-img">
-                <img [src]="url+datos.img_route" alt="">
-
+                <img *ngIf="!guest" [src]="url+datos.img_route" alt="">
+                <img *ngIf="guest" src="../../../assets/imagenes/splash-min.png" alt="">
             </div>
             <div>
                 <h1> {{datos.name}} </h1>
-                <h4> {{GetEdad()}} años • {{datos.estado}}, {{datos.pais}} </h4>
+                <h4 *ngIf="!guest"> {{GetEdad()}} {{"perfil.anios" | translate}} • {{datos.estado}}, {{datos.pais}} </h4>
             </div>       
             
             <div class="gestion">
-                <button>
+                <button *ngIf="!premium && !guest" (click)="OpenPlanes()">
                     <img  src="../../../../assets/imagenes/be-premium.png" alt="">
-                    SER PREMIUM
+                    {{"perfil.btn_premium" | translate}}
                 </button>
 
-                <button (click)="OpenAnuncios()" >
-                    <img  src="../../../../assets/imagenes/create-ads.png" alt="">
-                    <span *ngIf="!myadd"> CREAR ANUNCIO</span>
-                <span *ngIf="myadd"> EDITAR ANUNCIO</span>
+                <button *ngIf="guest" (click)="GoLanding()" >
+                    <img  src="../../../../assets/imagenes/be-premium.png" alt="">
+                    {{"perfil.btn_registrar" | translate}}
+                </button>
+
+                <button (click)="OpenAnuncios()" *ngIf="mypack != null" >
+                    <img  [src]="'../../../../assets/imagenes/'+img_pack" alt="">
+                    <span *ngIf="!myadd"> {{"perfil.btn_crear" | translate}}</span>
+                    <span *ngIf="myadd"> {{"perfil.btn_editar" | translate}}</span>
+                </button>
+                <button (click)="OpenPacks()" *ngIf="mypack == null" >
+                    <img  [src]="'../../../../assets/imagenes/pack-add-standar.png'" alt="">
+                    <span >{{"perfil.btn_crear" | translate}}</span>
                 </button>
             </div>
 
         </div>
 
-        <button id="favoritos" class="btn"> <span class="icon icon-start"></span> </button>
+        <button id="favoritos" (click)="OpenFavorito()" class="btn"> <span class="icon icon-start"></span> </button>
 
     </div>
 
     <div class="section-promo">
 
         <div class="promo">
-            <h3>NUESTRAS PROMOCIONES</h3>
+            <h3>{{"perfil.carrucel.subtitle" | translate}}</h3>
 
             <img src="../../../../assets/imagenes/diamont-gold.svg" alt="">
     
-            <h1 class="font-600">Promoción Plus </h1>
+            <h1 class="font-600">{{"perfil.carrucel.titulo_2" | translate}}  </h1>
     
-            <h3>1 anuncio • 10 renovaciones/boost</h3>
+            <h3>1 {{"perfil.carrucel.anuncio" | translate}} • 10 {{"perfil.carrucel.boost" | translate}}</h3>
         </div>
 
         <div class="slide-points">
@@ -58,3 +67,24 @@
 <app-config *ngIf="display_config"></app-config>
 
 <app-anuncio *ngIf="display_anuncio"></app-anuncio>
+
+<app-planes (Cerrar)="ClosePlanes()" *ngIf="display_planes"></app-planes>
+
+<app-packs-anuncios (Cerrar)="ClosePacks()" *ngIf="display_packs" ></app-packs-anuncios>
+
+<app-favorito (Cerrar)="CloseFavorito()" *ngIf="display_favorito" ></app-favorito>
+
+
+<div class="container alert"  *ngIf="alert_guest">
+
+    <div class="content">
+        <button class="btn close" (click)="alert_guest=false"  ><span class="icon icon-close"></span></button>
+
+        <h1>{{"home.val_gest_1.titulo" | translate}}</h1>
+
+        <h4>{{"home.val_gest_1.parrafo" | translate}}</h4>
+
+        <button class="btn premium"(click)="GoLanding()" >{{"home.val_gest_1.btn_premium" | translate}}</button>
+    </div>
+
+</div>

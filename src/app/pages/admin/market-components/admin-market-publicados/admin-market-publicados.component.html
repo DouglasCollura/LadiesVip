@@ -2,16 +2,24 @@
     <div class="flex-d-row align-items-center gap-10">
         <div class="group-input-icon-left">
             <span class="icon icon-search"></span>
-            <input type="text" class="input-square" placeholder="Buscar">
+            <input 
+                type="text" 
+                class="input-square" 
+                placeholder="Buscar"
+                [(ngModel)]="busqueda" 
+                (keyup.enter)="Buscar()" 
+                (keyup.backspace)="busqueda ==''&&Buscar()"
+            >
+
         </div>
-        <button class="btn btn-square">Filtrar <span class="icon icon-filter"></span> </button>
+        <button class="btn btn-square" id="open_filtro" (click)="display_filtro =true" >Filtrar <span class="icon icon-filter"></span> </button>
     </div>
 
-    <button class="btn-primary-invert" (click)="ctrl_modal_negocio = true">Agregar negocio</button>
+    <button class="btn-primary-invert" (click)="OpenNew()">Agregar negocio</button>
 
 </div>
 
-<div class="grid align-content-start">
+<div class="grid align-content-start" *ngIf="!display_show" >
     <table>
         <thead>
             <th>NOMBRE DEL NEGOCIO</th>
@@ -22,26 +30,46 @@
             <th></th>
         </thead>
 
-        <tbody>
-            <tr *ngFor="let number of [0,1,2,3,4]; let i = index">
-                <td>Masajes Happy end</td>
-                <td>matiassaldivar@gmail.com</td>
-                <td>+34  984 572 496</td>
-                <td>Barcelona, España</td>
+        <tbody *ngIf="negocios_busqueda.length == 0 && !loading_tab">
+            <tr *ngFor="let negocio of negocios.data; let i = index">
+                <td> {{negocio.nombre}} </td>
+                <td>{{negocio?.user?.email ? negocio?.user?.email: negocio?.user_email}}</td>
+                <td>+{{negocio?.user?.code_phone}} {{negocio?.telefono}}</td>
+                <td>{{negocio?.estado}}, {{negocio?.pais}}</td>
                 <td >
-                    <button (click)="OpenShow()"><i class="icon icon-eyes"></i></button>
+                    <button (click)="OpenShow(negocio)"><i class="icon icon-eyes"></i></button>
                 </td>
                 <td style="position: relative;">
-                    <button (click)="ToggleOptionTable(i)"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
-                    <div class="table-options"  [id]="i">
-                        <button class="btn-icon" (click)="OpenEditNegocio()"> <i class="icon icon-square-edit"></i> Editar negocio </button>
-                        <button class="btn-icon" (click)="OpenModalBloqueo()"> <i class="icon icon-alert"></i> Bloquear negocio </button>
+                    <button (click)="ToggleOptionTable(i+1)" class="btnToggle" ><i style="font-size: 5px;" class="icon icon-dots-horizontal "></i></button>
+                    <div class="table-options"  [class]="ctrl_opt == i+1? 'show':'' "  [id]="i">
+                        <button class="btn-icon" (click)="OpenEditNegocio(negocio)"> <i class="icon icon-square-edit"></i> Editar negocio </button>
+                        <button class="btn-icon" (click)="OpenModalBloqueo(negocio)"> <i class="icon icon-alert"></i> Bloquear negocio </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody *ngIf="negocios_busqueda.length != 0 && !loading_tab">
+            <tr *ngFor="let negocio of negocios_busqueda; let i = index">
+                <td> {{negocio.nombre}} </td>
+                <td>{{negocio?.user?.email ? negocio?.user?.email: negocio?.user_email}}</td>
+                <td>+{{negocio?.user?.code_phone}} {{negocio?.telefono}}</td>
+                <td>{{negocio?.estado}}, {{negocio?.pais}}</td>
+                <td >
+                    <button (click)="OpenShow(negocio)"><i class="icon icon-eyes"></i></button>
+                </td>
+                <td style="position: relative;">
+                    <button (click)="ToggleOptionTable(i+1)" class="btnToggle" ><i style="font-size: 5px;" class="icon icon-dots-horizontal "></i></button>
+                    <div class="table-options"  [class]="ctrl_opt == i+1? 'show':'' "  [id]="i">
+                        <button class="btn-icon" (click)="OpenEditNegocio(negocio)"> <i class="icon icon-square-edit"></i> Editar negocio </button>
+                        <button class="btn-icon" (click)="OpenModalBloqueo(negocio)"> <i class="icon icon-alert"></i> Bloquear negocio </button>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
+<div *ngIf="loading_tab" class="loading"></div>
 
 
 <!-- ! MODAL AGREGAR NEGOCIO ================================================= -->
@@ -364,7 +392,7 @@
         </div>
 
         <div class="grid">
-            <button class="btn-delete"(click)="BloquearNegocio()" >Eliminar cuenta</button>
+            <button class="btn-delete"(click)="BloquearNegocio()" >Bloquear negocio</button>
             <button class="btn-cancel" (click)="CloseModalBloqueo()">Cancelar</button>
         </div>
     </div>
@@ -373,3 +401,147 @@
 
 
 <app-modales></app-modales>
+
+<app-admin-market-publicados-show *ngIf="display_show" (BoolShow)="CerrarShow($event)"></app-admin-market-publicados-show>
+
+<app-create-market *ngIf="display_create" (Cerrar)="CloseModalEdit()" ></app-create-market>
+
+<div class="container"  *ngIf="loading">
+    <div  class="loading align-self-center" > </div>
+</div>
+
+
+<div class="modal-filtro" *ngIf="display_filtro" >
+    <h3 class="font-500"> <span class="icon icon-filter"></span> Filtrar por</h3>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">TIPO DE NEGOCIO</h5>
+        </div>
+
+        <div class="form-group">
+            <label for="">Categoría</label>
+            <select name="" [(ngModel)]="sel_categoria"  id="">
+                <option value="0">Masajes eróticos</option>
+                <option value="1">Juguetes sexuales</option>
+                <option value="2">Espacios sexuales</option>
+                <option value="3">Agencia matrimonial</option>
+                <option value="4">Otros</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">LOCALIDAD</h5>
+        </div>
+
+        <div class="form-group">
+            <label for="">Pais </label>
+            <select name="" id="">
+                <option value="0" selected disabled>Spain</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">Estado </label>
+            <button class="btn btn-select" (click)="display_estado = true" > {{sel_estado}} <span class="icon icon-chevron-down"></span> </button>
+        </div>
+
+        <div class="form-group">
+            <label for="">Ciudad </label>
+            <button class="btn btn-select" (click)="  display_ciudad = true" > {{sel_ciudad}} <span class="icon icon-chevron-down"></span> </button>
+        </div>
+    </div>
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">FECHA</h5>
+        </div>
+
+        <div class="group-fecha">
+            <input type="date" [(ngModel)]="fecha_desde" >
+            <div class="line-h"></div>
+            <input type="date" [(ngModel)]="fecha_hasta">              
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" (click)="Filtrar()">Filtrar <span *ngIf="load" class="icon icon-loader"></span> </button>
+
+
+    <!-- ? ESTADO ============================================== -->
+    <div class="bg-card fadeIn"  *ngIf="display_estado">
+        <div class="card-option onUp" >
+            <div class="card-option-header">
+                <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+                <h3 class=" justify-self-center text-center font-600">Estado</h3>
+
+                <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+            </div>
+
+            <div class="card-option-search">
+                <div class="group-input-icon-left">
+                    <!-- <span class="icon icon-search"></span>
+                    <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar"> -->
+                </div>
+            </div>
+            <div *ngIf="load_sel" class="loading"></div>
+            <div class="card-option-body" *ngIf="estado_filtro.length == 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estados;let i = index">
+                    <label [for]="i"> {{estado.state_name}}</label>
+                    <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+            <div class="card-option-body" *ngIf="estado_filtro.length != 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estado_filtro;let i = index">
+                    <label [for]="i"> {{estado.state_name}} </label>
+                    <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ? CIUDAD ============================================== -->
+    <div class="bg-card fadeIn"  *ngIf="display_ciudad">
+        <div class="card-option onUp" >
+            <div class="card-option-header">
+                <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+                <h3 class=" justify-self-center text-center font-600">Ciudad</h3>
+
+                <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+            </div>
+
+            <div class="card-option-search">
+                <div class="group-input-icon-left">
+                    <!-- <span class="icon icon-search"></span>
+                    <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar"> -->
+                </div>
+            </div>
+
+            <div *ngIf="load_sel" class="loading"></div>
+
+            <h2 class="text-center" *ngIf="ciudades.length == 0">No posee, continue a la siguiente fase</h2>
+            <div class="card-option-body" *ngIf="ciudad_filtro.length == 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudades;let i = index">
+                    <label [for]="i"> {{ciudad.city_name}}</label>
+                    <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+            <div class="card-option-body" *ngIf="ciudad_filtro.length != 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudad_filtro;let i = index">
+                    <label [for]="i"> {{ciudad.city_name}} </label>
+                    <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+

@@ -5,45 +5,32 @@
 
     <div class="content-notify">
 
-        <div class="card-notify">
+        <div class="card-notify-sms" *ngFor="let item of notifys" >
 
             <div class="card-notify-img">
                 <img src="../../../assets/imagenes/pack-gold.png">
             </div>
 
-            <div>
-                <p>Prueba el Pack de anuncios Standard, el primer mes es gratis!</p>
+            <div class="card-notify-content-sms" *ngIf="item.tipo == 1" >
+                <p class="title" >Renueva tu paquete</p>
+                <p class="content" >Tu paquete está proximo a vencer, renuevalo.</p>
+            </div>
+
+            <div class="card-notify-content-sms" *ngIf="item.tipo == 2" >
+                <p class="title" >Renueva tu plan</p>
+                <p class="content" >Tu plan está proximo a vencer, renuevalo.</p>
+            </div>
+
+            <div class="grid align-items-center" *ngIf="item.tipo == 1">
+                <button class="btn-primary-invert" (click)="GoPlacks()" >Renovar</button>
+            </div>
+
+            <div class="grid align-items-center" *ngIf="item.tipo == 2">
+                <button class="btn-primary-invert" (click)="GoPlan()" >Renovar</button>
             </div>
 
         </div>
 
-        <div class="card-notify-sms">
-
-            <div class="card-notify-img">
-                <img src="../../../assets/imagenes/user_example.jpg">
-            </div>
-
-            <div class="card-notify-content-sms">
-                <p>Tienes un nuevo mensaje de Samuel Rodrigue asdasdasdasdasdz</p>
-            </div>
-
-            <div>
-                <button class="btn-primary-invert">Ver mensaje</button>
-            </div>
-
-        </div>
-
-        <div class="card-notify">
-
-            <div class="card-notify-img">
-                <img src="../../../assets/imagenes/pack-gold.png">
-            </div>
-
-            <div>
-                <p>Prueba el Pack de anuncios Standard, el primer mes es gratis!</p>
-            </div>
-
-        </div>
 
     </div>
 

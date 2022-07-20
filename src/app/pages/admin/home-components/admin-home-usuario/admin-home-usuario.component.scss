@@ -1,0 +1,87 @@
+.card-user{
+    display: grid;
+    grid-template-rows: 20px repeat(2, 1fr);
+}
+
+.temp-card-delete{
+    max-width: 320px;
+    padding: 25px;
+}
+
+.temp-modal-bloqueo{
+    max-width: 320px;
+}
+
+.btn-delete, .btn-cancel, .btn-option,.btn-alert{
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    color: var(--alerts-error);
+}
+
+.temp-card-bloquear{
+    max-width: 315px;
+}
+
+
+.btn-alert{
+    color: var(--alerts-info) !important;
+}
+
+
+.btn-cancel{
+    color: var(--neutro-500);
+}
+
+.btn-option{
+    text-align: start;
+    font-size: 18px;
+    color: var(--neutro-600);
+}
+
+.btn-option:hover{
+
+    color: var(--neutro-800);
+}
+
+.btn-select{
+    border: 1px solid var(--neutro-300) !important;
+    span{
+        font-size: 6px !important;
+        color: var(--neutro-500) !important;
+    }
+    justify-content: space-between; 
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    min-height: 45px;
+    color: var(--neutro-500) !important;
+
+    *{
+        color: var(--neutro-500) !important;
+    }
+}
+
+
+.card-option{
+    bottom: auto !important;
+    position: fixed !important;
+    width: 330px !important;
+
+    &-body{
+        max-height: calc(80vh - 200px) !important;
+    }
+}
+
+.show{
+    display: grid !important;
+}
+
+.sub-red{
+    td>*:not(button):not(div){
+        color: var(--alerts-error) !important;
+        text-decoration: line-through !important ;
+    }
+}

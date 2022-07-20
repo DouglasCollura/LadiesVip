@@ -1,0 +1,318 @@
+.card{
+    padding: 0px !important; 
+    grid-gap: 5px !important;
+}
+.temp-modal-delete{
+    max-width: 320px;
+    padding: 20px 25px;
+}
+
+.temp-modal-bloqueo{
+    max-width: 320px;
+}
+
+.btn-delete, .btn-cancel, .btn-option{
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    width: 100%;
+    color: var(--alerts-error);
+}
+
+.btn-cancel{
+    color: var(--neutro-500);
+}
+
+.btn-option{
+    text-align: start;
+    font-size: 18px;
+    color: var(--neutro-600);
+}
+
+.btn-option:hover{
+
+    color: var(--neutro-800);
+}
+
+.btnOpenWhatsapp{
+    background-color: #00CD89;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    align-items: center;
+}
+
+.card-anuncio{
+    height: 650px !important;
+    max-width: 375px !important;
+    position: relative;
+    display: grid;
+    grid-template-rows: 310px auto !important;
+
+
+    .content{
+        padding: 10px 20px;
+        display: grid;
+        align-content: space-between;
+        overflow-y: auto;
+        max-height: calc(100% - 50px);
+    }
+
+}
+
+.card-anuncios-img{
+    position: relative;
+    top: 0px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 300px;
+    width: 100%;
+    display: grid;
+    overflow: hidden;
+    img{
+        position: absolute;
+        align-self: center;
+        width: 100%;
+        height: 100%;
+        object-fit:cover;
+    }
+
+}
+
+
+.close{
+    z-index: 2;
+    position: absolute;
+    top: 10px;
+    padding: 10px;
+    right: 10px;
+    background-color: rgba(69,69,69,.5);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    span{
+        color: white !important;
+    }
+}
+
+
+.content-redes{
+    display: grid;
+    width: 200px;
+    grid-auto-flow: column;
+    justify-content: space-around;
+
+    .notallow{
+        cursor: not-allowed !important;
+        filter: grayscale(.9) !important;
+        -webkit-filter: grayscale(.9) !important;
+    }
+
+    button{
+        background: none;
+        padding: none;
+        border: none;
+        width: max-content;
+        height: max-content;
+        cursor: pointer;
+    }
+
+    
+}
+
+.control_ads{
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.12);
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-around;
+    height: 50px;
+    padding: 5px 0px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    .btn-disable{
+        cursor: pointer !important;
+    }
+}
+
+.display-toogle{
+    display: grid !important;
+}
+
+.btn-carrusel{
+    position: absolute;
+    align-self: center;
+    background-color: rgba(255,255,255,.4);
+    color: black;
+    z-index: 10;
+    span{
+        color:black !important;
+    } 
+    padding: 12px 15px;
+    height: max-content;
+}
+
+.points-group{
+    position: absolute;
+    bottom: 0px;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    width: 100%;
+    height: 20px;
+    align-content: center;
+    align-items:center;
+    justify-content: center;
+    flex-direction: row;
+    gap:6px;
+    .point{
+        width: 10px;
+        height: 10px;
+        background-color: #fff;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+
+        &-active{
+            @extend .point;
+            background-color: var(--primario-rosa-2);
+        }
+    }
+}
+
+.btn-select{
+    border: 1px solid var(--neutro-300) !important;
+    span{
+        font-size: 6px !important;
+        color: var(--neutro-500) !important;
+    }
+    justify-content: space-between; 
+    width: 100%;
+    display: grid;
+    grid-auto-flow: column;
+    min-height: 45px;
+    color: var(--neutro-500) !important;
+
+    *{
+        color: var(--neutro-500) !important;
+    }
+}
+
+.card-option{
+    bottom: auto !important;
+    position: fixed !important;
+    width: 330px !important;
+
+    &-body{
+        max-height: calc(80vh - 200px) !important;
+    }
+}
+
+// ! VIDEO ================================================================================
+.content-vid{
+    position: fixed;
+    place-self: center;
+    width: 370px;
+    height: 650px;
+    z-index: 10;
+}
+
+.btn-play{
+    position: absolute;
+    z-index: 10;
+    width: 50px;
+    height: 50px;
+    place-self: center;
+    background: none;
+    border: none;
+    z-index: 2;
+}
+
+
+.play-video-prev{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    display: grid;
+    place-items: center;
+    backdrop-filter: blur(3px);
+    place-self: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.icon-play{
+    background-image: url('../../../../../assets/imagenes/play.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.btn-back{
+    position: absolute;
+    width: 45px;
+    padding: 0px !important;
+    height: 45px;
+    top: 10px;
+    z-index: 15;
+    left: 5px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.36);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    span{
+        color:white !important
+    }
+}
+
+.group-btn-identidad{
+    display: flex;
+    align-content: flex-start;
+    flex-wrap:wrap;
+    grid-gap: 7px;
+    padding: 10px;
+}
+.btn-genero{
+    padding: 11px 15px !important;
+    border: 1px solid var(--neutro-300);
+    color: var(--neutro-400) !important;
+    &-active{
+        border: 1px solid var(--primario-rosa-2);
+        color: var(--primario-rosa-2);
+    }
+}
+
+.form-location{
+    button{
+        width: 100%;
+        border: 1px solid var(--neutro-300);
+        color:var(--neutro-600) !important;
+        height: 50px;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: stretch;
+        span{
+            font-size: 8px;
+            justify-self: end;
+        }
+    }
+}
+
+.show{
+    display: grid !important;
+}
+

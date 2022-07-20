@@ -4,6 +4,8 @@ import { AuthServiceService } from 'src/app/services/auth/auth-service.service';
 import { GeoLocationService } from 'src/app/services/location/geo-location.service';
 import { LoginServiceService } from '../login/login-service.service';
 import { SignupService } from '../signup/signup.service';
+import {TranslateService} from '@ngx-translate/core';
+
 declare var $: any;
 
 @Component({
@@ -17,14 +19,29 @@ export class LandingComponent implements OnInit {
         private ApiService:ApiService,
         private GeoLocationService:GeoLocationService,
         private LoginServiceService:LoginServiceService,
-        private SignupService:SignupService
+        private SignupService:SignupService,
+        private translate: TranslateService 
+
     ) {
+        translate.setDefaultLang('es');
+        if(localStorage.getItem('lang')){
+            console.log(localStorage.getItem('lang'))
+            this.lang=localStorage.getItem('lang')
+            translate.use(localStorage.getItem('lang') || '');
+        }else{
+            this.lang='es'
+        }
     }
 
     load_login:boolean = false;
     load_signup:boolean = false;
     blur = false;
     displayDev:boolean=false;
+    display_inv:boolean=false;
+    inv:boolean=false;
+    display_promo:boolean=false;
+    checkterm:boolean=false;
+    lang:any;
 
     @Input() IMPORTCLOSE:any;
 
@@ -34,6 +51,8 @@ export class LandingComponent implements OnInit {
     }
 
     LoadSignUp(): void{
+        this.display_inv=false;
+
         this.SignupService.toggle()
     }
 
@@ -66,5 +85,26 @@ export class LandingComponent implements OnInit {
         
     }
 
+
+    LogInAsGuest(){
+        sessionStorage.setItem('guest', 'true');
+        location.href='/home'
+    }
+
+    OpenPromo(){
+        this.display_promo=true;
+    }
+
+    ClosePromo(){
+        this.display_promo=false;
+    }
+
+    SetLang(lang:string){
+        localStorage.setItem('lang',lang)
+        this.translate.use(lang)
+        // setTimeout(()=>{
+        //     location.reload()
+        // },500)
+    }
 
 }

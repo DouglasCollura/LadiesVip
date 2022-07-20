@@ -7,21 +7,21 @@
         <div class="temp-signup">
             <div class="subcard-18">
                 <h1 >+18</h1>
-                <h5>MAYORES DE EDAD</h5>
+                <h5>{{"crear_cuenta.card_18" | translate}}</h5>
             </div>
 
             <div class="section-signup-left">
                 <div class="grid" style="grid-gap:20px">
-                    <h1 class="signup-title">Crear cuenta</h1>
+                    <h1 class="signup-title">{{"crear_cuenta.titulo" | translate}}</h1>
                     <h5 class="">
-                        Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros
-                        <button class="btn-link">Términos y condiciones</button>  y con nuestra
-                        <button class="btn-link">Política de Privacidad</button>
+                        {{"iniciar_sesion.text_1" | translate}}
+                        <a routerLink="terminos"> {{"configuracion.seccion_legales.btn_terminos" | translate}}</a>{{"iniciar_sesion.text_2" | translate}}
+                        <a  routerLink="politicas" > {{"configuracion.seccion_legales.btn_ayuda" | translate}}</a>
                     </h5>
                 </div>
 
                 <div class="grid justify-items-center gap-20">
-                    <h3 class="text-center">Continuar con</h3>
+                    <h3 class="text-center">{{"iniciar_sesion.continuar" | translate}}</h3>
                     <div class="group-logins">
                         <button class="btn-type-login" (click)="signUpFacebook()"> <img src="../../assets/imagenes/Facebook.png" alt="">  </button>
                         <button class="btn-type-login" (click)="signUpGoogle()"> <img src="../../assets/imagenes/Google.png" alt="">  </button>
@@ -30,8 +30,8 @@
                 </div>
 
                 <div class="display-column">
-                    <h5>¿Ya tienes una cuenta?</h5>
-                    <button class="btn-link" (click)="IniciarSesion()">Iniciar sesión</button>
+                    <h5>{{"crear_cuenta.account" | translate}}</h5>
+                    <button class="btn-link" (click)="IniciarSesion()">{{"iniciar_sesion.titulo" | translate}}</button>
                 </div>
             </div>
 
@@ -46,25 +46,25 @@
             <div class="section-signup-right" >
                 <div class="form-group">
 
-                    <label for="">Nombre </label>
+                    <label for="">{{"crear_cuenta.nombre" | translate}} </label>
                     <input type="text"
                         [(ngModel)]="usuario.datos.nombre"
-                        placeholder="Ingresar nombre y apellido"
+                        [placeholder]="'crear_cuenta.ph_nombre' | translate"
                         (keyup)="[SoloLetra($event),CanSignUp()]"  
                     >
                 </div>
 
                 <div class="form-group">
-                    <label for="">Email </label>
+                    <label for="">{{"crear_cuenta.correo" | translate}} </label>
                     <input type="text"
                         [(ngModel)]="usuario.datos.correo"
-                        placeholder="Ingresar email"
+                        [placeholder]="'crear_cuenta.ph_correo' | translate"
                         (keyup)="CanSignUp()"  
                     >
                 </div>
 
                 <div class="form-group">
-                    <label for="">Número de teléfono </label>
+                    <label for="">{{"crear_cuenta.telefono" | translate}} </label>
                     <div class="input-group-append">
                         <select style="width: 150px;" class="input-append" (change)="[mostrar($event)]" [(ngModel)]="usuario.datos.code_phone" name="" id="">
                             <option value="+" disabled selected >+</option>
@@ -72,7 +72,7 @@
                         </select>
 
                         <input type="text"
-                            placeholder="Ingresar número"
+                            [placeholder]="'crear_cuenta.ph_numero' | translate"
                             [(ngModel)]="usuario.datos.telefono"
                             (keyup)="CanSignUp()" 
                             (keypress)="SoloNumero($event)" 
@@ -84,10 +84,10 @@
                 <div class="form-group">
                     <div class="group-input-icon-right">
                         <span class="icon" [ngClass]="viewPass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass(true)" ></span>
-                        <label for="">Contraseña </label>
+                        <label for="">{{"crear_cuenta.contrasena" | translate}}</label>
                         <input 
                             [type]="viewPass ? 'text' : 'password'"
-                            placeholder="Ingresar una contraseña"
+                            [placeholder]="'crear_cuenta.ph_contrasena' | translate"
                             [(ngModel)]="usuario.datos.clave"
                             (keyup)="CanSignUp()"  
                             maxlength="25"
@@ -98,30 +98,32 @@
                 <div class="form-group">
                     <div class="group-input-icon-right">
                         <span class="icon" [ngClass]="viewRePass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass(false)" ></span>
-                        <label for="">Confirmar contraseña </label>
+                        <label for="">{{"crear_cuenta.re_contrasena" | translate}} </label>
                         <input  [type]="viewRePass ? 'text' : 'password'"
                             [(ngModel)]="rep_clave" 
-                            placeholder="Confirmar contraseña"
+                            [placeholder]="'crear_cuenta.ph_re_contrasena' | translate"
                             (keyup)="CanSignUp()"  
                             maxlength="25"
                         >
                     </div>
                 </div>
-                <p class="text-error" *ngIf="error==1">Complete y valide todos los campos</p>
-                <p class="text-error" *ngIf="error==2">Esta cuenta ya existe.</p>
-                <p class="text-error" *ngIf="error==3">La contraseña es menor de 8 caracteres.</p>
-                <p class="text-error" *ngIf="error==4">Las contraseñas no coinciden.</p>
+                <p class="text-error" *ngIf="error==1">{{"crear_cuenta.err_1" | translate}}</p>
+                <p class="text-error" *ngIf="error==2">{{"crear_cuenta.err_2" | translate}}</p>
+                <p class="text-error" *ngIf="error==3">{{"crear_cuenta.err_3" | translate}}</p>
+                <p class="text-error" *ngIf="error==4">{{"crear_cuenta.err_4" | translate}}</p>
+                <p class="text-error" *ngIf="error==5">{{"crear_cuenta.err_5" | translate}}</p>
+                <p class="text-error" *ngIf="error==6">{{"iniciar_sesion.alert_del.titulo" | translate}}</p>
                 
                 <div class="checkbox-group">
                     <input type="checkbox" checked="true" id="session-open ">
-                    <label for="session-open"> Recordar Contraseña</label>
+                    <label for="session-open"> {{"crear_cuenta.recordar" | translate}}</label>
                 </div>
                 
                 <button
                     class="btn btn-block"
                     [ngClass]="canSignUp?'btn-primary':'btn-disable'"
                     (click)="(!loading) && CrearCuenta()"
-                >Crear cuenta <span *ngIf="loading" class="icon icon-loader"></span> </button>
+                > {{"crear_cuenta.btn_crear" | translate}} <span *ngIf="loading" class="icon icon-loader"></span> </button>
             </div>
 
         </div>
@@ -138,8 +140,8 @@
 
         <!-- ? FASE BIENVENIDA -->
         <div class="section-uno" *ngIf="fase == 1">
-            <h1 class="font-500">¡Bienvenido a Ladies vip!</h1>
-            <h4>A continuación llenarás tus datos para mostrarte las mejores citas.</h4>
+            <h1 class="font-500">{{"crear_cuenta.fase_0.titulo" | translate}}</h1>
+            <h4>{{"crear_cuenta.fase_0.parrafo" | translate}}</h4>
             <button
                 class="btn-primary btn-circle"
                 (click)="fase = 2"
@@ -156,36 +158,35 @@
                 <div [ngClass]="[fase == 5 ? 'progres-now':'', fase > 5? 'progres-primary':'', fase <5?'progres-prox':'']"></div>
                 <div [ngClass]="[fase == 6 ? 'progres-now':'', fase > 6? 'progres-primary':'', fase <6?'progres-prox':'']"></div>
                 <div [ngClass]="[fase == 7 ? 'progres-now':'', fase > 7? 'progres-primary':'', fase <7?'progres-prox':'']"></div>
+                <div [ngClass]="[fase == 8 ? 'progres-now':'', fase > 8? 'progres-primary':'', fase <8  ?'progres-prox':'']"></div>
             </div>
 
             <div class="grid" *ngIf="fase == 2">
                 <div class="grid gap-20 align-self-start">
-                    <h1 class="form-title">¿Cuándo es tu cumpleaños?</h1>
+                    <h1 class="form-title">{{"crear_cuenta.fase_1.titulo" | translate}}</h1>
                     <input type="date" (change)="(VacioU(usuario.fecha))? pass=true:pass=false " [(ngModel)]="usuario.fecha_nac">
-                    <p class="text-error" *ngIf="error == 1">llene todos los campos</p>  
-                    <p class="text-error" *ngIf="error == 2">tienes {{edad}} años </p>  
-                    <p class="text-error" *ngIf="error == 2">Estás tratando de crear una cuenta en LadiesVip con una edad que no está permitida dentro de nuestras políticas de uso. </p>
+                    <p class="text-error" *ngIf="error == 1">{{"crear_cuenta.err_6" | translate}}</p>  
+                    <p class="text-error" *ngIf="error == 2"> {{"crear_cuenta.fase_1.err_p1" | translate:{value:edad} }} </p>  
+                    <p class="text-error" *ngIf="error == 2"> {{"crear_cuenta.fase_1.err_p2" | translate}} </p>
                 </div>
 
-                <h5>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</h5>
+                <h5>{{"crear_cuenta.fase_1.parrafo" | translate}}</h5>
             </div>
 
 
             <div class="grid" *ngIf="fase == 3">
-                <h1 class="form-title">¿Dónde vives?</h1>
+                <h1 class="form-title">{{"crear_cuenta.fase_2.titulo" | translate}}</h1>
                 
                 <div class="form-group">
-                    <label for="">País </label>
-                    <select name="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">
-                        <option value="0" disabled>Seleccionar</option>
-                        <option [value]="pais.country_name" *ngFor="let pais of locaciones">
-                            {{ pais.country_name}}
-                        </option>
+                    <label for=""> {{"crear_cuenta.fase_2.pais" | translate}} </label>
+                    <select name="" (change)="(VacioU(usuario.locacion.ciudad))" [(ngModel)]="usuario.locacion.pais" (change)="CargarEstados()" id="">
+                        <option  disabled>Spain</option>
+                        
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="">Estado </label>
+                    <label for=""> {{"crear_cuenta.fase_2.estado" | translate}} </label>
                     <select name="" id="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.estado" (change)="CargarCiudad()">
                         <option [value]="estado.state_name"  *ngFor="let estado of estados">
                             {{ estado.state_name}}
@@ -194,47 +195,43 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="">Ciudad </label>
+                    <label for=""> {{"crear_cuenta.fase_2.ciudad" | translate}} </label>
                     <select name="" id="" (change)="(VacioU(usuario.locacion.ciudad)?pass= false:pass=true)" [(ngModel)]="usuario.locacion.ciudad">
                         <option [value]="ciudad.city_name"  *ngFor="let ciudad of ciudades">
                             {{ ciudad.city_name}}
                         </option>
                     </select>
                 </div>
-                <p class="text-error" *ngIf="error == 1">llene todos los campos</p>
+                <p class="text-error" *ngIf="error == 1">{{"crear_cuenta.err_6" | translate}}</p>
 
-                <h5>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</h5>
+                <h5>{{"crear_cuenta.fase_2.parrafo" | translate}}</h5>
             </div>
 
             <!-- ? IDENTIFICACION DE GENERO -->
             <div class="grid" *ngIf="fase == 4">
-                <h1 class="form-title">¿Cómo te identificas?</h1>
+                <h1 class="form-title">{{"crear_cuenta.fase_3.titulo" | translate}}</h1>
 
-                <h5 class="font-300">Elige una, varias opciones o servicios que brindas como usuario</h5>
+                <h5 class="font-300">{{"crear_cuenta.fase_3.parrafo" | translate}}</h5>
 
                 <div class="group-btn-identidad">
-                    <button class="btn btn-genero" (click)="selectIdentidad(0,$event)">Mujer</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(1,$event)">Hombre</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(2,$event)">No binario</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(3,$event)">Pareja</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(4,$event)">Gay</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(5,$event)">Transexual</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(6,$event)">Travestie</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(7,$event)">Lesbiana</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(8,$event)">Otros</button>
-                    <button class="btn btn-genero" (click)="selectServicio(0,$event)">Masajes eróticos</button>
-                    <button class="btn btn-genero" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
-                    <button class="btn btn-genero" (click)="selectServicio(2,$event)">Espacios sexuales</button>
-                    <button class="btn btn-genero" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
-                    <button class="btn btn-genero" (click)="selectServicio(4,$event)">Otros</button>
+                    <button class="btn-genero" (click)="selectIdentidad(0,$event)"> {{"identidad.upt_0" | translate}} </button>
+                    <button class="btn-genero" (click)="selectIdentidad(1,$event)">{{"identidad.upt_1" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(2,$event)">{{"identidad.upt_2" | translate}}</button>
+                    <!-- <button class="btn-genero" (click)="selectIdentidad(3,$event)">Pareja</button> -->
+                    <button class="btn-genero" (click)="selectIdentidad(4,$event)">{{"identidad.upt_4" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(5,$event)">{{"identidad.upt_5" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(6,$event)">{{"identidad.upt_6" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(7,$event)">{{"identidad.upt_7" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(8,$event)">{{"identidad.upt_8" | translate}}</button>
+                    
                 </div>
-                <p class="text-error" *ngIf="error == 1">Seleccione al menos una opción</p>
+                <p class="text-error" *ngIf="error == 1">{{"crear_cuenta.fase_3.err" | translate}}</p>
 
             </div>
 
             <!-- ? CARGAR FOTO PERFIL -->
             <div class="grid justify-items-center" *ngIf="fase == 5">
-                <h1 class="form-title">Sube una foto de perfil</h1>
+                <h1 class="form-title">{{"crear_cuenta.fase_4.titulo" | translate}}</h1>
                 <div class="content-circle-img">
                     <div class="circle-img" >
                         <img *ngIf="user_imagen_show == null" src="../../assets/imagenes/user.png"  alt="">
@@ -242,62 +239,135 @@
                     </div>
                     <button (click)="[SelectImg()]" class="sub-circle-img">+</button>
                 </div>
-                <p class="text-error" *ngIf="error == 1">Seleccione una imagen</p>
+                <p class="text-error" *ngIf="error == 1">{{"crear_cuenta.fase_4.err" | translate}}</p>
 
                 <input type="file" id="img" (change)="[CargarImagen($event), VacioU(img_user)? pass = false: pass = true]" style="display:none" accept="image/png, image/gif, image/jpeg">
-                <h5 class="text-center">Esta foto será visible para <br> todos los usuarios</h5>
+                <h5 class="text-center">{{"crear_cuenta.fase_4.parrafo" | translate}}</h5>
             </div>
 
             <!-- ? INTERESES -->
             <div class="grid" *ngIf="fase == 6">
-                <h1 class="form-title">¿En que estás interesado?</h1>
+                <h1 class="form-title">{{"crear_cuenta.fase_5.titulo" | translate}}</h1>
 
-                <h5 class="font-300">Elige una, varias opciones o servicios que buscas en Ladies Vip</h5>
+                <h5 class="font-300">{{"crear_cuenta.fase_5.parrafo" | translate}}</h5>
 
                 <div class="group-btn-identidad">
-                    <button class="btn btn-genero" (click)="selectIdentidad(0,$event)">Mujer</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(1,$event)">Hombre</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(2,$event)">No binario</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(3,$event)">Pareja</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(4,$event)">Gay</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(5,$event)">Transexual</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(6,$event)">Travestie</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(7,$event)">Lesbiana</button>
-                    <button class="btn btn-genero" (click)="selectIdentidad(8,$event)">Otros</button>
-                    <button class="btn btn-genero" (click)="selectServicio(0,$event)">Masajes eróticos</button>
-                    <button class="btn btn-genero" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
-                    <button class="btn btn-genero" (click)="selectServicio(2,$event)">Espacios sexuales</button>
-                    <button class="btn btn-genero" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
-                    <button class="btn btn-genero" (click)="selectServicio(4,$event)">Otros</button>
+                    <button class="btn-genero" (click)="selectIdentidad(0,$event)">{{"identidad.upt_0" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(1,$event)">{{"identidad.upt_1" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(2,$event)">{{"identidad.upt_2" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(3,$event)">{{"identidad.upt_3" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(4,$event)">{{"identidad.upt_4" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(5,$event)">{{"identidad.upt_5" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(6,$event)">{{"identidad.upt_6" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(7,$event)">{{"identidad.upt_7" | translate}}</button>
+                    <button class="btn-genero" (click)="selectIdentidad(8,$event)">{{"identidad.upt_8" | translate}}</button>
+                    <button class="btn btn-genero" (click)="selectServicio(0,$event)">{{"servicios.upt_0" | translate}}</button>
+                    <button class="btn btn-genero" (click)="selectServicio(1,$event)">{{"servicios.upt_1" | translate}}</button>
+                    <button class="btn btn-genero" (click)="selectServicio(2,$event)">{{"servicios.upt_2" | translate}}</button>
+                    <button class="btn btn-genero" (click)="selectServicio(3,$event)">{{"servicios.upt_3" | translate}}</button>
+                    <button class="btn btn-genero" (click)="selectServicio(4,$event)">{{"servicios.upt_4" | translate}}</button>
                 </div>
-                <p class="text-error" *ngIf="error == 1">Seleccione al menos una opción</p>
+                <p class="text-error" *ngIf="error == 1">{{"crear_cuenta.fase_3.err" | translate}}</p>
 
             </div>
 
-            <!-- ? GEOLOCALIZACION -->
-            <div class="grid justify-items-center" *ngIf="fase == 7">
-                <h1 class="form-title">Geolocalización</h1>
+            <!-- ? SERVICIO A OFRECER -->
+        <div class="grid" *ngIf="fase == 7">
+            <h1 class="form-title">{{"crear_cuenta.fase_6.titulo" | translate}}</h1>
 
-                <h1><i style="font-size: 48px;" class="icon icon-location"></i></h1>
-                <h5 class="text-center">Selecciona el modo <br> geolocalización para encontrar <br> personas cercanas a ti</h5>
+            <h5 class="font-300">{{"crear_cuenta.fase_6.titulo" | translate}}</h5>
+
+            <div class="group-btn-identidad">
+                <button class="btn-genero" (click)="selectServicio(0,$event)">{{"servicios.upt_0" | translate}}</button>
+                <button class="btn-genero" (click)="selectServicio(1,$event)">{{"servicios.upt_1" | translate}}</button>
+                <button class="btn-genero" (click)="selectServicio(2,$event)">{{"servicios.upt_2" | translate}}</button>
+                <button class="btn-genero" (click)="selectServicio(3,$event)">{{"servicios.upt_3" | translate}}</button>
+                <button class="btn-genero" (click)="selectServicio(4,$event)">{{"servicios.upt_4" | translate}}</button>
             </div>
 
-            <div class="grid justify-items-center" *ngIf="fase == 8">
+        </div>
+        <button *ngIf="fase == 7" class="btn font-600" (click)="fase = 8" >{{"crear_cuenta.fase_6.saltar" | translate}}</button>
+
+
+        <!-- ? GEOLOCALIZACION -->
+        <div class="grid justify-items-center" *ngIf="fase == 8">
+            <h1 class="form-title">{{"crear_cuenta.fase_7.titulo" | translate}}</h1>
+
+            <h1><i style="font-size: 48px;" class="icon icon-location"></i></h1>
+            <h5 class="text-center">{{"crear_cuenta.fase_7.parrafo" | translate}}</h5>
+        </div>
+            
+
+            <div class="grid justify-items-center" *ngIf="fase == 9">
               <img class="icon-loader" src="../../../assets/imagenes/loading.png" alt="">
             </div>
 
             <button
                 class="btn-circle"
-                *ngIf="fase < 7"
+                *ngIf="fase <8"
                 (click)="CtrlForm()"
                 [class]="pass?'btn-primary':'btn-disable'"
-            ><i class="icon icon-arrow-right"></i></button>
+            ><i class="icon icon-arrow-right"></i></button >
+            <button *ngIf="fase == 7" class="btn font-600" style="color: black;" (click)="fase = 8" >Saltar opción</button>
+
 
             <div class="grid gap-10 align-content-start justify-self-stretch">
-                <button *ngIf="fase == 7" (click)="ActivarGeo()" class="btn-primary btn-block">Activar</button>
-                <button *ngIf="fase == 7" (click)="SignUp()" class="btn-secondary btn-block">No por el momento</button>
+                <button *ngIf="fase == 8" (click)="ActivarGeo()" class="btn-primary btn-block">{{"crear_cuenta.fase_7.activar" | translate}}</button>
+                <button *ngIf="fase == 8" (click)="SignUp()" class="btn-secondary btn-block">{{"crear_cuenta.fase_7.rechazar" | translate}}</button>
             </div>
 
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="container" *ngIf="display_delete" >
+
+    <div class="card card-delete">
+        <button class="btn close justify-self-end" (click)="display_delete = false;"   ><span class="icon icon-close"></span></button>
+
+        <img src="../../../assets/imagenes/close-square.png" alt="">
+
+        <h2 class="font-500" >{{"iniciar_sesion.alert_del.titulo" | translate}}</h2>
+        <h5 class="text-center">{{"iniciar_sesion.alert_del.texto" | translate}}</h5>
+        
+    </div>
+
+</div>
+
+<div class="container" *ngIf="display_block" >
+
+    <div class="card card-block">
+        <button class="btn close justify-self-end" (click)="display_block = false;"   ><span class="icon icon-close"></span></button>
+
+        <div class="content" *ngIf="fase_block == 0" >
+            <img src="../../../assets/imagenes/alert-triangle.png" alt="">
+
+            <h2 class="font-500" >{{"iniciar_sesion.alert_block.titulo" | translate}}</h2>
+            <h5 class="text-center">{{"iniciar_sesion.alert_block.texto" | translate}} </h5>
+            
+            <button class="btn-primary" (click)="fase_block =1" >{{"iniciar_sesion.alert_block.btn_des" | translate}}</button>
+        </div>
+
+        <div class="content" *ngIf="fase_block == 1" >
+            <h3 class="font-500" >{{"iniciar_sesion.alert_block.p1.title" | translate}}</h3>
+
+            <div class="form-group">
+                <label for="">{{"iniciar_sesion.alert_block.p1.label" | translate}} </label>
+
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+
+            <button class="btn-primary btn-block" (click)="fase_block=2" >{{"iniciar_sesion.alert_block.p1.btn" | translate}}</button>
+        </div>
+
+        <div class="content" *ngIf="fase_block == 2" >
+            <img src="../../../assets/imagenes/circle-check-modal.png" alt="">
+            <h4  >{{"iniciar_sesion.alert_block.p2.title" | translate}}</h4>
+            <p class="text-center" >{{"iniciar_sesion.alert_block.p2.text" | translate}}</p>
         </div>
 
     </div>

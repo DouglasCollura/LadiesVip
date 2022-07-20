@@ -1,15 +1,19 @@
-<div class="temp-main">
+<div class="temp-main-mps">
 
-    <p class="align-self-center">Market vip / <span class="color-primary"> Masajes Happy End</span></p>
+    <div class="grid"> 
+        <p class="align-self-center">Market vip / <span class="color-primary">{{negocio.nombre}}</span></p>
+    </div>
 
-    <button class="btn-return" (click)="CerrarShow()"><span class="icon icon-arrow-left"></span></button>
+    <div class="grid">
+        <button class="btn-return" (click)="CerrarShow()"><span class="icon icon-arrow-left"></span></button>
+    </div>
 
     <div class="grid align-items-center gc-2x-g">
-        <h1 class="title">Masajes Happy End</h1>
+        <h1 class="title"> {{negocio.nombre}} </h1>
 
-        <button class=" justify-self-end btn-primary-invert">Editar</button>
+        <button class=" justify-self-end btn-primary-invert" (click)="OpenEditNegocio(negocio)" >Editar</button>
 
-        <h3 class="font-500">Categoría: Masajes</h3>
+        <h3 class="font-500">Categoría:  {{GetCategoria(negocio.categoria)}} </h3>
     </div>
 
     <div class="temp-main-info">
@@ -20,41 +24,28 @@
                 <h4>NEGOCIOS PUBLICADOS</h4>
             </div>
 
+
+            <!-- ! LISTA DE NEGOCIOS========================================== -->
+
             <div class="group-negocios">
 
-                <div class="card-negocio">
+                <div class="card-negocio" *ngFor="let neg of lista_negocios" >
                     <div class="card-negocio-imagen">
-                        <img src="../../../../../../assets/imagenes/masajes.jpg" alt="">
+                        <img [src]="GetImg(neg.images)" alt="">
                     </div>
 
                     <div class="grid align-content-center gap-10">
-                        <h3>Nombre del negocio</h3>
-                        <h4> <i class="icon icon-location"></i> Sevilla</h4>
+                        <h3> {{neg.nombre}} </h3>
+                        <h4> <i class="icon icon-location"></i> {{neg.pais}} </h4>
                     </div>
 
                     <div class="grid align-content-center">
-                        <button class="btn-chevron"> <i class="icon icon-chevron-right"></i> </button>
+                        <button class="btn-chevron" (click)="SelectShop(neg)"  [class]="neg.id == negocio.id? 'chevron-act':''" > <i class="icon icon-chevron-right"></i> </button>
                     </div>
 
                 </div>
 
-                <div class="card-negocio">
-                    <div class="card-negocio-imagen">
-                        <img src="../../../../../../assets/imagenes/masajes.jpg" alt="">
-                    </div>
-
-                    <div class="grid align-content-center gap-10">
-                        <h3>Nombre del negocio</h3>
-                        <h4> <i class="icon icon-location"></i> Sevilla</h4>
-                    </div>
-
-                    <div class="grid align-content-center">
-                        <button class="btn-chevron"> <i class="icon icon-chevron-right"></i> </button>
-                    </div>
-
-                </div>
-
-                <button class="btn-crear-negocio"> + Crear negocio</button>
+                <button *ngIf="negocio.tipo == null" class="btn-crear-negocio" (click)="OpenNew()" > + Crear negocio</button>
             </div>
 
         </div>
@@ -62,13 +53,117 @@
         <div class="section-center">
         </div>
 
+
+        <!-- ! SECTION INFO========================================== -->
+
         <div class="section-rigth">
             <div class="nav-component">
-                <button id="show_titular" (click)="nav('show_titular', 0)">Titular</button>
-                <button id="show_negocio" (click)="nav('show_negocio', 1)">Inf. negocio</button>
-                <button id="show_lugar" (click)="nav('show_lugar', 2)">Inf. lugar</button>
-                <button id="show_foto" (click)="nav('show_foto', 3)">Fotos</button>
+                <button id="show_titular" [class]="ctrl_menu== 0? 'active':''" (click)="ctrl_menu = 0">Titular</button>
+                <button id="show_negocio" [class]="ctrl_menu== 1? 'active':''" (click)="ctrl_menu = 1">Inf. negocio</button>
+                <button id="show_lugar"  [class]="ctrl_menu== 2? 'active':''" (click)="ctrl_menu = 2">Inf. lugar</button>
+                <button id="show_foto"  [class]="ctrl_menu== 3? 'active':''" (click)="ctrl_menu = 3">Fotos</button>
             </div>
+
+
+            <!-- ! INFO USER -->
+            <div class="content" *ngIf="ctrl_menu == 0" >
+
+                <h2 class="title-content">Información del titular</h2>
+
+                <div class="form-group">
+                    <label for="">Nombre del titular</label>
+                    <h3> {{usuario?.name}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <h3>{{usuario?.email}} </h3>
+                </div>
+
+            </div>
+
+
+            <!-- ! INFO NEGOCIO -->
+            <div class="content" *ngIf="ctrl_menu == 1" >
+
+                <h2 class="title-content">Información del negocio</h2>
+
+                <div class="form-group">
+                    <label for="">Nombre del negocio</label>
+                    <h3> {{negocio.nombre}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Categoría</label>
+                    <h3>{{GetCategoria(negocio.categoria) }} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">WhatsApp (negocio)</label>
+                    <h3> {{negocio.user?.code_phone}}-{{ negocio.telefono }} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Descripción</label>
+                    <h3> {{negocio.descripcion}} </h3>
+                </div>
+
+            </div>
+
+
+            <!-- ! INFO UBICACION -->
+            <div class="content" *ngIf="ctrl_menu == 2" >
+
+                <h2 class="title-content">Información del lugar</h2>
+
+                <div class="form-group">
+                    <label for="">Dirección</label>
+                    <h3> {{negocio.direccion}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">País</label>
+                    <h3> {{negocio.pais}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Estado</label>
+                    <h3> {{negocio.estado}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Ciudad</label>
+                    <h3> {{negocio.ciudad}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Coordenadas</label>
+                    <h3> {{negocio.latitud}} |  {{negocio.longitud}} </h3>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="">Ubicación</label>
+                    
+                    <div class="content-map">
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ! INFO FOTOS -->
+
+            <div class="content" *ngIf="ctrl_menu == 3">
+                
+                <div class="carrusel">
+                    <div class="content-img" *ngFor="let foto of img_show" >
+                        <img [src]="url+foto" alt="">
+                    </div>  
+                </div>
+
+            </div>
+
         </div>
 
     </div>
@@ -76,3 +171,4 @@
 </div> 
 
 
+<app-create-market  *ngIf="display_create" (PushN)="PushNew($event)"  (Cerrar)="CloseModal()"></app-create-market>

@@ -6,42 +6,42 @@
         <!-- ? FASE INGRESO NUMERO -->
         <div class="grid" *ngIf="fase_modal_sms == 1">
 
-            <h1 *ngIf="ctrl_tipo == 0">Registrarse por número</h1>
-            <h1 *ngIf="ctrl_tipo == 1">Inicia sesión por número</h1>
+            <h1 *ngIf="ctrl_tipo == 0">{{"crear_cuenta_telefono.titulo" | translate}}</h1>
+            <h1 *ngIf="ctrl_tipo == 1">{{"iniciar_sesion.titulo" | translate}}</h1>
 
             <div class="from-group">
-                <span>Número de teléfono</span>
+                <span>{{"crear_cuenta_telefono.numero_telefono" | translate}}</span>
                 <div class="input-group-append">
                     <button (click)="SelectTlf()"> {{sms.country_short_name}} <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
                     <input type="text"
-                        placeholder="Ingresar número"
+                        [placeholder]="'crear_cuenta.ph_numero' | translate"
                         [(ngModel)]="sms.telefono"
                         (keypress)="SoloNumero($event)"  
                     >
                 </div>
-                <p class="text-error" *ngIf="(error == 1 && ctrl_tipo == 0)">El número ingresado ya está registrado</p>
-                <p class="text-error" *ngIf="error == 1 && ctrl_tipo == 1">No estás registrado. Crea una cuenta para poder comenzar en Ladies VIP.</p>
-                <p class="text-error" *ngIf="error == 2">llene todos los campos</p>
-                <p class="text-error" *ngIf="error == 3">El número ingresado es invalido</p>
-                <p class="text-error" *ngIf="error == 4">La plataforma está presentando problemas, intente mas tarde</p>
+                <p class="text-error" *ngIf="(error == 1 && ctrl_tipo == 0)">{{"crear_cuenta_telefono.err_2" | translate}}</p>
+                <p class="text-error" *ngIf="error == 1 && ctrl_tipo == 1">{{"crear_cuenta_telefono.err_3" | translate}}</p>
+                <p class="text-error" *ngIf="error == 2">{{"crear_cuenta_telefono.err_4" | translate}}</p>
+                <p class="text-error" *ngIf="error == 3">{{"crear_cuenta_telefono.err_5" | translate}}</p>
+                <p class="text-error" *ngIf="error == 4">{{"crear_cuenta_telefono.err_6" | translate}}</p>
             </div>       
             
-            <h4 >Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros Términos y condiciones y con nuestra Política de Privacidad</h4>
+            <h4 >{{"crear_cuenta_telefono.parrafo" | translate}}</h4>
                 
             <button 
                 class="btn btn-primary btn-block" 
                 (click)="(!loading)&&Continuar()"
-            >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+            > {{"crear_cuenta.btn_continuar" | translate}}  <span class="icon icon-loader" *ngIf="loading"></span></button>
 
         </div>
 
         <!-- ? FASE INGRESO CODIGO -->
         <div class="grid"  *ngIf="fase_modal_sms == 2">
 
-            <h1 *ngIf="ctrl_tipo == 0">Registrarse por número</h1>
-            <h1 *ngIf="ctrl_tipo == 1">Inicia sesión por número</h1>
+            <h1 *ngIf="ctrl_tipo == 0">{{"crear_cuenta_telefono.titulo" | translate}}</h1>
+            <h1 *ngIf="ctrl_tipo == 1">{{"iniciar_sesion.titulo" | translate}}</h1>
 
-            <h3>Ingresa el código que fue enviado al número +{{sms.code_phone}} {{sms.telefono}}</h3>
+            <h3>{{"crear_cuenta_telefono.Parrafo_codigo" | translate}} +{{sms.code_phone}} {{sms.telefono}}</h3>
             <div class="group-input-code">
                 <input type="text" [(ngModel)]="code_1" placeholder="0" maxlength="1">
                 <input type="text" [(ngModel)]="code_2" placeholder="0" maxlength="1">
@@ -49,16 +49,16 @@
                 <input type="text" [(ngModel)]="code_4" placeholder="0" maxlength="1">
                 <input type="text" [(ngModel)]="code_5" placeholder="0" maxlength="1">
             </div>     
-            <p *ngIf="error == 1" class="text-error">El código ingresado no es correcto.</p> 
+            <p *ngIf="error == 1" class="text-error">{{"crear_cuenta_telefono.err_1" | translate}}</p> 
             
             <div class="flex-d-row">
-                <button class="btn btn-recibir-code">No has recibido el código?</button>
+                <button class="btn btn-recibir-code">{{"crear_cuenta_telefono.titulo_recibir" | translate}}</button>
                 <button 
                 [class]="re_code? 'btn-reenviar':'btn-reenviar-disable'" 
-                (click)="(re_code) && Continuar()">Reenviar código <span *ngIf="!re_code">(espere 2min)</span>  </button>
+                (click)="(re_code) && Continuar()">{{"crear_cuenta_telefono.reenviar" | translate}} <span *ngIf="!re_code">({{"recuperar_contrasena.wait" | translate}})</span>  </button>
             </div>
                 
-            <button class="btn btn-primary btn-block" (click)="VerificarCodigoSMS()">Continuar</button>
+            <button class="btn btn-primary btn-block" (click)="VerificarCodigoSMS()">{{"crear_cuenta.btn_continuar" | translate}}</button>
 
         </div>
 
@@ -66,7 +66,7 @@
 
     <div class="card card-xs" *ngIf="ctrl_modal_sms_tlf">
         <div class="header-card">
-            <h3 class="font-500">Seleccionar otro país</h3>
+            <h3 class="font-500">{{"recuperar_contrasena.select_pais" | translate}}</h3>
             <button (click)="ctrl_modal_sms_tlf=false" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
         </div>
 

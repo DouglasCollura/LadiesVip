@@ -71,3 +71,44 @@
 .btn{
     color:var(--neutro-600)
 }
+
+
+.alert{
+    backdrop-filter: none;
+    backdrop-filter: blur(8px);
+
+    .close{
+        position: absolute;
+        top: 40px;
+        right: 40px;
+    }
+
+    *{
+        color: white;
+    }
+    position: absolute;
+    z-index: 5;
+    .content{
+        display: grid;
+        grid-gap: 20px;
+        justify-items: center;
+        justify-self: center;
+        align-self: center;
+        width: 240px;
+        text-align: center;
+        h1{
+            font-weight: 500;
+        }
+
+        .premium{
+            background-color: #F59E0B;
+        }
+    }
+
+}
+
+a{
+    text-decoration: none;
+    width: 100%;
+    justify-content: space-between;
+}

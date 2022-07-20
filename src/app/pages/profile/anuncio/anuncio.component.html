@@ -1,17 +1,17 @@
 
-<div class="temp-anuncio">
+<div class="temp-anuncio" *ngIf="display_main" >
     <div class="header">
         <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Crear anuncio</h3>
+        <h3 class="font-500 justify-self-center">{{"gestion_anuncio.titulo" | translate}}</h3>
 
-        <button class="btn" (click)="UpdateAnuncio()"> <img src="../../../../assets/imagenes/Boost.png"  alt=""> </button>
+        <button class="btn" (click)=" (!isFirstAdd)&& checkUpdate()"> <img [src]="'../../../../assets/imagenes/'+myboost"  alt=""> </button>
 
     </div>
     <div class="body">
 
         <div class="top-select">
-            <button class="btn" [ngClass]="menu?'':'active'" (click)="menu = false" >Fotos</button>
-            <button class="btn" [ngClass]="menu?'active':''" (click)="menu = true">Videos</button>
+            <button class="btn" [ngClass]="menu?'':'active'" (click)="menu = false" >{{"pack_anuncio.fotos" | translate}}</button>
+            <button class="btn" [ngClass]="menu?'active':''" (click)="menu = true">{{"pack_anuncio.video" | translate}}</button>
         </div>
 
         <div class="grid align-content-start gap-20" *ngIf="!menu">
@@ -38,9 +38,9 @@
                 </div>
 
     
-                <div class="more" (click)="SelectImg()">
+                <div class="more" (click)="SelectImg()" *ngIf=" (urls_image.length+ user_imagen_show.length) <10">
                     <span class="icon icon-circle-more"></span>
-                    <p>Tienes un máximo de 10 fotos</p>
+                    <p>{{"gestion_anuncio.opt_fotos.foto" | translate}}</p>
                 </div>
 
                 <input type="file" id="img" (change)="CargarImagen($event)" style="display:none" accept="image/png, image/gif, image/jpeg">
@@ -52,21 +52,21 @@
 
             <div class="section">
                 <div class="titulo">
-                    <h4>INFORMACIÓN PERSONAL</h4>
+                    <h4>{{"gestion_anuncio.opt_fotos.info" | translate}}</h4>
                     <div class="line"></div>
                 </div>
 
                 <h2 class="font-600 nombre"> {{datos.name}} </h2>
 
-                <h2 class="text-alert">23 años • {{datos.estado}},{{datos.pais}}</h2>
+                <h2 class="text-alert"> {{GetEdad(datos.fecha_nac)}}  {{"gestion_anuncio.opt_fotos.anios" | translate}} • {{datos.estado}},{{datos.pais}}</h2>
 
                 <div class="grid gap-10">
                     <h3> <span class="icon icon-mail"></span> {{datos.email}} </h3>
                     <h3> <span class="icon icon-phone"></span> + {{datos.code_phone}} {{datos.telefono}} </h3>
 
                     <div class="flex-d-row">
-                        <h3>Busco: </h3> 
-                        <button class="btn" (click)="display_interes = true" > Selecciona una categoría <span class="icon icon-chevron-down" ></span> </button>
+                        <h3>{{"gestion_anuncio.opt_fotos.ph_buscar" | translate}}: </h3> 
+                        <button class="btn" (click)="display_interes = true" > {{"gestion_anuncio.opt_fotos.ph_categoria" | translate}} <span class="icon icon-chevron-down" ></span> </button>
                     </div>
 
                     <div class="flex-column">
@@ -76,21 +76,21 @@
                     </div>
 
                     <div class="form-group">
-                        <h3>Descripción:</h3>
+                        <h3>{{"gestion_anuncio.opt_fotos.descripcion" | translate}}</h3>
                         <textarea name="" id="" cols="30" rows="2" [(ngModel)]="anuncio.descripcion" placeholder="Escribir aquí"></textarea>
                     </div>
                 </div>
-
+            </div>
 
             <!-- ! SECTION INFORMACION-->
             <div class="section">
                 <div class="titulo">
-                    <h4>PERMISOS</h4>
+                    <h4>{{"gestion_anuncio.opt_fotos.permiso" | translate}}</h4>
                     <div class="line"></div>
                 </div>
 
                 <div class="group-check">
-                    <h3>Activar todas las notificaciones</h3>
+                    <h3>{{"gestion_anuncio.opt_fotos.btn_llamada" | translate}}</h3>
                     <input type="checkbox" 
                         (click)="change(1)"
                         [(checked)]="anuncio.hab_notificacion"
@@ -99,7 +99,7 @@
                 </div>
 
                 <div class="group-check">
-                    <h3>Chat online</h3>
+                    <h3>{{"gestion_anuncio.opt_fotos.btn_chat" | translate}}</h3>
                     <input type="checkbox" 
                         (click)="change(2)"
                         [(checked)]="anuncio.hab_chat"
@@ -109,7 +109,7 @@
                 </div>
 
                 <div class="group-check">
-                    <h3>Habilitar WhatsApp</h3>
+                    <h3>{{"gestion_anuncio.opt_fotos.btn_whatsapp" | translate}}</h3>
                     <input type="checkbox" 
                     (click)="change(3)"
                     [(checked)]="anuncio.hab_wts" 
@@ -122,8 +122,77 @@
 
             <button class=" btn-block" 
             [class]="( isFirstAdd && (anuncio.descripcion !='' && intereses_name.length >0 && img_length >0 ))? 'btn-primary':'btn-disable'"
-            (click)=" ( isFirstAdd && (anuncio.descripcion !='' && intereses_name.length >0 && img_length >0 )) && CrearAnuncio()">Publicar anuncio  </button>
+            (click)=" ( isFirstAdd && (anuncio.descripcion !='' && intereses_name.length >0 && img_length >0 )) && CrearAnuncio()"> {{"gestion_anuncio.opt_fotos.btn_publicar" | translate}}  </button>
 
+        </div>
+
+        <div  class="grid  gap-20" style="align-self:stretch" *ngIf="menu">
+            <input type="file" hidden class="input-video" (change)="UploadVideo($event)" accept="video/mp4,video/x-m4v,video/*">
+
+            <div class="content-not-allow" *ngIf="mypack.videos < 1">
+                <h4>{{"gestion_anuncio.opt_video.parrafo" | translate}}</h4>
+                <button class="btn" (click)="DisplayPack()" >{{"gestion_anuncio.opt_video.btn_pack" | translate}}</button>
+            </div>
+
+            <div class="section-video" *ngIf="mypack.videos > 0" >
+                <div class="content-slots">
+                    <div class="card-video-more"  (click)="PlayVideo(i,2)" [id]="'cardPlayShow'+i" *ngFor="let video of urls_video; let i = index" >
+                        <img src="../../../../assets/imagenes/movie.png"  width="60px" alt="">
+                        <div class="delete" (click)="DeleteVid(video,1)" >
+                            <span class="icon icon-close"></span>
+                        </div>
+                    </div>
+                    <div  class="card-video-more " [id]="'cardPlay'+i" (click)="PlayVideo(i,1)"  *ngFor="let item of user_videos_show; let i = index" >
+                        <div class="delete" (click)="DeleteVid(item,2)">
+                            <span class="icon icon-close" ></span>
+                        </div>
+                        <img src="../../../../assets/imagenes/movie.png"  width="60px" alt="">
+                    </div>
+
+                    <div class="card-video-more " *ngIf="video_length < mypack.videos" >
+                        <span (click)="ClickVideoInput()" class="icon icon-circle-more"></span>
+                    </div>
+                </div>
+
+                <div class="content-video" >
+                    <video 
+                        (click)="Play()"
+                        id="video_here"
+                        data-html5-video=""
+                        data-state="visible"
+                        [controlsList]="['nodownload']"
+                        (timeupdate)="ProgressBar()"
+                        muted="true"
+                    >
+                    </video>
+                    <canvas id="canvas" style="position: absolute; width:100%; height:100%;z-index: -1;"  ></canvas>
+
+                    <button class="btn-play icon-play" (click)="Play()" >  </button>
+                    <div class="bg-control"></div>
+                    <div class="controls" data-media-control="">
+                        <div class="progress-bar">
+    
+                        </div>
+    
+                        <button class="btn-volume" (click)="Muted()" >   <img src="../../../../assets/imagenes/volume.svg" alt=""> </button> 
+                    </div>
+                </div>
+
+
+                <!-- <div class="card-videos" *ngFor="let foto of urls_thumbs" >
+                    <img [src]="url+foto" alt="">
+                    <div class="delete" (click)="DeleteImg(foto,1)" >
+                        <span class="icon icon-close"></span>
+                    </div>
+                </div>
+                <div class="card-videos" *ngFor="let foto of thumbnail" >
+                    <img [src]="foto" alt="">
+                    <div class="delete" (click)="DeleteImg(foto,1)" >
+                        <span class="icon icon-close"></span>
+                    </div>
+                </div> -->
+
+            </div>
         </div>
 
     </div>
@@ -139,22 +208,22 @@
 
                 <h3 class=" justify-self-center text-center font-600">Busco intereses en...</h3>
 
-                <button class="btn justify-self-end" (click)="CerrarModal()" > <span class="icon icon-close"></span> </button>
+                <button class="btn justify-self-end" (click)="CerrarModal()" > <span class="icon icon-check"></span> </button>
             </div>
 
 
             <div class="card-option-body">
             
                 <div class="group-btn-identidad">
-                    <button [ngClass]="filtrarSelect(0)? 'btn-genero-active':'btn-genero'" id="gen0" (click)="selectIdentidad(0,$event)">Mujer</button>
-                    <button [ngClass]="filtrarSelect(1)? 'btn-genero-active':'btn-genero'" id="gen1" (click)="selectIdentidad(1,$event)">Hombre</button>
-                    <button [ngClass]="filtrarSelect(2)? 'btn-genero-active':'btn-genero'" id="gen2" (click)="selectIdentidad(2,$event)">No binario</button>
-                    <button [ngClass]="filtrarSelect(3)? 'btn-genero-active':'btn-genero'" id="gen3" (click)="selectIdentidad(3,$event)">Pareja</button>
-                    <button [ngClass]="filtrarSelect(4)? 'btn-genero-active':'btn-genero'" id="gen4" (click)="selectIdentidad(4,$event)">Gay</button>
-                    <button [ngClass]="filtrarSelect(5)? 'btn-genero-active':'btn-genero'" id="gen5" (click)="selectIdentidad(5,$event)">Transexual</button>
-                    <button [ngClass]="filtrarSelect(6)? 'btn-genero-active':'btn-genero'" id="gen6" (click)="selectIdentidad(6,$event)">Travestie</button>
-                    <button [ngClass]="filtrarSelect(7)? 'btn-genero-active':'btn-genero'" id="gen7" (click)="selectIdentidad(7,$event)">Lesbiana</button>
-                    <button [ngClass]="filtrarSelect(8)? 'btn-genero-active':'btn-genero'" id="gen8" (click)="selectIdentidad(8,$event)">Otros</button>
+                    <button [ngClass]="filtrarSelect(0)? 'btn-genero-active':'btn-genero'" id="gen0" (click)="selectIdentidad(0,$event)">{{"identidad.upt_0" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(1)? 'btn-genero-active':'btn-genero'" id="gen1" (click)="selectIdentidad(1,$event)">{{"identidad.upt_1" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(2)? 'btn-genero-active':'btn-genero'" id="gen2" (click)="selectIdentidad(2,$event)">{{"identidad.upt_2" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(3)? 'btn-genero-active':'btn-genero'" id="gen3" (click)="selectIdentidad(3,$event)">{{"identidad.upt_3" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(4)? 'btn-genero-active':'btn-genero'" id="gen4" (click)="selectIdentidad(4,$event)">{{"identidad.upt_4" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(5)? 'btn-genero-active':'btn-genero'" id="gen5" (click)="selectIdentidad(5,$event)">{{"identidad.upt_5" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(6)? 'btn-genero-active':'btn-genero'" id="gen6" (click)="selectIdentidad(6,$event)">{{"identidad.upt_6" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(7)? 'btn-genero-active':'btn-genero'" id="gen7" (click)="selectIdentidad(7,$event)">{{"identidad.upt_7" | translate}}</button>
+                    <button [ngClass]="filtrarSelect(8)? 'btn-genero-active':'btn-genero'" id="gen8" (click)="selectIdentidad(8,$event)">{{"identidad.upt_8" | translate}}</button>
                 </div>
 
             </div>
@@ -171,20 +240,57 @@
 <div class="container-lateral" *ngIf="done">
 
     <div class="card card-done">
-        <img src="../../../../assets/img/clock-yellow.png" alt="">
+        <img src="../../../../assets/imagenes/clock-yellow.png" alt="">
 
-        <h1>Anuncio en espera</h1>
+        <h1>{{"gestion_anuncio.modal.titulo" | translate}}</h1>
 
         <h5>
-            Tu anuncio será revisado por un moderador para asegurar que se encuentre dentro de los términos de uso de la aplicación. 
+            {{"gestion_anuncio.modal.parrafo_1" | translate}} 
         </h5>
 
         <h5>
-            La revisión estimada es de 24 horas y se te notificará sobre el estado de tu anuncio
+            {{"gestion_anuncio.modal.parrafo_2" | translate}} 
         </h5>
 
-        <button class="btn text-primary" (click)="Done()" > Ok </button>
+        <button class="btn text-primary" (click)="Done()" > {{"gestion_anuncio.modal.btn_ok" | translate}}</button>
     </div>
 
 </div>
+
+
+<div class="container-lateral" *ngIf="update">
+    <div class="card-boost">
+        <button class="btn close" (click)="closeUpdate()">X</button>
+
+        <div class="grid align-content-start gap-20 justify-items-center">
+            <img *ngIf="fase_update < 2"  [class]="fase_update == 1? 'loading':''" [src]="'../../../../assets/imagenes/'+myboost" alt="">
+            <img *ngIf="fase_update == 2" src="../../../../assets/imagenes/boost-check.png" alt="">
+            <h4 *ngIf="fase_update == 2" >{{"gestion_anuncio.boost_exitoso.btn_exito" | translate}}</h4>
+            <h2 *ngIf="fase_update == 0">{{"gestion_anuncio.boost.titulo" | translate}}</h2>
+            <h4 *ngIf="fase_update == 0"> {{"gestion_anuncio.boost.parrafo" | translate:{value:mypack.boosts} }}</h4>      
+            
+            <button class="btn boost" [style]="'color:'+mycolor+' !important'" *ngIf="fase_update == 0" (click)="UpdateAnuncio()">{{"gestion_anuncio.boost.titulo" | translate}}</button>
+        </div>
+        
+    </div>
+
+</div>
+
+<div class="container-lateral" *ngIf="reno">
+    <div class="card-boost">
+        <button class="btn close" (click)="reno = false">X</button>
+
+        <div class="grid align-content-start gap-20 justify-items-center">
+            <img [src]="'../../../../assets/imagenes/'+myboost" alt="">
+            <h2>{{"gestion_anuncio.boost_error.titulo" | translate}}</h2>
+            <h4 >{{"gestion_anuncio.boost_error.parrafo" | translate}}</h4>
+            
+            <button class="btn boost" (click)="DisplayPack()" [style]="'color:'+mycolor+' !important'" >{{"gestion_anuncio.boost_error.btn_renovar" | translate}}</button>
+        </div>
+        
+    </div> 
+</div>
+
+
+<app-packs-anuncios  style="z-index: 10; position: absolute; width: 100%;" (Cerrar)="DisplayPack()" *ngIf="display_packs" ></app-packs-anuncios>
 

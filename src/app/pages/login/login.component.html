@@ -7,21 +7,21 @@
         <div class="temp-login">
             <div class="subcard-18">
                 <h1>+18</h1>
-                <h5>MAYORES DE EDAD</h5>
+                <h5>{{"landing.card_18" | translate}}</h5>
             </div>
 
             <div class="section-login-left">
                 <div class="grid" style="grid-gap:20px">
-                    <h1 class="login-title">Iniciar sesión</h1>
+                    <h1 class="login-title">{{"iniciar_sesion.titulo" | translate}}</h1>
                     <h5 class="">
-                        Al iniciar sesión en Ladies Vip estás aceptando continuar de acuerdo a nuestros
-                        <a href=""> Términos y condiciones</a> y con nuestra
-                        <a href=""> Política de Privacidad</a>
+                        {{"iniciar_sesion.text_1" | translate}}
+                        <a routerLink="terminos"> {{"configuracion.seccion_legales.btn_terminos" | translate}}</a>{{"iniciar_sesion.text_2" | translate}}
+                        <a  routerLink="politicas" > {{"configuracion.seccion_legales.btn_ayuda" | translate}}</a>
                     </h5>
                 </div>
 
                 <div class="grid justify-items-center gap-20">
-                    <h3 class="text-center">Continuar con</h3>
+                    <h3 class="text-center">{{"iniciar_sesion.continuar" | translate}}</h3>
                     <div class="group-logins">
                         <button class="btn-type-login" (click)="signInWithFB()"> <img src="../../assets/imagenes/Facebook.png" alt=""> </button>
                         <button class="btn-type-login" (click)="signInWithGoogle()"> <img src="../../assets/imagenes/Google.png" alt=""> </button>
@@ -30,8 +30,8 @@
                 </div>
 
                 <div class="display-column">
-                    <h5>¿Aún no tienes una cuenta?</h5>
-                    <button class="btn-link" (click)="OpenSignUp()">Crear cuenta</button>
+                    <h5>{{"iniciar_sesion.new_account" | translate}}</h5>
+                    <button class="btn-link" (click)="OpenSignUp()">{{"crear_cuenta.titulo" | translate}}</button>
                 </div>
             </div>
 
@@ -52,12 +52,12 @@
                     <div class="form-group">
                         <div class="group-input-icon-right">
                             <span class="icon icon-circle-close" *ngIf="error == 2"></span>
-                            <label for="">Email </label>
+                            <label for="">{{"iniciar_sesion.correo" | translate}}</label>
                             <input type="text" 
                                 [ngClass]="error==2?'input-error':''" 
                                 [(ngModel)]="usuario.datos.correo" 
                                 (keyup)="ValAcceso()" 
-                                placeholder="Email"
+                                [placeholder]="'iniciar_sesion.correo' | translate"
                             >
                         </div>
                     </div>
@@ -66,12 +66,12 @@
                         <div class="group-input-icon-right">
                             <span class="icon icon-circle-close" *ngIf="error == 2"></span>
                             <span class="icon" [ngClass]="viewPass?'icon-eyes':'icon-eyes-close'" (click)="tooglePass()" ></span>
-                            <label for="">Contraseña </label>
+                            <label for="">{{"iniciar_sesion.contrasena" | translate}} </label>
                             <input type="password" 
                                 id="password"
                                 [(ngModel)]="usuario.datos.clave" 
                                 (keyup)="ValAcceso()" 
-                                placeholder="Contraseña"
+                                [placeholder]="'iniciar_sesion.ph_contrasena' | translate"
                                 [ngClass]="error==2?'input-error':''"
                                 maxlength="25"
                             >
@@ -81,16 +81,17 @@
 
                     <div class="checkbox-group">
                         <input type="checkbox" checked="true" id="session-open">
-                        <label for="session-open"> Recordar Contraseña</label>
+                        <label for="session-open"> {{"iniciar_sesion.recordar" | translate}}</label>
                     </div>
                 </div>
                 <button
                     class="btn btn-block"
                     [ngClass]="habLogin?'btn-primary':'btn-disable'"
                     (click)="(!loading) && LogIn()"
-                >Iniciar sesión <span *ngIf="loading" class="icon icon-loader"></span> </button>
+                > {{"iniciar_sesion.titulo" | translate}} <span *ngIf="loading" class="icon icon-loader"></span> </button>
 
-                <button class="btn-recovery" (click)="load_recoverypass = true">Olvidé mi contraseña</button>
+                <button class="btn-recovery" (click)="load_recoverypass = true">{{"iniciar_sesion.olvide" | translate}}</button>
+                
 
             </div>
         </div>
@@ -104,3 +105,56 @@
 
 <!-- ! MODAL SMS ======================================================================= -->
 <app-sms [importTipo]="1" (exportRes)="LoginSms($event)"></app-sms>
+
+
+
+
+<div class="container" *ngIf="display_delete" >
+
+    <div class="card card-delete">
+        <button class="btn close justify-self-end" (click)="display_delete = false;"   ><span class="icon icon-close"></span></button>
+
+        <img src="../../../assets/imagenes/close-square.png" alt="">
+
+        <h2 class="font-500" >{{"iniciar_sesion.alert_del.titulo" | translate}}</h2>
+        <h5 class="text-center">{{"iniciar_sesion.alert_del.texto" | translate}}</h5>
+        
+    </div>
+
+</div>
+
+<div class="container" *ngIf="display_block" >
+
+    <div class="card card-block">
+        <button class="btn close justify-self-end" (click)="display_block = false;"   ><span class="icon icon-close"></span></button>
+
+        <div class="content" *ngIf="fase_block == 0" >
+            <img src="../../../assets/imagenes/alert-triangle.png" alt="">
+
+            <h2 class="font-500" >{{"iniciar_sesion.alert_block.titulo" | translate}}</h2>
+            <h5 class="text-center">{{"iniciar_sesion.alert_block.texto" | translate}} </h5>
+            
+            <button class="btn-primary" (click)="fase_block =1" >{{"iniciar_sesion.alert_block.btn_des" | translate}}</button>
+        </div>
+
+        <div class="content" *ngIf="fase_block == 1" >
+            <h3 class="font-500" >{{"iniciar_sesion.alert_block.p1.title" | translate}}</h3>
+
+            <div class="form-group">
+                <label for="">{{"iniciar_sesion.alert_block.p1.label" | translate}} </label>
+
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+
+            <button class="btn-primary btn-block" (click)="fase_block=2" >{{"iniciar_sesion.alert_block.p1.btn" | translate}}</button>
+        </div>
+
+        <div class="content" *ngIf="fase_block == 2" >
+            <img src="../../../assets/imagenes/circle-check-modal.png" alt="">
+            <h4  >{{"iniciar_sesion.alert_block.p2.title" | translate}}</h4>
+            <p class="text-center" >{{"iniciar_sesion.alert_block.p2.text" | translate}}</p>
+        </div>
+
+    </div>
+
+</div>

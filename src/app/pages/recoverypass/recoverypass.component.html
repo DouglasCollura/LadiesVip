@@ -4,25 +4,25 @@
         <button class="btn-icon align-self-start justify-self-end" (click)="Cerrar()"><i class="icon icon-close"></i></button>
 
         <div class="temp-recovery">
-            <h2 class="font-500">Recuperar contraseña</h2>
+            <h2 class="font-500">{{"recuperar_contrasena.titulo" | translate}}</h2>
             
             <!-- ! FASE 1 SELECCION MAIL/PHONE========================================= -->
             <div class="section_uno" *ngIf="fase == 0">
 
                 <div class="grid">
-                    <h5>¿Cómo deseas recuperar tu contraseña? </h5>
+                    <h5>{{"recuperar_contrasena.titulo_recuperar" | translate}} </h5>
 
                     <div class="grid gap-10 align-content-start">
-                        <button class=" btn-icon" (click)="RecuperarEmail()" > <i class="icon icon-mail"></i> Enviar un correo electrónico</button>
+                        <button class=" btn-icon" (click)="RecuperarEmail()" > <i class="icon icon-mail"></i>{{"recuperar_contrasena.correo" | translate}}</button>
                         <div class="line-h"></div>
-                        <button class=" btn-icon" (click)="RecuperarPhone()"> <i style="font-size: 18px;" class="icon icon-message"></i> Enviar un SMS</button>
+                        <button class=" btn-icon" (click)="RecuperarPhone()"> <i style="font-size: 18px;" class="icon icon-message"></i> {{"recuperar_contrasena.SMS" | translate}}</button>
                     </div>
                         
                 </div>
                 <div class="grid">
                     <div class="group-line-h">
                         <div class="line-h"> </div>
-                        <h3>o iniciar sesión con</h3>
+                        <h3>{{"iniciar_sesion.otros_inicios" | translate}}</h3>
                         <div class="line-h"> </div>
                     </div>
     
@@ -40,18 +40,18 @@
 
                 <div class="grid" style="align-content: space-between;" *ngIf="recovery_type == 1">
                     <div class="from-group">
-                        <span>Número de teléfono</span>
+                        <span>{{"crear_cuenta_telefono.numero_telefono" | translate}}</span>
                         <div class="input-group-append">
                             <button (click)="ctrl_modal_sms_tlf = true"> {{usuario.country_short_name}}  <span style="font-size: 5px;" class="icon icon-chevron-down"></span></button>
                             <input type="text"
-                                placeholder="Ingresar número"
+                                [placeholder]=" 'crear_cuenta.ph_numero' | translate "
                                 [(ngModel)]="usuario.telefono"
                                 (keypress)="SoloNumero($event)" 
                             >
                         </div>
-                        <p class="text-error" *ngIf="error == 1">El número ingresado no está registrado</p>
-                        <p class="text-error" *ngIf="error == 2">El número ingresado es invalido</p>
-                        <p class="text-error" *ngIf="error == 3">La plataforma está presentando problemas, intente mas tarde</p>
+                        <p class="text-error" *ngIf="error == 1">{{"recuperar_contrasena.fase_SMS.err_1" | translate}}</p>
+                        <p class="text-error" *ngIf="error == 2">{{"recuperar_contrasena.fase_SMS.err_2" | translate}}</p>
+                        <p class="text-error" *ngIf="error == 3">{{"recuperar_contrasena.fase_SMS.err_3" | translate}}</p>
 
                     </div>
                     <button 
@@ -59,23 +59,23 @@
                         [class]="(VacioU(usuario.telefono) || VacioU(usuario.code_phone))? 'btn-disable':'btn-primary'"
                         (click)="((!VacioU(usuario.telefono) && !VacioU(usuario.code_phone)) && !loading) && ValidarPhone()"
 
-                    >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+                    > {{"crear_cuenta.btn_continuar" | translate}} <span class="icon icon-loader" *ngIf="loading"></span></button>
                 </div>
 
                 <div class="grid" style="align-content: space-between;" *ngIf="recovery_type == 0">
                     <div class="from-group">
-                        <span>Correo</span>
+                        <span>{{"crear_cuenta.correo" | translate}}</span>
                         <input type="text"
-                            placeholder="Ingresar su correo"
+                            [placeholder]=" 'crear_cuenta.ph_correo' | translate "
                             [(ngModel)]="usuario.correo"
                         >
-                        <p class="text-error" *ngIf="error == 1">El correo ingresado no existe.</p>
+                        <p class="text-error" *ngIf="error == 1">{{"recuperar_contrasena.fase_correo.err_1" | translate}}</p>
                     </div>
                     <button 
                         class="btn-block" 
                         [class]="(VacioU(usuario.correo)) ? 'btn-disable':'btn-primary'"
                         (click)="!(VacioU(usuario.correo)) && ValidarCorreo()"
-                    >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+                    > {{"crear_cuenta.btn_continuar" | translate}} <span class="icon icon-loader" *ngIf="loading"></span></button>
                 </div>
      
             </div>
@@ -118,26 +118,26 @@
             <div class="section_dos" *ngIf="fase == 2">
                 <div class="grid justify-items-center" *ngIf="recovery_type == 0">
                     <img src="../../assets/imagenes/email-send.png" alt="">
-                    <h2 class="font-500">Email enviado</h2>
+                    <h2 class="font-500">{{"recuperar_contrasena.fase_correo.titulo" | translate}}</h2>
 
-                    <h5 class="text-center">Hemos enviado un email al correo {{usuario.correo}} con un código para que puedas recuperar tu contraseña ;)</h5>
+                    <h5 class="text-center">{{"recuperar_contrasena.fase_correo.parrafo" | translate:{value:usuario.correo} }}</h5>
                 </div>
 
                 <div class="grid justify-items-center" *ngIf="recovery_type == 1">
                     <img src="../../assets/imagenes/message-phone.png" alt="">
-                    <h2 class="font-500">SMS enviado</h2>
+                    <h2 class="font-500">{{"recuperar_contrasena.fase_SMS.titulo" | translate}}</h2>
 
-                    <h5 class="text-center">Hemos enviado un mensaje al número +{{usuario.code_phone}} {{usuario.telefono}} con un código para que puedas recuperar tu contraseña ;)</h5>
+                    <h5 class="text-center">{{"recuperar_contrasena.fase_SMS.titulo" | translate:{value:usuario.code_phone,value1:usuario.telefono} }}</h5>
                 </div>
 
-                <button class="btn-primary" (click)="fase =3">Continuar</button>
+                <button class="btn-primary" (click)="fase =3">{{"crear_cuenta.btn_continuar" | translate}}</button>
             </div>
 
             <!-- ! FASE 3 LLENADO DE CODIGO ========================================= -->
             <div class="section_tres" *ngIf="fase == 3">
 
-                <h4 *ngIf="recovery_type == 0">Ingresa el código que fue enviado al correo {{usuario.correo}} </h4>
-                <h4 *ngIf="recovery_type == 1">Ingresa el código que fue enviado al número +{{usuario.code_phone}} {{usuario.telefono}}</h4>
+                <h4 *ngIf="recovery_type == 0">{{"recuperar_contrasena.fase_correo.parrafo_codigo" | translate}} {{usuario.correo}} </h4>
+                <h4 *ngIf="recovery_type == 1">{{"recuperar_contrasena.fase_SMS.parrafo_codigo" | translate}} +{{usuario.code_phone}} {{usuario.telefono}}</h4>
                 
                 <div class="group-input-code">
                     <input type="text" [(ngModel)]="code_1" placeholder="0" maxlength="1">
@@ -146,52 +146,52 @@
                     <input type="text" [(ngModel)]="code_4" placeholder="0" maxlength="1">
                     <input type="text" [(ngModel)]="code_5" placeholder="0" maxlength="1">
                 </div>
-                <p class="text-error" *ngIf="error == 1">El código ingresado no es correcto</p>
+                <p class="text-error" *ngIf="error == 1">{{"recuperar_contrasena.titulo_recibir" | translate}}</p>
 
                 <div class="grid align-items-center" style="grid-auto-flow: column;">
-                    <h6>¿No has recibido el código?</h6>
+                    <h6>{{"recuperar_contrasena.titulo_recibir" | translate}}</h6>
                     <button 
                         [class]="re_code? 'btn-reenviar':'btn-reenviar-disable'" 
                         *ngIf="recovery_type == 0" 
                         (click)="(re_code) && ValidarCorreo()"
-                    >Reenviar código <span *ngIf="!re_code">(espere 2min)</span> </button>
+                    >{{"recuperar_contrasena.reenviar" | translate}} <span *ngIf="!re_code">{{"recuperar_contrasena.wait" | translate}})</span> </button>
                     <button 
                         [class]="re_code? 'btn-reenviar':'btn-reenviar-disable'" 
                         *ngIf="recovery_type == 1" 
-                        (click)="(re_code) && ValidarPhone()">Reenviar código <span *ngIf="!re_code">(espere 2min)</span>  </button>
+                        (click)="(re_code) && ValidarPhone()">{{"recuperar_contrasena.reenviar" | translate}} <span *ngIf="!re_code">({{"recuperar_contrasena.wait" | translate}})</span>  </button>
                 </div>
 
                 <button 
                     class=" btn-block" 
                     [class]="(VacioU(code_1) || VacioU(code_2)  || VacioU(code_3)|| VacioU(code_4) || VacioU(code_5)) ? 'btn-disable':'btn-primary'"
                     *ngIf="recovery_type == 0" (click)="!(VacioU(code_1) || VacioU(code_2)  || VacioU(code_3)|| VacioU(code_4) || VacioU(code_5)) &&ValidarCodigo(1)"
-                >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+                >{{"crear_cuenta.btn_continuar" | translate}}<span class="icon icon-loader" *ngIf="loading"></span></button>
 
                 <button 
                     class="btn-block" 
                     [class]="(VacioU(code_1) || VacioU(code_2)  || VacioU(code_3)|| VacioU(code_4) || VacioU(code_5)) ? 'btn-disable':'btn-primary'"
                     *ngIf="recovery_type == 1" (click)="!(VacioU(code_1) || VacioU(code_2)  || VacioU(code_3)|| VacioU(code_4) || VacioU(code_5)) &&ValidarCodigo(2)"
-                >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+                >{{"crear_cuenta.btn_continuar" | translate}} <span class="icon icon-loader" *ngIf="loading"></span></button>
 
             </div>
 
             <!-- ! FASE 5 INGRESO NUEVA CONTRASEÑA ========================================= -->
             <div class="section_cuatro" *ngIf="fase == 4">
 
-                <h4 >Elige una contraseña más de 8 caracteres. Recomendable con un carácter especial y un carácter numérico </h4>
+                <h4 >{{"recuperar_contrasena.text_clave" | translate}}</h4>
                 
                 <div>
                     <div class="form-group">
-                        <label for="">Contraseña</label>
-                        <input type="password" [(ngModel)]="usuario.clave" placeholder="Ingresar una contraseña">
+                        <label for="">{{"crear_cuenta.contrasena" | translate}}</label>
+                        <input type="password" [(ngModel)]="usuario.clave" [placeholder]="'crear_cuenta.ph_contrasena' | translate">
                     </div>
     
                     <div class="form-group">
-                        <label>Confirmar contraseña</label>
-                        <input type="password" [(ngModel)]="rep_clave" placeholder="Confirmar contraseña">
+                        <label>{{"crear_cuenta.re_contrasena" | translate}}</label>
+                        <input type="password" [(ngModel)]="rep_clave" [placeholder]="'crear_cuenta.ph_re_contrasena' | translate">
                     </div>
-                    <p class="text-error" *ngIf="error == 1">Las contraseñas no son iguales.</p>
-                    <p class="text-error" *ngIf="error == 2">La contraseña es menor de 8 caracteres.</p>
+                    <p class="text-error" *ngIf="error == 1">{{"crear_cuenta.err_4" | translate}}</p>
+                    <p class="text-error" *ngIf="error == 2">{{"crear_cuenta.err_3" | translate}}</p>
                 </div>
 
                 <button 
@@ -199,14 +199,14 @@
                     [class]="(VacioU(usuario.clave) || VacioU(rep_clave))?'btn-disable':'btn-primary'"
                     *ngIf="recovery_type == 0"  
                     (click)="(!VacioU(usuario.clave) && !VacioU(rep_clave)) && CambiarClave(1)"
-                > Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+                > {{"crear_cuenta.btn_continuar" | translate}} <span class="icon icon-loader" *ngIf="loading"></span></button>
 
                 <button 
                     class="btn-block" 
                     [class]="(VacioU(usuario.clave) || VacioU(rep_clave))?'btn-disable':'btn-primary'"
                     *ngIf="recovery_type == 1"  
                     (click)="(!VacioU(usuario.clave) && !VacioU(rep_clave)) && CambiarClave(2)"
-                >Continuar <span class="icon icon-loader" *ngIf="loading"></span></button>
+                > {{"crear_cuenta.btn_continuar" | translate}} <span class="icon icon-loader" *ngIf="loading"></span></button>
 
             </div>
 

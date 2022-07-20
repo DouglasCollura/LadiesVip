@@ -1,0 +1,352 @@
+<!-- ! FILTRO ========================================== -->
+<div class="section-filtro">
+    <div class="group-input-icon-left">
+        <span class="icon icon-search"></span>
+        <input 
+            type="text" 
+            class="input-square" 
+            placeholder="Buscar"
+            [(ngModel)]="busqueda" 
+            (keyup.enter)="Buscar()" 
+            (keyup.backspace)="busqueda ==''&&Buscar()" 
+        >
+    </div>
+    <button class="justify-self-end" class="btn btn-square" id="open_filtro" (click)="OpenFiltro()">Filtrar por <span class="icon icon-filter"></span> </button>
+</div>
+
+
+<!-- ! CONTENIDO ========================================== -->
+<div class="grid align-content-start">
+    <table>
+        <thead>
+            <th>NOMBRE DEL NEGOCIO</th>
+            <th>EMAIL DEL TITULAR</th>
+            <th>FECHA</th>
+            <th>LUGAR</th>
+            <th></th>
+            <th></th>
+        </thead>
+
+        <tbody *ngIf="bloqueado_busqueda.length == 0 && !loading_tab">
+            <tr class="sub-red" *ngFor="let negocio of negocios; let i = index">
+                <td> {{negocio.nombre}} </td>
+                <td> {{negocio.tipo == null? negocio.user.email:negocio.user_email }} </td>
+                <td> {{ GetDate(negocio.created_at) }} </td>
+                <td> {{negocio.estado}}, {{negocio.pais}} </td>
+                <td style="position: relative; text-decoration: none !important;" >
+                    <button  (click)="OpenShow(negocio)" ><i class="icon icon-eyes"></i></button>
+                </td>
+                <td style="position: relative; text-decoration: none !important;">
+                    <button (click)="ToggleOptionTable(i+1)" class="btnToggle"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
+                    <div class="table-options" [class]="ctrl_opt == i+1? 'show':'' "  [id]="i">
+                        <button class="btn-icon" (click)="OpenDes(negocio)" > <i class="icon icon-flag"></i> desbloquear negocio</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+
+        <tbody *ngIf="bloqueado_busqueda.length != 0 && !loading_tab">
+            <tr class="sub-red" *ngFor="let negocio of bloqueado_busqueda; let i = index">
+                <td> {{negocio.nombre}} </td>
+                <td> {{negocio.tipo == null? negocio.user.email:negocio.user_email }} </td>
+                <td> {{ GetDate(negocio.created_at) }} </td>
+                <td> {{negocio.estado}}, {{negocio.pais}} </td>
+                <td style="position: relative; text-decoration: none !important;" >
+                    <button  (click)="OpenShow(negocio)" ><i class="icon icon-eyes"></i></button>
+                </td>
+                <td style="position: relative; text-decoration: none !important;">
+                    <button (click)="ToggleOptionTable(i+1)" class="btnToggle"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
+                    <div class="table-options" [class]="ctrl_opt == i+1? 'show':'' "  [id]="i">
+                        <button class="btn-icon" (click)="OpenDes(negocio)" > <i class="icon icon-flag"></i> desbloquear negocio</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="loading_tab" class="loading"></div>
+</div>
+
+
+<!-- ! MODAL INFO -->
+
+<div class="container" *ngIf="display_show" >
+
+    <div class="card">
+        <div class="header-card">
+            <h2 class="font-500">Solicitud</h2>
+            <button class="btn-icon align-self-start justify-self-end" (click)="display_show = false"  ><i class="icon icon-close"></i></button>
+        </div>
+
+        <div class="card-body">
+            
+            <div class="nav-component">
+                <button id="show_titular" [class]="ctrl_menu== 0? 'active':''" (click)="ctrl_menu = 0">Titular</button>
+                <button id="show_negocio" [class]="ctrl_menu== 1? 'active':''" (click)="ctrl_menu = 1">Inf. negocio</button>
+                <button id="show_lugar"  [class]="ctrl_menu== 2? 'active':''" (click)="ctrl_menu = 2">Inf. lugar</button>
+                <button id="show_foto"  [class]="ctrl_menu== 3? 'active':''" (click)="ctrl_menu = 3">Fotos</button>
+            </div>
+
+            <div class="content" *ngIf="ctrl_menu == 0" >
+
+                <h2 class="title-content">Información del titular</h2>
+
+                <div class="form-group">
+                    <label for="">Nombre del titular</label>
+                    <h3> {{negocio?.user_name==null? negocio?.user.name : negocio?.user_name }} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <h3>{{negocio?.user_email==null? negocio?.user.email : negocio?.user_email }}  </h3>
+                </div>
+
+            </div>
+
+            
+            <!-- ! INFO NEGOCIO -->
+            <div class="content" *ngIf="ctrl_menu == 1" >
+
+                <h2 class="title-content">Información del negocio</h2>
+
+                <div class="form-group">
+                    <label for="">Nombre del negocio</label>
+                    <h3> {{negocio.nombre}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Categoría</label>
+                    <h3>{{GetCategoria(negocio.categoria) }} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">WhatsApp (negocio)</label>
+                    <h3> {{ negocio.telefono }} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Descripción</label>
+                    <h3> {{negocio.descripcion}} </h3>
+                </div>
+
+            </div>
+
+            <!-- ! INFO UBICACION -->
+            <div class="content" *ngIf="ctrl_menu == 2" >
+
+                <h2 class="title-content">Información del lugar</h2>
+
+                <div class="form-group">
+                    <label for="">Dirección</label>
+                    <h3> {{negocio.direccion}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">País</label>
+                    <h3> {{negocio.pais}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Estado</label>
+                    <h3> {{negocio.estado}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Ciudad</label>
+                    <h3> {{negocio.ciudad}} </h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Coordenadas</label>
+                    <h3> {{negocio.latitud}} |  {{negocio.longitud}} </h3>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="">Ubicación</label>
+                    
+                    <div class="content-map">
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ! INFO FOTOS -->
+
+            <div class="content" *ngIf="ctrl_menu == 3">
+                
+                <div class="carrusel">
+                    <div class="content-img" *ngFor="let foto of img_show" >
+                        <img [src]="url+foto" alt="">
+                    </div>  
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ! MODAL DENUNCIA ===================================================================================== -->
+<div class="container" *ngIf="ctrl_modal_denuncia">
+
+    <div class="card ">
+        <button (click)="ctrl_modal_denuncia = false" class="btn-icon align-self-start justify-self-end"><i class="icon icon-close"></i></button>
+
+        <div class="card-reporte" *ngIf="fase_modal_denuncia == 0">
+            <div class="grid gc-2x-g">
+                <div class="grid justify-items-center">
+                    <div class="content-circle-img" style="width: 40px; height: 40px;">
+                        <div class="circle-img" >
+                            <img src="../../assets/imagenes/user_example.jpg"  alt="">
+                        </div>
+                    </div>
+
+                    <h4 class="font-300">DENUNCIANTE</h4>
+                    <h2 class="font-500">Matías Saldivar Rojas</h2>
+
+                    <div class="flex-column ">
+                        <h3>24 años</h3>
+                        <h3>Barcelona, España</h3>
+                    </div>
+                </div>
+
+                <div class="grid justify-items-center">
+                    <div class="content-circle-img" style="width: 40px; height: 40px;">
+                        <div class="circle-img" >
+                            <div class="img-reportado"></div>
+                            <img src="../../assets/imagenes/user_example_2.jpg"  alt="">
+                        </div>
+                    </div>
+
+                    <h4 class="font-300">REPORTADO</h4>
+                    <h2 class="font-500">Juliana Robles Sánchez</h2>
+
+                    <div class="flex-column">
+                        <h3>24 años</h3>
+                        <h3>Sao paulo, Brasil</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="line-h"></div>
+            
+            <div class="grid justify-content-center align-content-center ">
+                <div class="grid gc-2x-g  gap-20 ">
+                    <div class="grid flex-column gap-10">
+                        <div class="circle-gris">
+                            <i class="icon icon-calendar"></i>
+                        </div>
+                        <div class="grid gap-10 align-content-start">
+                            <h3>Fecha</h3>
+                            <h4>21/12/2021</h4>
+                        </div>
+                    </div>
+
+                    <div class="grid flex-column gap-10">
+                        <div class="circle-gris">
+                            <i class="icon icon-flag"></i>
+                        </div>
+                        <div class="grid gap-10 align-content-start">
+                            <h3>Motivo</h3>
+                            <h4>Es un perfil falso</h4>
+                        </div>
+                    </div>
+
+                    <div class="grid flex-column gap-10">
+                        <div class="circle-gris">
+                            <i class="icon icon-clock"></i>
+                        </div>
+                        <div class="grid gap-10 align-content-start">
+                            <h3>Motivo</h3>
+                            <h4>Es un perfil falso</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-block" (click)="fase_modal_denuncia = 1">Anular anuncios de usuario reportad@</button>
+
+        </div>
+
+        <div  class="grid justify-items-center text-center" *ngIf="fase_modal_denuncia == 1" >
+            <div class="content-circle-img" style="width: 40px; height: 40px;">
+                <div class="circle-img" >
+                    <div class="img-reportado"></div>
+                    <img src="../../assets/imagenes/user_example_2.jpg"  alt="">
+                </div>
+            </div>
+
+            <div class="grid text-center align-self-start gap-10">
+                <h3>REPORTAD@</h3>
+                <h1 class="font-500">Juliana Robles Sánchez</h1>
+                <div class="flex-column justify-self-center">
+                    <h3>24 años</h3>
+                    <h3>Sao paulo, Brasil</h3>
+                </div>
+            </div>
+
+            <h2>¿Estás seguro de anular los anuncios de <br> Juliana Robles?</h2>
+
+            <div class="grid gc-2x-g gap-10 align-items-center">
+                <button class="btn-cancelar">Cancelar</button>
+                <button class="btn btn-primary" (click)="AnularAnuncios()">Anular anuncios</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ! MODAL DESBLOQUEAR NEGOCIO ================================================= -->
+
+<div class="container" *ngIf="display_des" >
+    
+    <div class="card temp-card-bloquear text-center">
+        <button class="btn-icon align-self-start justify-self-end" (click)="display_des=false;" ><i class="icon icon-close"></i></button>
+
+        <div class="grid align-content-start gap-10">
+            <h1 style="line-height: 25px;" class="align-self-center"><i style="font-size: 65px; " class="icon icon-alert"></i></h1>
+            <div class="grid  align-content-start gap-10">
+                <h1>Desbloquear negocio</h1>
+            </div>
+            <h2 style="color: var(--neutro-400);"> ¿Estás seguro que deseas desbloquear este negocio?.</h2>
+        </div>
+
+        <div class="grid">
+            <button class="btn-alert" (click)="DesBloquear()" >Desbloquear negocio</button>
+            <button class="btn-cancel" (click)="display_des=false" >Cancelar</button>
+        </div>
+    </div>
+
+</div>
+
+
+<app-modales></app-modales>
+
+
+<div class="modal-filtro" *ngIf="display_filtro" >
+    <h3 class="font-500"> <span class="icon icon-filter"></span> Filtrar por</h3>
+
+
+    <div class="grid align-content-start">
+        <div class="title-line">
+            <h5 class="font-500">FECHA</h5>
+        </div>
+
+        <div class="group-fecha">
+            <input type="date" [(ngModel)]="desde" >
+            <div class="line-h"></div>
+            <input type="date" [(ngModel)]="hasta">                 
+        </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" (click)="Filtrar()">Filtrar</button>
+
+</div>
+
+<div class="container"  *ngIf="loading">
+    <div  class="loading align-self-center" > </div>
+</div>

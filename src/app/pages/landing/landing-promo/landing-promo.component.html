@@ -1,0 +1,346 @@
+<div class="container">
+
+    <button class=" btn btn-back" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
+
+    <div class="temp-promo">
+
+        <div class="content" >
+            <div class="top">
+                <h1>{{"landing.promocionar.titulo" | translate}}</h1>
+
+                <p *ngIf="fase == 0" >{{"landing.promocionar.text" | translate}}</p>
+            </div>
+
+            <!-- ? FASE 1 ======================================== -->
+            <div class="temp-crear-body" *ngIf="fase == 0">
+                <h3>{{"landing.promocionar.p1.title" | translate}}</h3>
+
+                <div>
+                    <div class="form-group">
+                        <label for="">{{"crear_cuenta.nombre" | translate}} </label>
+                        <input type="text" [(ngModel)]="negocio.p1.usuario_nombre"  [placeholder]="'negocio.paso_1.ph_nombre' | translate">
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="">{{"crear_cuenta.correo" | translate}} </label>
+                        <input type="text" [(ngModel)]="negocio.p1.usuario_email"  [placeholder]="'crear_cuenta.ph_correo' | translate">
+                    </div>               
+                </div>
+
+
+                <button class="btn  btn-block" [class]="passP()?'btn-primary':'btn-disable'"  (click)=" passP() && fase = 1">{{"landing.promocionar.p1.btn" | translate}}</button>
+            </div>
+
+            <!-- ? FASE 2 ======================================== -->
+
+            <div class="temp-crear-body" [hidden]="fase == 0">
+                <div class="grid flex-column" style="justify-content: space-between;">
+                    <h4>{{"negocio.paso_1.titulo" | translate}} {{paso}} </h4>
+
+                    <div class="flex-column">
+                        <div  [class]="paso == 1?'circle':'circle-disable'"></div>
+                        <div  [class]="paso == 2?'circle':'circle-disable'"></div>
+                        <div  [class]="paso == 3?'circle':'circle-disable'"></div>
+                    </div>
+                </div>
+
+
+                <!-- ? PASO 1 ======================================== -->
+
+                <div class="grid gap-20" *ngIf="paso == 1">
+                    <h3 class="align-self-start">{{"landing.promocionar.p2.title" | translate}}</h3>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_1.nombre" | translate}} </label>
+                            <input type="text" [(ngModel)]="negocio.p1.nombre" [placeholder]="'negocio.paso_1.ph_nombre' | translate">
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_1.categoria" | translate}}</label>
+                            <select name="" [(ngModel)]="negocio.p1.categoria"  id="">
+                                <option value="0">{{"servicios.upt_0" | translate}}</option>
+                                <option value="1">{{"servicios.upt_1" | translate}}</option>
+                                <option value="2">{{"servicios.upt_2" | translate}}</option>
+                                <option value="3">{{"servicios.upt_3" | translate}}</option>
+                                <option value="4">{{"servicios.upt_4" | translate}}</option>
+                            </select>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="">WhatsApp (negocio)</label>
+                            <input type="text"
+                                inputmode="numeric" 
+                                pattern="[-+]?[0-9]*[.,]?[0-9]+"
+                                [placeholder]="'+'"
+                                [(ngModel)]="negocio.p1.telefono"
+                                (keypress)="SoloNumero($event)" 
+                                maxlength="14"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_1.web" | translate}} </label>
+                            <input type="text" [(ngModel)]="negocio.p1.pagina" placeholder="www." >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_1.descripcion" | translate}}</label>
+                            <textarea name="" id="" [(ngModel)]="negocio.p1.descripcion" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+
+                    <button 
+                        class="btn-block btn-primary justify-content-center" 
+                        (click)="( !Vacio(negocio.p1)) && FaseDos()"  
+                        [ngClass]="( Vacio(negocio.p1))?'btn-disable':'btn-primary'"
+                    > {{"negocio.btn_siguiente" | translate}} <i class="icon icon-arrow-right"></i> </button>
+                </div>
+
+
+                <!-- ? PASO 2 ======================================== -->
+
+                <div class="grid gap-20" [hidden]="paso != 2">
+                    <h3 class="align-self-start">{{"landing.promocionar.p3.title" | translate}}</h3>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_2.direccion" | translate}} </label>
+                            <input type="text" placeholder="Ingrese una dirección" [(ngModel)]="negocio.p2.direccion" >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_2.pais" | translate}} </label>
+                            <select name=""  id="">
+                                <option value="0" selected disabled>Spain</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_2.estado" | translate}}</label>
+                            <button class="btn btn-block btn-select" (click)=" (negocio.p2.pais) && display_estado = true" > {{negocio.p2.estado}} <span class="icon icon-chevron-down" ></span> </button>
+                        </div>
+            
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_2.ciudad" | translate}}</label>
+                            <button class="btn btn-block btn-select" (click)=" (negocio.p2.estado) && display_ciudad = true" > {{negocio.p2.ciudad}} <span class="icon icon-chevron-down" ></span> </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">{{"negocio.paso_2.ubicacion" | translate}}</label>
+                            <div class="content-map" >
+                                <div #map_canvas id="map_canvas" ></div>
+                            </div>
+                        </div>
+
+                        <div class="grid gc-2x-g gap-10">
+                            <div class="form-group">
+                                <input type="text" readonly placeholder="Latitud" [(ngModel)]="negocio.p2.latitud">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" readonly placeholder="Longitud" [(ngModel)]="negocio.p2.longitud">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary justify-self-end" (click)="paso = 3"> {{"negocio.btn_siguiente" | translate}} <i class="icon icon-arrow-right"></i> </button>
+                </div>
+
+
+                <!-- ? PASO 3 ======================================== -->
+
+                <div class="grid justify-content-start gap-10" *ngIf="paso == 3">
+                    <h3 class="align-self-start">{{"landing.promocionar.p4.title" | translate}}</h3>
+                    
+                    <div class="group-img">
+
+                        <div class="primary-img" >
+                            <div *ngIf="!user_imagen_show[0]" (click)="SelectImg()" class="content-more" >
+                                <span>+</span>
+                            </div>
+        
+                            <div class="delete" *ngIf="user_imagen_load[0]" (click)="DeleteImg(user_imagen_load[0],1)" >
+                                <span class="icon icon-close"></span>
+                            </div>
+                            <div class="delete" *ngIf="!user_imagen_load[0] && user_imagen_show[0]" (click)="DeleteImg(user_imagen_show[0],2)" >
+                                <span class="icon icon-close"></span>
+                            </div>
+        
+                            <img id="show"  *ngIf="user_imagen_show[0] && !user_imagen_load[0]" [src]="user_imagen_show[0].img" alt="">
+                            <img id="load" *ngIf="user_imagen_show[0] && user_imagen_load[0]" [src]=" url + user_imagen_load[0]" alt="">
+                        </div>
+        
+                        <div class="carrousel">
+                            <div class="content-img" >
+                                <div *ngIf="!user_imagen_show[1]" (click)="SelectImg()" class="content-more" >
+                                    <span>+</span>
+                                </div>
+                                <div class="delete" *ngIf="user_imagen_load[1]" (click)="DeleteImg(user_imagen_load[1],1)" >
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <div class="delete" *ngIf="user_imagen_show[1] && !user_imagen_load[1]" (click)="DeleteImg(user_imagen_show[1],2)" >
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <img *ngIf="user_imagen_show[1] && !user_imagen_load[1]" [src]="user_imagen_show[1].img" alt="">
+                            <img *ngIf="user_imagen_show[1] && user_imagen_load[1]" [src]=" url + user_imagen_load[1]" alt="">
+        
+                            </div>
+                            <div class="content-img" >
+                                <div *ngIf="!user_imagen_show[2]" (click)="SelectImg()" class="content-more" >
+                                    <span>+</span>
+                                </div>
+        
+                                <div class="delete" *ngIf="user_imagen_load[2]"  (click)="DeleteImg(user_imagen_load[2],1)">
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <div class="delete" *ngIf="user_imagen_show[2] && !user_imagen_load[2]" (click)="DeleteImg(user_imagen_show[2],2)" >
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <img *ngIf="user_imagen_show[2] && !user_imagen_load[2]" [src]="user_imagen_show[2].img" alt="">
+                                <img *ngIf="user_imagen_show[2] && user_imagen_load[2]" [src]=" url + user_imagen_load[2]" alt="">
+                            </div>
+                            <div class="content-img">
+                                <div *ngIf="!user_imagen_show[3]"  (click)="SelectImg()" class="content-more" >
+                                    <span>+</span>
+                                </div>
+                                
+                                <div class="delete" *ngIf="user_imagen_load[3]" (click)="DeleteImg(user_imagen_load[3],1)">
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <div class="delete" *ngIf="user_imagen_show[3] && !user_imagen_load[3]" (click)="DeleteImg(user_imagen_show[3],2)" >
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <img *ngIf="user_imagen_show[3] && !user_imagen_load[3]" [src]="user_imagen_show[3].img" alt="">
+                                <img *ngIf="user_imagen_show[3] &&  user_imagen_load[3]" [src]=" url + user_imagen_load[3]" alt="">
+                            </div>
+                            <div class="content-img">
+                                <div *ngIf="!user_imagen_show[4]"  (click)="SelectImg()" class="content-more" >
+                                    <span>+</span>
+                                </div>
+                                <div class="delete" *ngIf="user_imagen_load[4]" (click)="DeleteImg(user_imagen_load[4],1)">
+                                    <span class="icon icon-close"></span>
+                                </div>
+        
+                                <div class="delete" *ngIf="user_imagen_show[4] && !user_imagen_load[4]" (click)="DeleteImg(user_imagen_show[4],2)" >
+                                    <span class="icon icon-close"></span>
+                                </div>
+                                <img *ngIf="user_imagen_show[4] && !user_imagen_load[4]" [src]="user_imagen_show[4].img" alt="">
+                                <img *ngIf="user_imagen_show[4] && user_imagen_load[4]" [src]=" url + user_imagen_load[4]" alt="">
+        
+                            </div>
+                        </div>
+        
+                    </div>
+                    <input type="file" id="img" (change)="CargarImagen($event)" style="display:none" accept="image/png, image/gif, image/jpeg">
+
+                    <button style="margin-top: 30px;"  class="btn-primary-invert justify-self-start" *ngIf="new" (click)="CrearNegocio()" class="btn-primary btn-block">{{"negocio.btn_siguiente" | translate}}</button>
+                    <button style="margin-top: 30px;"  class="btn-primary-invert justify-self-start" *ngIf="!new" (click)="UpdateNegocio()" class="btn-primary btn-block">{{"negocio.btn_siguiente" | translate}}</button>
+                    <!-- <button class="btn-primary-invert justify-self-start" (click)="PublicarNegocio()"> Siguiente <i class="icon icon-arrow-right"></i> </button> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+ 
+<div class="container" *ngIf="end" >
+
+    <div class="back-white">
+        <div class=" send">
+            <img src="../../../../assets/imagenes/email-promo.png" alt="">
+
+            <h3 class="font-500" >{{"landing.promocionar.p5.title" | translate}}</h3>
+
+            <p>>{{"landing.promocionar.p5.text" | translate}}</p>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ? ESTADO ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_estado">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">{{"filtro.estado" | translate}}</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" [placeholder]="'filtro.buscar' | translate">
+            </div>
+        </div>
+        <div *ngIf="loading" class="loading"></div>
+        <div class="card-option-body" *ngIf="estado_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estados;let i = index">
+                <label [for]="i"> {{estado.state_name}}</label>
+                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="estado_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estado_filtro;let i = index">
+                <label [for]="i"> {{estado.state_name}} </label>
+                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ? CIUDAD ============================================== -->
+<div class="bg-card fadeIn"  *ngIf="display_ciudad">
+    <div class="card-option onUp" >
+        <div class="card-option-header">
+            <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+            <h3 class=" justify-self-center text-center font-600">{{"filtro.ciudad" | translate}}</h3>
+
+            <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+        </div>
+
+        <div class="card-option-search">
+            <div class="group-input-icon-left">
+                <span class="icon icon-search"></span>
+                <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()"  [placeholder]="'filtro.buscar' | translate">
+            </div>
+        </div>
+
+        <div *ngIf="loading" class="loading"></div>
+
+        <h2 class="text-center" *ngIf="ciudades.length == 0">No posee, continue a la siguiente fase</h2>
+        <div class="card-option-body" *ngIf="ciudad_filtro.length == 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudades;let i = index">
+                <label [for]="i"> {{ciudad.city_name}}</label>
+                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+        <div class="card-option-body" *ngIf="ciudad_filtro.length != 0">
+            <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudad_filtro;let i = index">
+                <label [for]="i"> {{ciudad.city_name}} </label>
+                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container" *ngIf="loading">
+    <span class="icon icon-loading loading align-self-center "></span>
+</div>

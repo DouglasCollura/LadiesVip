@@ -17,6 +17,9 @@
     <button class="justify-self-end align-self-start btn btn-square" id="open_filtro" (click)="OpenFiltro()">Filtrar por <span class="icon icon-filter"></span> </button>
 </div>
 
+<div>
+    <h4 *ngIf="tipo == '1'" >{{usuarios.length}} usuarios bloqueados</h4>
+</div>
 
 <!-- ! CONTENIDO ========================================== -->
 <div class="grid align-content-start">
@@ -32,47 +35,53 @@
         </thead>
 
         <tbody *ngIf="usuarios_busqueda.length == 0 && !loading">
-            <tr *ngFor="let usuario of usuarios; let i = index">
-                <td>{{usuario.name != null?usuario.name:"No posee"}}</td>
-                <td> {{usuario.email != null?usuario.email:"No posee"}} </td>
-                <td>  {{GetEdad(usuario.fecha_nac)}} </td>
-                <td> {{usuario.ciudad}}, {{usuario.pais}} </td>
-                <td>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee': '+'+usuario.code_phone }} {{usuario.telefono}} </td>
+            <tr [class]="usuario.status !== null?'sub-red':''"  *ngFor="let usuario of usuarios; let i = index">
+                <td> <span> {{usuario.name != null?usuario.name:"No posee"}}</span> </td>
+                <td> <span> {{usuario.email != null?usuario.email:"No posee"}}</span> </td>
+                <td>   <span>{{GetEdad(usuario.fecha_nac)}}</span> </td>
+                <td>  <span>{{usuario.ciudad}}, {{usuario.pais}} </span></td>
+                <td> <span>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee': '+'+usuario.code_phone }} {{usuario.telefono}} </span></td>
                 <td >
                     <button (click)="VerUsuario(usuario)"><i class="icon icon-eyes"></i></button>
                 </td>
                 <td style="position: relative;">
-                    <button (click)="ToggleOptionTable(i)" id="btnToggle"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
-                    <div class="table-options"  [id]="i">
+                    <button (click)="ToggleOptionTable(i+1)" class="btnToggle"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
+                    <div class="table-options" *ngIf="tipo=='0'" [class]="ctrl_opt == i+1? 'show':'' " [id]="i">
                         <button class="btn-icon" (click)="OpenModalBloqueo(usuario)"> <i class="icon icon-flag"></i> Bloquear cuenta </button>
                         <button class="btn-icon" (click)="OpenModalDelete(usuario)"> <i class="icon icon-trash"></i> Eliminar cuenta </button>
+                    </div>
+                    <div class="table-options" *ngIf="tipo=='1'" [class]="ctrl_opt == i+1? 'show':'' " [id]="i">
+                        <button class="btn-icon" (click)="OpenDes(usuario)"> <i class="icon icon-flag"></i> Desbloquear cuenta </button>
                     </div>
                 </td>
             </tr>
         </tbody>
 
         <tbody *ngIf="usuarios_busqueda.length != 0 && !loading">
-            <tr *ngFor="let usuario of usuarios_busqueda; let i = index">
-                <td>{{usuario.name != null?usuario.name:"No posee"}}</td>
-                <td> {{usuario.email != null?usuario.email:"No posee"}} </td>
-                <td>  {{GetEdad(usuario.fecha_nac)}} </td>
-                <td> {{usuario.ciudad}}, {{usuario.pais}} </td>
-                <td>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee': '+'+usuario.code_phone }} {{usuario.telefono}} </td>
+            <tr [class]="usuario.status !== null?'sub-red':''" *ngFor="let usuario of usuarios_busqueda; let i = index">
+                <td>  <span>{{usuario.name != null?usuario.name:"No posee"}}</span></td>
+                <td> <span>{{usuario.email != null?usuario.email:"No posee"}}</span> </td>
+                <td>  <span>{{GetEdad(usuario.fecha_nac)}}</span> </td>
+                <td> <span>{{usuario.ciudad}}, {{usuario.pais}}</span> </td>
+                <td><span>{{usuario.code_phone == '+'  || usuario.code_phone == null  ? 'No posee': '+'+usuario.code_phone }} {{usuario.telefono}}</span> </td>
                 <td >
                     <button (click)="VerUsuario(usuario)"><i class="icon icon-eyes"></i></button>
                 </td>
                 <td style="position: relative;">
-                    <button (click)="ToggleOptionTable(i)"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
-                    <div class="table-options"  [id]="i">
+                    <button (click)="ToggleOptionTable(i+1)" class="btnToggle"><i style="font-size: 5px;" class="icon icon-dots-horizontal"></i></button>
+                    <div class="table-options" *ngIf="tipo=='0'" [class]="ctrl_opt == i+1? 'show':'' " [id]="i">
                         <button class="btn-icon" (click)="OpenModalBloqueo(usuario)"> <i class="icon icon-flag"></i> Bloquear cuenta </button>
                         <button class="btn-icon" (click)="OpenModalDelete(usuario)"> <i class="icon icon-trash"></i> Eliminar cuenta </button>
+                    </div>
+                    <div class="table-options" *ngIf="tipo=='1'" [class]="ctrl_opt == i+1? 'show':'' " [id]="i">
+                        <button class="btn-icon" (click)="OpenDes(usuario)"> <i class="icon icon-flag"></i> Desbloquear cuenta </button>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
-<div *ngIf="loading" class="loading"></div>
+<div *ngIf="loading_tab" class="loading"></div>
 
 <!-- ! MODAL USER ===================================================================================== -->
 <div class="container" *ngIf="ctrl_modal_user">
@@ -180,6 +189,29 @@
 </div>
 
 
+<!-- ! MODAL DESBLOQUEAR NEGOCIO ================================================= -->
+
+<div class="container" *ngIf="display_des" >
+    
+    <div class="card temp-card-bloquear text-center">
+        <button class="btn-icon align-self-start justify-self-end" (click)="display_des=false;" ><i class="icon icon-close"></i></button>
+
+        <div class="grid align-content-start gap-10">
+            <h1 style="line-height: 25px;" class="align-self-center"><i style="font-size: 65px; " class="icon icon-alert"></i></h1>
+            <div class="grid  align-content-start gap-10">
+                <h1>Desbloquear usuario</h1>
+            </div>
+            <h2 style="color: var(--neutro-400);"> ¿Estás seguro que deseas desbloquear este usuario?.</h2>
+        </div>
+
+        <div class="grid">
+            <button class="btn-alert" (click)="DesBloquear()" >Desbloquear usuario</button>
+            <button class="btn-cancel" (click)="display_des=false" >Cancelar</button>
+        </div>
+    </div>
+
+</div>
+
 <div class="modal-filtro" *ngIf="ctrl_modal_filtro" >
     <h3 class="font-500"> <span class="icon icon-filter"></span> Filtrar por</h3>
 
@@ -189,11 +221,11 @@
         </div>
 
         <div class="radio-group">
-            <input id="a" name="usuario" type="radio">
+            <input id="a" name="usuario" [(ngModel)]="tipo" [checked]="tipo == '0'" value="0" type="radio">
             <label for="a">Usuarios actuales</label>
         </div>
         <div class="radio-group">
-            <input id="b" name="usuario" type="radio">
+            <input id="b" name="usuario" [(ngModel)]="tipo" [checked]="tipo == '1'"  value="1" type="radio">
             <label for="b">Usuarios bloqueados</label>
         </div>
     </div>
@@ -206,46 +238,41 @@
         <div class="form-group">
             <label for="">Pais </label>
             <select name="" id="">
-                <option value="0" disabled>Seleccionar</option>
+                <option value="0" selected disabled>Spain</option>
             </select>
         </div>
 
         <div class="form-group">
             <label for="">Estado </label>
-            <select name="" id="" >
-
-            </select>
+            <button class="btn btn-select" (click)="display_estado = true" > {{sel_estado}} <span class="icon icon-chevron-down"></span> </button>
         </div>
 
         <div class="form-group">
             <label for="">Ciudad </label>
-            <select name="" id="">
-
-            </select>
+            <button class="btn btn-select" (click)="  display_ciudad = true" > {{sel_ciudad}} <span class="icon icon-chevron-down"></span> </button>
         </div>
     </div>
 
-    <div class="grid align-content-start">
+    <!-- <div class="grid align-content-start">
         <div class="title-line">
             <h5 class="font-500">DISTANCIA</h5>
         </div>
-
-        <div class="container-range">
-            <div class="line-range" id="line-distancia"></div>
-            <input type="range" id="rango-distancia-min" class="range" min="0" max="100" value="30">
-            <input type="range" id="rango-distancia-max" class="range"min="0" max="100" value="70">
+        <span>{{km}} km</span>
+        <div class="container-range"  >
+            <div class="line-range" id="line-distancia" ></div>
+            <input type="range"  id="line-km" [(ngModel)]="km" class="range" min="1" max="100" >
         </div>
-    </div>
+    </div> -->
 
     <div class="grid align-content-start">
         <div class="title-line">
             <h5 class="font-500">EDAD</h5>
         </div>
-
+        <h3 style="margin:5px 0px" > {{edad_min }} - {{edad_max}} </h3>
         <div class="container-range">
             <div class="line-range" id="line-edad"></div>
-            <input type="range" id="rango-edad-min"  class="range" min="0" max="100" value="30">
-            <input type="range" id="rango-edad-max" class="range" min="0" max="100" value="70">
+            <input type="range" id="rango-edad-min" [(ngModel)]="edad_min"  class="range" min="18" max="60" value="18">
+            <input type="range" id="rango-edad-max" [(ngModel)]="edad_max" class="range" min="18" max="60" value="60">
         </div>
     </div>
 
@@ -255,15 +282,95 @@
         </div>
 
         <div class="group-fecha">
-            <input type="date">
+            <input type="date" [(ngModel)]="fecha_desde" >
             <div class="line-h"></div>
-            <input type="date">              
+            <input type="date" [(ngModel)]="fecha_hasta">              
         </div>
 
     </div>
 
-    <button class="btn btn-primary btn-block" (click)="ctrl_modal_filtro = !ctrl_modal_filtro">Filtrar</button>
+    <button class="btn btn-primary btn-block" (click)="Filtrar()">Filtrar <p *ngIf="load" class="icon icon-loader"></p> </button>
+
+    
+    <!-- ? ESTADO ============================================== -->
+    <div class="bg-card fadeIn"  *ngIf="display_estado">
+        <div class="card-option onUp" >
+            <div class="card-option-header">
+                <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+                <h3 class=" justify-self-center text-center font-600">Estado</h3>
+
+                <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+            </div>
+
+            <div class="card-option-search">
+                <div class="group-input-icon-left">
+                    <!-- <span class="icon icon-search"></span>
+                    <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar"> -->
+                </div>
+            </div>
+            <div *ngIf="loading" class="loading"></div>
+            <div class="card-option-body" *ngIf="estado_filtro.length == 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estados;let i = index">
+                    <label [for]="i"> {{estado.state_name}}</label>
+                    <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+            <div class="card-option-body" *ngIf="estado_filtro.length != 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estado_filtro;let i = index">
+                    <label [for]="i"> {{estado.state_name}} </label>
+                    <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ? CIUDAD ============================================== -->
+    <div class="bg-card fadeIn"  *ngIf="display_ciudad">
+        <div class="card-option onUp" >
+            <div class="card-option-header">
+                <button class="btn justify-self-end"> <span class="icon"></span> </button>
+
+                <h3 class=" justify-self-center text-center font-600">Ciudad</h3>
+
+                <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
+            </div>
+
+            <div class="card-option-search">
+                <div class="group-input-icon-left">
+                    <!-- <span class="icon icon-search"></span>
+                    <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar"> -->
+                </div>
+            </div>
+
+            <div *ngIf="loading" class="loading"></div>
+
+            <h2 class="text-center" *ngIf="ciudades.length == 0">No posee, continue a la siguiente fase</h2>
+            <div class="card-option-body" *ngIf="ciudad_filtro.length == 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudades;let i = index">
+                    <label [for]="i"> {{ciudad.city_name}}</label>
+                    <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+            <div class="card-option-body" *ngIf="ciudad_filtro.length != 0">
+                <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudad_filtro;let i = index">
+                    <label [for]="i"> {{ciudad.city_name}} </label>
+                    <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
 </div>
 
 <app-modales></app-modales>
+
+<div class="container"  *ngIf="loading">
+    <div  class="loading align-self-center" > </div>
+</div>

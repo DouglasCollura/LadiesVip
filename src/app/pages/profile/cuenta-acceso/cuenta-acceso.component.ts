@@ -43,8 +43,7 @@ export class CuentaAccesoComponent implements OnInit {
     viewPass:boolean=false;
     error:number=0;
     loading:boolean=false;
-
-
+    show_delete:boolean=false;
 
     //!FUNCIONES=============================================================
 
@@ -121,6 +120,17 @@ export class CuentaAccesoComponent implements OnInit {
 
     }
     
+    Delete(){
+        this.loading=true;
+        this.show_delete = false;
+        this.UserService.DeleteAccount().then(res=>{
+            console.log(res)
+            localStorage.clear();
+            sessionStorage.clear();
+            location.href='/'
+            
+        })
+    }
 
     //?CONTROL==============================================================================
 
@@ -162,5 +172,6 @@ export class CuentaAccesoComponent implements OnInit {
     Close(){
         this.ConfigService.toggleConfig()
     }
+    
 
 }

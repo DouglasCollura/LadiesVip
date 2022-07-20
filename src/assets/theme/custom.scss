@@ -61,6 +61,10 @@
 	font-weight: 600;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 *{
 	font-family: Ubuntu;
 	box-sizing: border-box;
@@ -69,9 +73,28 @@
 	font-weight:400;
 	color: var(--neutro-700);
 	font-size: 14px;
+    scrollbar-width: thin !important;
+    scrollbar-color: #FF3C76 rgba(69,69,69,.09) !important;
+
+    *::-webkit-scrollbar {
+        width: 7px !important;
+        height: 7px;
+    }
+    
+    *::-webkit-scrollbar-track {
+    background: rgba(69,69,69,.09);
+    }
+    
+    *::-webkit-scrollbar-thumb {
+    background-color: #FF3C76;
+    border-radius: 20px;
+    // border: 3px solid rgba(69,69,69,.09);
+    }
 }
 html{
 	height:100%;
+    scrollbar-width: thin !important;
+    scrollbar-color: #FF3C76 rgba(69,69,69,.09) !important;
 }
 
 body{
@@ -81,6 +104,8 @@ body{
 	font-size: 14px;
 	line-height: 16px;
 	color: var(--neutro-700);
+    scrollbar-width: thin !important;
+    scrollbar-color: #FF3C76 rgba(69,69,69,.09) !important;
 }
 
 .gap-10{
@@ -346,12 +371,19 @@ input[type=radio]:checked:before{
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.44);
-
+    backdrop-filter: blur(6px);
     &-lateral{
         @extend .container;
         position: absolute !important;
         place-content: center !important;
+        z-index: 10;
     }
+    z-index: 10;
+    backdrop-filter: blur(6px);
+}
+
+.place-content-center{
+    place-content: center;
 }
 
 /* * ###################### COLORS ###################################################### */
@@ -451,7 +483,7 @@ input[type=radio]:checked:before{
 
 .btn-primary-invert{
     background-color:white ;
-    color: var(--primario-rosa-2 !important);
+    color: var(--primario-rosa-2) !important;
     outline: 1px solid var(--primario-rosa-2);
     transition: all .2s;
     -webkit-transition: all .2s;
@@ -623,11 +655,11 @@ input[type=radio]:checked:before{
     width: 100%;
     grid-gap: 10px;
     box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
-    border-radius: 24px 24px 0px 0px;
-    -webkit-border-radius: 24px;
-    -moz-border-radius: 24px;
-    -ms-border-radius: 24px;
-    -o-border-radius: 24px;
+    border-radius: 24px 24px  0px 0px;
+    -webkit-border-radius: 24px 24px  0px 0px;
+    -moz-border-radius: 24px 24px  0px 0px;
+    -ms-border-radius: 24px 24px  0px 0px;
+    -o-border-radius: 24px 24px  0px 0px;
     padding-bottom: 20px;
     &-90{
         @extend .card-option;
@@ -720,11 +752,11 @@ input[type=radio]:checked:before{
 /* * 
 *   ###################### RANGE ##################################### 
 * */
-
 .container-range{
     position: relative;
     height: 10px;
     display: grid;
+    width: 100%;
     align-content: center;
 }
 
@@ -755,12 +787,15 @@ input[type=range].range{
     padding: 0;
     height: 6px;
     border: none;
+    // background-image: linear-gradient( to right ,var(--primario-rosa-2 0 50%, var(--neutro-200 50% 100%);
+    // background-size: 60% 100%;
+    // background-repeat: no-repeat;
 }
 input[type=range]::-webkit-slider-runnable-track{
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    height: 6px;
+    height: 15px;
 }
 input[type=range]::-moz-range-track{
     appearance: none;
@@ -905,6 +940,7 @@ input[type=range]::-ms-thumb{
     overflow: hidden;
     background-color: var(--neutro-200);
     display: grid;
+    position: relative;
     width: 100%;
     height: 100%;
     justify-self: start;
@@ -917,7 +953,8 @@ input[type=range]::-ms-thumb{
 .circle-img *{
     width: 100%;
     height: 100%;
-    object-fit:contain;
+    object-fit:cover;
+    position: absolute;
 }
 .sub-circle-img{
     position: absolute;
@@ -947,6 +984,7 @@ input[type=range]::-ms-thumb{
     margin: 20px auto;
      
 }
+
 
 /* * 
 *   ###################### ANIMACIONES ##################################### 
@@ -982,7 +1020,40 @@ input[type=range]::-ms-thumb{
 }
 
 
+.card_check{
+    animation: card_check .5s ease-in-out;
+    -webkit-animation: card_check .5s ease-in-out;
 
+    &-infinite{
+        animation: card_check 1s .2s ease-in-out infinite;
+        -webkit-animation: card_check 1s .2s ease-in-out infinite;
+    }
+}
+
+.card_diss{
+    animation: card_diss .5s ease-in-out;
+    -webkit-animation: card_diss .5s ease-in-out;
+
+    &-infinite{
+        animation: card_diss 1s .2s ease-in-out infinite;
+        -webkit-animation: card_diss 1s .2s ease-in-out infinite;
+    }
+}
+
+.card_fav{
+    animation: card_fav .5s ease-in-out;
+    -webkit-animation: card_fav .5s ease-in-out;
+
+    &-infinite{
+        animation: card_fav 1s .2s ease-in-out infinite;
+        -webkit-animation: card_fav 1s .2s ease-in-out infinite;
+    }
+}
+
+.touch-anim{
+    animation: touch 1s  ease-in-out infinite;
+    -webkit-animation: touch 1s  ease-in-out infinite;
+}
 
 @keyframes fadein {
     0% {
@@ -1045,3 +1116,150 @@ input[type=range]::-ms-thumb{
 
     }
 } 
+
+
+
+@keyframes card_diss {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: translateX(-200px ) translateY(-60px) rotate(-25deg);
+        -webkit-transform: translateX(-200px ) translateY(-60px) rotate(-25deg);
+        -moz-transform: translateX(-200px ) translateY(-60px) rotate(-25deg);
+        -ms-transform: translateX(-200px ) translateY(-60px) rotate(-25deg);
+        -o-transform: translateX(-200px ) translateY(-60px) rotate(-25deg);
+        opacity: 0;
+    }
+}  
+
+@keyframes card_check {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: translateX(200px ) translateY(-60px) rotate(25deg);
+        -webkit-transform: translateX(200px ) translateY(-60px) rotate(25deg);
+        -moz-transform: translateX(200px ) translateY(-60px) rotate(25deg);
+        -ms-transform: translateX(200px ) translateY(-60px) rotate(25deg);
+        -o-transform: translateX(200px ) translateY(-60px) rotate(25deg);
+        opacity: 0;
+    }
+}  
+
+
+
+@keyframes card_fav{
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: translateY(-100px);
+        -webkit-transform: translateY(-100px);
+        -moz-transform: translateY(-100px);
+        -ms-transform: translateY(-100px);
+        -o-transform: translateY(-100px);
+        opacity: 0;
+    }
+}  
+
+@keyframes touch{
+    0% {
+    }
+    50%{
+        transform: scale(.9);
+        -webkit-transform: scale(.9);
+        -moz-transform: scale(.9);
+        -ms-transform: scale(.9);
+        -o-transform: scale(.9);
+}
+    80% {
+        transform: scale(1);
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        -o-transform: scale(1);
+    }
+} 
+
+
+
+
+
+
+
+
+// ! ADMIN ################################################################################################################
+// ! ADMIN ################################################################################################################
+// ! ADMIN ################################################################################################################
+
+
+/* ! TABLE ============================================================================== */
+
+table{
+    border-collapse: collapse;
+}
+thead{
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.12);
+}
+th{
+    text-align: start;
+    padding: 15px 0px;
+    color: var(--neutro-600);
+}
+
+td{
+    padding: 20px 0px;
+    cursor: pointer;
+}
+
+tr:nth-child(2n){
+    background-color: var(--neutro-50);
+}
+
+tr:hover{
+    background-color: var(--neutro-100);
+}
+
+td button{
+    padding: 5px;
+    background: none;
+    border: none;
+    display: grid;
+    align-items: center;
+    cursor: pointer;
+    color: var(--neutro-500);
+}
+
+td button:hover{
+    color: var(--neutro-700);
+}
+
+
+.table-options{
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.24);
+    z-index: 1;
+    top: 4em;
+}
+
+.table-options button{
+    padding: 12px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+.table-options button:hover{
+    background-color: var(--neutro-50);
+}

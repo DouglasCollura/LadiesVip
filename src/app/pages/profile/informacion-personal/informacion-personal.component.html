@@ -2,16 +2,16 @@
 
     <div class="header">
         <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Información personal</h3>
+        <h3 class="font-500 justify-self-center">{{"info_personal.titulo" | translate}}</h3>
     </div>
 
     <div class="body">
 
         <div class="section">
             <div class="title">
-                <h5>Foto de perfil</h5>
+                <h5>{{"info_personal.subtitulo" | translate}}</h5>
 
-                <button (click)="SelectImg()" class="btn text-primary">Editar foto</button>
+                <button (click)="SelectImg()" class="btn text-primary">{{"info_personal.btn_editar" | translate}}</button>
                 <input style="display:none" accept="image/png, image/gif, image/jpeg"  type="file" id="img" (change)="CargarImagen($event)">
             </div>
 
@@ -23,7 +23,7 @@
 
         <div class="section">
             <div class="title">
-                <h5>Cumpleaños</h5>
+                <h5>{{"info_personal.cum" | translate}}</h5>
 
                 <button 
                     class="btn"
@@ -31,12 +31,12 @@
                 > <span class="icon icon-chevron-right"></span> </button>
             </div>
 
-            <h2> {{GetEdad()}} años</h2>
+            <h2> {{GetEdad()}} {{"perfil.anios" | translate}}</h2>
         </div>
 
         <div class="section">
             <div class="title">
-                <h5>Lugar de residencia</h5>
+                <h5>{{"info_personal.residencia" | translate}}</h5>
 
                 <button 
                     class="btn" 
@@ -50,7 +50,7 @@
 
         <div class="section">
             <div class="title">
-                <h5>Identificación</h5>
+                <h5>{{"info_personal.identificacion" | translate}}</h5>
 
                 <button 
                     class="btn"
@@ -70,7 +70,7 @@
 
         <div class="section">
             <div class="title">
-                <h5>Gustos & Preferencias</h5>
+                <h5>{{"info_personal.gustos" | translate}}</h5>
 
                 <button 
                     class="btn"
@@ -96,11 +96,11 @@
 
         <div class="section">
             <div class="title">
-                <h5>Geolocalización</h5>
+                <h5>{{"info_personal.geolocalizacion" | translate}}</h5>
             </div>
 
             <div class="geo">
-                <h4>Activar geolocalización</h4>
+                <h4>{{"info_personal.btn_geolocalizacion" | translate}}</h4>
                 <input type="checkbox" class="check-button">
             </div>
         </div>
@@ -114,7 +114,7 @@
 <div class="temp-info" *ngIf="display_fecha">
     <div class="header">
         <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Cumpleaños</h3>
+        <h3 class="font-500 justify-self-center">{{"info_personal.cumpleaños.titulo" | translate}}</h3>
     </div>  
 
     <div class="body" style="align-content: space-between;">
@@ -122,10 +122,10 @@
         <div class="grid gap-20">
             <input type="date" [(ngModel)]="datos.fecha_nac">
 
-            <p>*Esta información solo servirá para mostrarte a personas potenciales por medio de filtros</p>
+            <p>{{"info_personal.cumpleaños.parrafo" | translate}}</p>
         </div>
 
-        <button class="btn-primary btn-block" (click)="UpdateUser()">Siguiente</button>
+        <button class="btn-primary btn-block" (click)="UpdateUser()">{{"info_personal.btn_guardar" | translate}}</button>
     </div>
 </div>
 
@@ -134,29 +134,29 @@
 <div class="temp-info" *ngIf="display_residencia">
     <div class="header">
         <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Lugar de residencia</h3>
+        <h3 class="font-500 justify-self-center">{{"info_personal.lugar_residencia.titulo" | translate}}</h3>
     </div>  
 
     <div class="body form-location" style="align-content: space-between;">
 
         <div class="grid gap-20">
             <div class="form-group">
-                <label for="">País </label>
-                <button class="btn" (click)="display_pais = true"  > {{datos.pais}} <span class="icon icon-chevron-down"></span> </button>
+                <label for="">{{"info_personal.lugar_residencia.pais" | translate}}</label>
+                <button class="btn"  > Spain <span class="icon icon-chevron-down"></span> </button>
             </div>
 
             <div class="form-group">
-                <label for="">Estado </label>
+                <label for="">{{"info_personal.lugar_residencia.estado" | translate}} </label>
                 <button class="btn" (click)=" (datos.pais) && display_estado = true"> {{datos.estado}} <span class="icon icon-chevron-down"></span> </button>
             </div>
             
             <div class="form-group">
-                <label for="">Ciudad </label>
+                <label for="">{{"info_personal.lugar_residencia.ciudad" | translate}} </label>
                 <button class="btn" (click)=" (datos.estado) && display_ciudad = true"  > {{datos.ciudad}} <span class="icon icon-chevron-down"></span> </button>
             </div>
         </div>
 
-        <button class="btn-primary btn-block" (click)=" (datos.ciudad && datos.pais && datos.estado) && UpdateUser()" >Siguiente</button>
+        <button class="btn-primary btn-block" (click)=" (datos.ciudad && datos.pais && datos.estado) && UpdateUser()" >{{"info_personal.btn_guardar" | translate}}</button>
     </div>
 </div>
 
@@ -165,30 +165,30 @@
 <div class="temp-info" *ngIf="display_identidad">
     <div class="header">
         <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Identificación</h3>
+        <h3 class="font-500 justify-self-center">{{"info_personal.Identificación.Identificación" | translate}}</h3>
     </div>  
 
     <div class="body" style="align-content: space-between;">
 
         <div class="grid gap-20">
             <p>
-                Elige una, varias opciones o servicios que brindas como usuario
+                {{"info_personal.Identificación.parrafo" | translate}}
             </p>
 
             <div class="group-btn-identidad">
-                <button [ngClass]="filtrarSelect(0,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(0,$event, 1)">Mujer</button>
-                <button [ngClass]="filtrarSelect(1,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(1,$event, 1)">Hombre</button>
-                <button [ngClass]="filtrarSelect(2,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(2,$event, 1)">No binario</button>
-                <button [ngClass]="filtrarSelect(3,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event, 1)">Pareja</button>
-                <button [ngClass]="filtrarSelect(4,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(4,$event, 1)">Gay</button>
-                <button [ngClass]="filtrarSelect(5,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(5,$event, 1)">Transexual</button>
-                <button [ngClass]="filtrarSelect(6,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(6,$event, 1)">Travestie</button>
-                <button [ngClass]="filtrarSelect(7,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(7,$event, 1)">Lesbiana</button>
-                <button [ngClass]="filtrarSelect(8,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(8,$event, 1)">Otros</button>
+                <button [ngClass]="filtrarSelect(0,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(0,$event, 1)">{{"identidad.upt_0" | translate}}</button>
+                <button [ngClass]="filtrarSelect(1,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(1,$event, 1)">{{"identidad.upt_1" | translate}}</button>
+                <button [ngClass]="filtrarSelect(2,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(2,$event, 1)">{{"identidad.upt_2" | translate}}</button>
+                <button [ngClass]="filtrarSelect(3,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event, 1)">{{"identidad.upt_3" | translate}}</button>
+                <button [ngClass]="filtrarSelect(4,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(4,$event, 1)">{{"identidad.upt_4" | translate}}</button>
+                <button [ngClass]="filtrarSelect(5,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(5,$event, 1)">{{"identidad.upt_5" | translate}}</button>
+                <button [ngClass]="filtrarSelect(6,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(6,$event, 1)">{{"identidad.upt_6" | translate}}</button>
+                <button [ngClass]="filtrarSelect(7,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(7,$event, 1)">{{"identidad.upt_7" | translate}}</button>
+                <button [ngClass]="filtrarSelect(8,1)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(8,$event, 1)">{{"identidad.upt_8" | translate}}</button>
             </div>
         </div>
 
-        <button class="btn-primary btn-block" (click)="UpdateIdentidad()" >Siguiente</button>
+        <button class="btn-primary btn-block" (click)="UpdateIdentidad()" >{{"info_personal.btn_guardar" | translate}}</button>
     </div>
 </div>
 
@@ -196,35 +196,35 @@
 <div class="temp-info" *ngIf="display_preferencia">
     <div class="header">
         <button class="btn" (click)="closeModal()" > <span class="icon icon-chevron-left"></span> </button>
-        <h3 class="font-500 justify-self-center">Gustos & preferencias</h3>
+        <h3 class="font-500 justify-self-center">{{"info_personal.gustos_preferencias.titulo" | translate}}</h3>
     </div>  
 
     <div class="body" style="align-content: space-between;">
 
         <div class="grid gap-20">
             <p>
-                Elige una, varias opciones o servicios que buscas en Ladies VIP
+                {{"info_personal.gustos_preferencias.parrafo" | translate}}
             </p>
 
             <div class="group-btn-identidad">
-                <button [ngClass]="filtrarSelect(0,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">Mujer</button>
-                <button [ngClass]="filtrarSelect(1,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">Hombre</button>
-                <button [ngClass]="filtrarSelect(2,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">No binario</button>
-                <button [ngClass]="filtrarSelect(3,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">Pareja</button>
-                <button [ngClass]="filtrarSelect(4,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(4,$event,2)">Gay</button>
-                <button [ngClass]="filtrarSelect(5,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(5,$event,2)">Transexual</button>
-                <button [ngClass]="filtrarSelect(6,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(6,$event,2)">Travestie</button>
-                <button [ngClass]="filtrarSelect(7,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(7,$event,2)">Lesbiana</button>
-                <button [ngClass]="filtrarSelect(8,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(8,$event,2)">Otros</button>
-                <button [ngClass]="filtrarSelect(0,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(0,$event)">Masajes eróticos</button>
-                <button [ngClass]="filtrarSelect(1,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(1,$event)">Juguetes sexuales</button>
-                <button [ngClass]="filtrarSelect(2,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(2,$event)">Espacios sexuales</button>
-                <button [ngClass]="filtrarSelect(3,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(3,$event)">Agencia matrimonial</button>
-                <button [ngClass]="filtrarSelect(4,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(4,$event)">Otros</button>
+                <button [ngClass]="filtrarSelect(0,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">{{"identidad.upt_0" | translate}}</button>
+                <button [ngClass]="filtrarSelect(1,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">{{"identidad.upt_1" | translate}}</button>
+                <button [ngClass]="filtrarSelect(2,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">{{"identidad.upt_2" | translate}}</button>
+                <button [ngClass]="filtrarSelect(3,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(3,$event,2)">{{"identidad.upt_3" | translate}}</button>
+                <button [ngClass]="filtrarSelect(4,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(4,$event,2)">{{"identidad.upt_4" | translate}}</button>
+                <button [ngClass]="filtrarSelect(5,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(5,$event,2)">{{"identidad.upt_5" | translate}}</button>
+                <button [ngClass]="filtrarSelect(6,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(6,$event,2)">{{"identidad.upt_6" | translate}}</button>
+                <button [ngClass]="filtrarSelect(7,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(7,$event,2)">{{"identidad.upt_7" | translate}}</button>
+                <button [ngClass]="filtrarSelect(8,2)? 'btn-genero-active':'btn-genero'" (click)="selectIdentidad(8,$event,2)">{{"identidad.upt_8" | translate}}</button>
+                <button [ngClass]="filtrarSelect(0,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(0,$event)">{{"servicios.upt_0" | translate}}</button>
+                <button [ngClass]="filtrarSelect(1,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(1,$event)">{{"servicios.upt_1" | translate}}</button>
+                <button [ngClass]="filtrarSelect(2,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(2,$event)">{{"servicios.upt_2" | translate}}</button>
+                <button [ngClass]="filtrarSelect(3,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(3,$event)">{{"servicios.upt_3" | translate}}</button>
+                <button [ngClass]="filtrarSelect(4,3)? 'btn-genero-active':'btn-genero'" (click)="selectServicio(4,$event)">{{"servicios.upt_4" | translate}}</button>
             </div>
         </div>
 
-        <button class="btn-primary btn-block" (click)="UpdateInteres()" >Siguiente</button>
+        <button class="btn-primary btn-block" (click)="UpdateInteres()" >{{"info_personal.btn_guardar" | translate}}</button>
     </div>
 </div>
 
@@ -234,7 +234,7 @@
         <div class="card-option-header">
             <button class="btn justify-self-end"> <span class="icon"></span> </button>
 
-            <h3 class=" justify-self-center text-center font-600">País</h3>
+            <h3 class=" justify-self-center text-center font-600">{{"info_personal.lugar_residencia.pais" | translate}}</h3>
 
             <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
         </div>
@@ -270,7 +270,7 @@
         <div class="card-option-header">
             <button class="btn justify-self-end"> <span class="icon"></span> </button>
 
-            <h3 class=" justify-self-center text-center font-600">Estado</h3>
+            <h3 class=" justify-self-center text-center font-600">{{"info_personal.lugar_residencia.estado" | translate}}</h3>
 
             <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
         </div>
@@ -306,7 +306,7 @@
         <div class="card-option-header">
             <button class="btn justify-self-end"> <span class="icon"></span> </button>
 
-            <h3 class=" justify-self-center text-center font-600">Ciudad</h3>
+            <h3 class=" justify-self-center text-center font-600">{{"info_personal.lugar_residencia.ciudad" | translate}}</h3>
 
             <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-close"></span> </button>
         </div>

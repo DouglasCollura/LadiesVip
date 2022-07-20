@@ -19,7 +19,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 @Component({
     selector: 'app-signup',
     templateUrl: './signup.component.html',
-    styleUrls: ['./signup.component.css']
+    styleUrls: ['./signup.component.scss']
 })
 export class SignupComponent implements OnInit {
 
@@ -57,7 +57,7 @@ export class SignupComponent implements OnInit {
         },
         fecha_nac: "",
         locacion: {
-            pais: 0,
+            pais: 'Spain',
             estado: null,
             ciudad: null
         },
@@ -91,6 +91,10 @@ export class SignupComponent implements OnInit {
     error:number=0;
     edad:number=0;
     loading:boolean=false;
+    display_block:boolean=false;
+    display_delete:boolean=false;
+    fase_block:number=0;
+
     @Output() ExportClose = new EventEmitter<boolean>();
 
     ngOnInit() {
@@ -101,6 +105,7 @@ export class SignupComponent implements OnInit {
         this.SignupService.change.subscribe(res=>{
             this.isOpen = res.isOpen;
         })
+        this.CargarEstados()
     }
 
     //!FUNCIONES=============================================================
@@ -111,7 +116,7 @@ export class SignupComponent implements OnInit {
         this.ciudades = null;
         this.usuario.locacion.estado = null;
         this.usuario.locacion.ciudad = null;
-        this.GeoLocationService.getStates(this.usuario.locacion.pais).then(res => {
+        this.GeoLocationService.getStates('Spain').then(res => {
             this.estados = res;
         });
     }
@@ -145,6 +150,9 @@ export class SignupComponent implements OnInit {
                             if (valid.error) {
                                 this.fase = 1;
                             }
+                            if(valid.block){
+                                this.error=5;
+                            }
                             //si existe anuncia con alerta
                             if (valid.success) {
                                 this.signInWithFB()
@@ -171,6 +179,9 @@ export class SignupComponent implements OnInit {
                             //si no existe puedes registrate
                             if (valid.error) {
                                 this.fase = 1;
+                            }
+                            if(valid.block){
+                                this.error=5;
                             }
                             //si existe anuncia con alerta
                             if (valid.success) {
@@ -243,11 +254,20 @@ export class SignupComponent implements OnInit {
             this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
             .then(valid => {
                 //si no existe puedes registrate
+                console.log("VALID")
+                console.log(valid)
                 this.loading =false;
                 if (valid.error) {
                     this.fase = 1;
                     this.error=0;
                 }
+                if (valid.block) {
+                    this.error=6;
+                    this.loading=false;
+                }
+                // if(valid.block){
+                //     this.error=5;
+                // }
                 //si existe anuncia con alerta
                 if (valid.success) {
                     this.error=2;
@@ -308,7 +328,7 @@ export class SignupComponent implements OnInit {
 
     ///REGISTRO DE USUARIO
     SignUp() {
-        this.fase=8;
+        this.fase=9;
         if (this.usuario.tipo == 1) {
             this.AuthServiceService.signUp(this.usuario)
             .then(res => {
@@ -323,6 +343,8 @@ export class SignupComponent implements OnInit {
                             sessionStorage.setItem('ruta_img', JSON.stringify(img));
                             sessionStorage.setItem('token', login.access_token);
                             //redirige
+                            localStorage.setItem('new', 'true');
+
                             location.href = '/home';
                         })
                     })
@@ -489,7 +511,6 @@ export class SignupComponent implements OnInit {
             }
 
             this.usuario.identidad = this.ctrl_identidad.join();
-            this.usuario.servicio = this.ctrl_servicios.join();
             this.ctrl_identidad = [];
             this.ctrl_servicios = [];
             this.fase = 5;
@@ -507,7 +528,7 @@ export class SignupComponent implements OnInit {
             }
         }
 
-        else {
+        else if(this.fase == 6) {
             this.error = 0;
             this.pass = false;
             if (this.ctrl_identidad.length == 0 && this.ctrl_servicios.length == 0) {
@@ -521,6 +542,11 @@ export class SignupComponent implements OnInit {
             this.fase = 7;
             this.error = 0;
             this.pass = false;
+        }
+        else{
+            this.usuario.servicio = this.ctrl_servicios.join();
+            this.ctrl_servicios = [];
+            this.fase = 8;
         }
 
     }

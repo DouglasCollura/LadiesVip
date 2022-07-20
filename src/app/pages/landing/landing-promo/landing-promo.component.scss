@@ -1,0 +1,214 @@
+.temp-promo{
+    display: grid;
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    padding-top: 5%;
+    overflow-y: auto;   
+}
+
+.content{
+    display: grid;
+    margin:0px auto;
+    max-width: 380px;
+    align-content: start;
+    grid-gap: 15px;
+
+    .top{
+        h1{
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        margin-bottom: 10px;
+    }
+}
+
+.temp-crear-body{
+    display: grid;
+    padding: 20px 10px;
+    grid-gap: 20px;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+
+
+textarea{
+    resize: none;
+}
+
+button{
+    color: var(--neutro-500);
+}
+
+span{
+    color: var(--neutro-500) !important;
+}
+
+#map_canvas {
+    width: 100%;
+    height: 100%;
+    min-width: 150px;
+    min-height: 150px;
+}
+
+.btn-select{
+    border: 1px solid var(--neutro-300);
+    span{
+        font-size: 6px !important;
+    }
+    justify-content: space-between; 
+    min-height: 45px;
+    *{
+        color: var(--neutro-500) !important;
+    }
+}
+
+.bg-card{
+    z-index: 10;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    justify-content: center;
+
+
+    .card-option{
+        max-width: 500px;
+        min-width: 500px;
+    }
+}
+
+
+
+.group-img{
+    display: grid;
+    grid-template-rows: auto 90px;
+    grid-gap: 20px;
+    .primary-img{
+        border-radius: 8px;
+        position: relative;
+        width: 360px;
+        height: 290px;
+        background-color: var(--neutro-100);
+        display: grid;
+        place-items: center;
+        border-radius:13px;
+        -webkit-border-radius:13px;
+        -moz-border-radius:13px;
+        -ms-border-radius:13px;
+        -o-border-radius:13px;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .content-more{
+        width: 90%;
+        height: 90%;
+        border:2px dashed var(--neutro-400);
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        display: grid;
+        place-items: center;
+        span{
+            font-size: 40px;
+            font-weight: 300;
+            color: var(--neutro-400);
+        }
+    }
+
+    .carrousel{
+
+        .content-img{
+            position: relative;
+            border-radius: 8px;
+            width: 90px;
+            height: 100%;
+            background-color: var(--neutro-100);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-auto-flow: column;
+        grid-gap:10px;
+        overflow-x: auto;
+    }
+
+}
+
+
+.delete{
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-content: center;
+    top: -3px;
+    right: -3px;
+    z-index: 1;
+    background: var(--primario-default);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    span{
+        font-size: 12px;
+    font-weight: 600;
+    color: white !important;
+    }
+}
+
+.btn-back{
+    position: absolute;
+    width: 45px;
+    padding: 0px !important;
+    height: 45px;
+    top: 10px;
+    z-index: 15;
+    left: 5px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.36);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    span{
+        color:white !important
+    }
+}
+
+.back-white{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: white;
+    z-index: 5;
+    display: grid;
+}
+
+.send{
+    display: grid;
+    place-self: center;
+    align-content: start;
+    grid-gap: 15px;
+    justify-items: center;
+    max-width: 300px;
+    text-align: center;
+}

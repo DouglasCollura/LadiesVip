@@ -4,6 +4,8 @@ import { environment } from 'src/environments/environment';
 import { ControlService } from 'src/app/services/control/control.service';
 import { GeoLocationService } from 'src/app/services/location/geo-location.service';
 import { ConfigService } from 'src/app/services/config/config.service';
+import {TranslateService} from '@ngx-translate/core';
+import { ProfileService } from '../profile.service';
 
 declare var $: any;
 
@@ -18,7 +20,9 @@ export class InformacionPersonalComponent implements OnInit {
         private ControlService:ControlService,
         private GeoLocationService: GeoLocationService,
         private UserService:UserService,
-        private ConfigService:ConfigService
+        private ConfigService:ConfigService,
+        private translate: TranslateService,
+        private ProfileService:ProfileService
 
     ) { }
 
@@ -32,6 +36,15 @@ export class InformacionPersonalComponent implements OnInit {
         
         this.UpdateDatos()
         console.log(this.datos.pais)
+        this.datos.pais = 'Spain';
+        this.GeoLocationService.getStates('Spain').then(res => {
+            this.estados = res;
+            this.loading = false;
+        });
+        this.GeoLocationService.getCities(this.datos.ciudad).then(res => {
+            this.ciudades = res;
+            this.loading = false;
+        });
     }
 
         //!DATA=====================================================================
@@ -179,6 +192,7 @@ export class InformacionPersonalComponent implements OnInit {
             }
             this.UpdateDatos()
             this.closeModal();
+           this.ProfileService.toggle()
 
         });
     }

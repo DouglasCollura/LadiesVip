@@ -1,19 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from 'src/app/services/admin/admin.service';
+
 declare var $: any;
 
 @Component({
     selector: 'app-admin-market',
     templateUrl: './admin-market.component.html',
-    styleUrls: ['./admin-market.component.css','../main/main.component.css']
+    styleUrls: ['./admin-market.component.scss','../main/main.component.css']
 })
 export class AdminMarketComponent implements OnInit {
 
-    constructor() { }
+    constructor(
+        private AdminService:AdminService
+    ) { 
+    }
+
     ctrl_menu = 0;
     ctrl_show_negocio:boolean=false;
     
     ngOnInit(): void {
-        
         if(this.ctrl_menu == 0){
             console.log($("button"))
             $("#gest_publicados").addClass("active");
@@ -23,6 +28,8 @@ export class AdminMarketComponent implements OnInit {
             $("#ges_bloqueados").addClass("active");
         }
     }
+
+    
 
     OpenShow(){
         this.ctrl_show_negocio= true;

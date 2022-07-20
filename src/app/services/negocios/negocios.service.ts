@@ -20,9 +20,6 @@ export class NegociosService {
     url = environment.serverUrl;
     token:any;
 
-
-
-
     CrearNegocio(anuncio:any): Promise<any> {
         const headers = new HttpHeaders({
             Authorization: 'Bearer ' + this.token
@@ -39,11 +36,25 @@ export class NegociosService {
         return send;
     }
 
+    UpdateNegocio(id:number, data:any){
+        
+        const headers = new HttpHeaders({
+            Authorization: 'Bearer ' + this.token
+        });
+        const send = this.http.post(`${this.url}update-negocio/${id}`,  data , {headers}).toPromise()
+        return send;
+    }
+
     DeleteNegocio(id:number){
         const headers = new HttpHeaders({
             Authorization: 'Bearer ' + this.token
         });
         const send = this.http.get(`${this.url}delete-negocios/${id}`,  {headers}).toPromise()
+        return send;
+    }
+
+    CrearNegocioPromo(anuncio:any): Promise<any> {
+        const send = this.http.post(`${this.url}promocionarme `, anuncio).toPromise()
         return send;
     }
 }

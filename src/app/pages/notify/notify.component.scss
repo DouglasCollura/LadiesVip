@@ -4,7 +4,7 @@
     height: 100%;
     grid-gap: 20px;
     grid-template-rows: 35px auto;
-
+    padding: 10px;
 
 }
 
@@ -47,13 +47,27 @@
     }
 }
 
+.btn-primary-invert{
+    height: 30px
+}
+
 .card-notify-sms{
     @extend .card-notify;
     grid-template-columns: 50px auto 105px;
 
     button{
         width: 100%;
-        padding: 8px 0 !important;
+        font-size: 12px;
+        padding: 4px 0px !important;
+    }
+
+    .title{
+        color: var(--neutro-600) !important;
+        font-weight: 600;
+    }
+
+    .content{
+        font-size: 14px !important;
     }
 
 }

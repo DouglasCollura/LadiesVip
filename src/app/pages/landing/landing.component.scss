@@ -59,6 +59,7 @@ a{
     grid-gap: 2em;
     animation: 1s ease-in 0s 1 fadein;
     -webkit-animation: 1s ease-in 0s 1 fadein;
+    white-space: pre-wrap;
 }
 
 // ! SECTION INIT #############################################################################
@@ -242,4 +243,61 @@ a{
     -moz-transition: all .5s;
     -ms-transition: all .5s;
     -o-transition: all .5s;
+}
+
+
+.invitado{
+    text-decoration: underline;
+    font-weight: 600 !important;
+    color: white;
+}
+
+.container{
+    position: fixed !important ;
+}
+
+.inv{
+    .subcard-18{
+        position: relative !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+    width: 300px;
+    max-height: 80vh;
+    display: grid;
+    justify-items: center;
+    padding: 10px;
+    .subcard-18{
+        position: relative;
+    }
+
+    .content{
+        max-height: 200px;
+        overflow-y: auto;
+        padding: 5px 0px;
+        p{
+            font-weight: 500;
+            margin: 6px 0px;
+            white-space: pre-wrap !important;
+        }
+    }
+
+    .ctrl-btn{
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: space-around;
+        align-content: center;
+        grid-gap: 10px;
+    }
+
+    .term{
+        a{
+            color: var(--primario-rosa-2) !important;
+            text-decoration: underline !important;
+        }
+    }
+
+    align-content: space-around;
 }

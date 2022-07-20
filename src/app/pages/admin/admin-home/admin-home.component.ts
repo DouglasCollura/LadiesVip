@@ -27,22 +27,15 @@ export class AdminHomeComponent implements OnInit {
         $( function() {
 
             $(document).on("click","#open_filtro",function(){
-                color_linea("rango-distancia-min","rango-distancia-max","line-distancia");
+                color("rango-distancia-min","rango-distancia-max","line-distancia");
                 color_linea("rango-edad-min","rango-edad-max","line-edad");
             });
 
-            $( document ).on("input","#rango-distancia-min",function(){
-                if($( "#rango-distancia-min" ).val() - $( "#rango-distancia-max" ).val() >= 0){
-                    $( "#rango-distancia-min" ).val($( "#rango-distancia-max" ).val()) 
-                }
-                color_linea("rango-distancia-min","rango-distancia-max","line-distancia");
-            });
 
-            $( document ).on("input","#rango-distancia-max",function(){
-                if($( "#rango-distancia-max" ).val() - $( "#rango-distancia-min" ).val() <= 0){
-                    $( "#rango-distancia-max" ).val($( "#rango-distancia-min" ).val()) 
-                }
-                color_linea("rango-distancia-min","rango-distancia-max","line-distancia");
+
+            $( document ).on("input","#line-km",function(){
+                
+                color("rango-distancia-min","rango-distancia-max","line-distancia");
             })
 
             $( document ).on("input","#rango-edad-min",function(){
@@ -60,9 +53,16 @@ export class AdminHomeComponent implements OnInit {
             })
 
             function color_linea(id_min:string, id_max:string, id_linea:string){
-                let val1= ($("#"+id_min).val() /100) *100;
-                let val2=($("#"+id_max).val()/100) *100;
-                $("#"+id_linea).css('background', 'linear-gradient( to right, #DFDFDF '+val1+'%'+', #FF3C76 '+val1+'%'+', #FF3C76 '+val2+'%'+', #DFDFDF '+val2+'%'+')');
+        
+                let val1= ( ($("#"+id_min).val()-18) /(60-18)) *100;
+                let val2=( ($("#"+id_max).val() -18) /(60-18)) *100;
+                $("#"+id_linea).css('background', 'linear-gradient( to right, #DFDFDF '+(val1)+'%'+', #FF3C76 '+(val1)+'%'+', #FF3C76 '+val2+'%'+', #DFDFDF '+val2+'%'+')');
+
+            }
+
+            function color(id_min:string, id_max:string, id_linea:string){
+                let val1= ($("#line-km").val() /100) *100;
+                $("#line-km").css('background', 'linear-gradient( to right, #FF3C76 0 '+val1+'% , #DFDFDF  0% '+(100-val1)+'%)');
             }
         });
 
