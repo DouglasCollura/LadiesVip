@@ -66,11 +66,8 @@
                 <div class="form-group">
                     <label for="">{{"crear_cuenta.telefono" | translate}} </label>
                     <div class="input-group-append">
-                        <select style="width: 150px;" class="input-append" (change)="[mostrar($event)]" [(ngModel)]="usuario.datos.code_phone" name="" id="">
-                            <option value="+" disabled selected >+</option>
-                            <option  [value]="locacion.country_phone_code" *ngFor="let locacion of locaciones"> +{{locacion.country_phone_code}} - {{locacion.country_short_name}} </option>
-                        </select>
-
+                        
+                        <button (click)="display_telf=true"  class="input-append"> +{{usuario.datos.code_phone}} </button>
                         <input type="text"
                             [placeholder]="'crear_cuenta.ph_numero' | translate"
                             [(ngModel)]="usuario.datos.telefono"
@@ -126,6 +123,44 @@
                 > {{"crear_cuenta.btn_crear" | translate}} <span *ngIf="loading" class="icon icon-loader"></span> </button>
             </div>
 
+            <div class="bg-card fadeIn"  *ngIf="display_telf">
+                <div class="card-option onUp" >
+                    <div class="card-option-header">
+                        <button class="btn justify-self-end"> <span class="icon"></span> </button>
+            
+                        <h3 class=" justify-self-center text-center font-600">{{"crear_cuenta.cod_tel" | translate}}</h3>
+            
+                        <button class="btn justify-self-end" (click)="CerrarModal()"> <span class="icon icon-check"></span> </button>
+                    </div>
+            
+                    <div class="card-option-search">
+                        <div class="group-input-icon-left">
+                            <span class="icon icon-search"></span>
+                            <input type="text" [(ngModel)]="filtro" (keyup)="filtrar()" placeholder="Buscar">
+                        </div>
+                    </div>
+            
+                    <div class="card-option-body" *ngIf="telf_filtro.length == 0">
+                        <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of locaciones;let i = index">
+                            <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
+                            <input
+                                (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" 
+                                [(ngModel)]="usuario.datos.code_phone" 
+                                [value]="locacion.country_phone_code"
+                                [id]="i" name="tlf" type="radio"
+                            >
+                        </div>
+                    </div>
+            
+                    <div class="card-option-body" *ngIf="telf_filtro.length != 0">
+                        <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of telf_filtro;let i = index">
+                            <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
+                            <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [(ngModel)]="usuario.datos.code_phone" [id]="i" name="tlf" type="radio">
+                        </div>
+                    </div>
+            
+                </div>
+            </div>
         </div>
     </div>
 

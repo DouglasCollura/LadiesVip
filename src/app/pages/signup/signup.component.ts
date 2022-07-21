@@ -75,6 +75,8 @@ export class SignupComponent implements OnInit {
     rep_clave:any = null;
     ctrl_identidad: any = [];
     ctrl_servicios: any = [];
+    telf_filtro:any=[];
+
     user_imagen_show: any;
     country_short_name:string ='';
     //?CONTROL===================================================================================
@@ -94,6 +96,8 @@ export class SignupComponent implements OnInit {
     display_block:boolean=false;
     display_delete:boolean=false;
     fase_block:number=0;
+    display_telf:boolean=false;
+    filtro:string="";
 
     @Output() ExportClose = new EventEmitter<boolean>();
 
@@ -106,6 +110,7 @@ export class SignupComponent implements OnInit {
             this.isOpen = res.isOpen;
         })
         this.CargarEstados()
+        this.usuario.datos.code_phone=34;
     }
 
     //!FUNCIONES=============================================================
@@ -390,7 +395,19 @@ export class SignupComponent implements OnInit {
     }
 
     //?CONTROL==============================================================================
+    filtrar(){
 
+        this.telf_filtro = [];
+        this.locaciones.forEach((arrayItem:any)=> {
+            if(arrayItem.country_name.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
+                this.telf_filtro.push(arrayItem)
+            }
+
+            if(String(arrayItem.country_phone_code).indexOf(this.filtro)> -1){
+                this.telf_filtro.push(arrayItem)
+            }
+        });
+    }
     SelectTlf(){
         this.ctrl_modal_sms_tlf = true;
     }
@@ -553,6 +570,19 @@ export class SignupComponent implements OnInit {
 
     Cerrar() {
         this.SignupService.toggle();
+    }
+
+    CerrarModal(){
+        $(".bg-card").removeClass("fadeIn")
+        $(".bg-card").addClass("fadeOut")
+        $(".bg-card").removeClass("fadeIn")
+        $(".card-option").removeClass("onUp")
+        $(".card-option").addClass("onDown")
+        setTimeout(()=>{
+            this.display_telf = false;
+            
+        }, 450);
+        this.filtro = "";
     }
 
     SoloLetra(evt: any) {
