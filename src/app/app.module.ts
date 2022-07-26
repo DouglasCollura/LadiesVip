@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ComponentsModule } from './components/components.module';
 import { PagesModule } from './pages/pages.module';
 import { GoogleMapsModule } from '@angular/google-maps'
+// import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +21,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
     GoogleMapsModule  
   ],
   providers: [
+    // { provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent]
 })

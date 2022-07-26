@@ -35,7 +35,7 @@
         align-content: center;
         align-items:center;
         justify-content: center;
-        flex-direction: row-reverse;
+        flex-direction: row;
         gap:6px;
         .point{
             width: 10px;
@@ -209,4 +209,17 @@
             background-color: var(--neutro-50);
         }
     }
+}
+
+.btn-carrusel{
+    position: absolute;
+    align-self: center;
+    background-color: rgba(255,255,255,.4);
+    color: black;
+    z-index: 10;
+    span{
+        color:black !important;
+    } 
+    padding: 12px 15px;
+    height: max-content;
 }

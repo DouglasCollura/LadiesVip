@@ -35,7 +35,6 @@ export class InformacionPersonalComponent implements OnInit {
         }
         
         this.UpdateDatos()
-        console.log(this.datos.pais)
         this.datos.pais = 'Spain';
         this.GeoLocationService.getStates('Spain').then(res => {
             this.estados = res;
@@ -118,7 +117,6 @@ export class InformacionPersonalComponent implements OnInit {
         //     source: CameraSource.Photos,
         //     resultType: CameraResultType.Uri
         // }).then(async res=>{
-        //     console.log(res);
         //     let blob = await fetch(res.webPath).then(r => r.blob());
         //     const reader = new FileReader();
         //     reader.onload = (e: any) => {
@@ -179,7 +177,6 @@ export class InformacionPersonalComponent implements OnInit {
         this.data.append("user", JSON.stringify(this.datos));
         this.loading_global = true;
         this.UserService.UpdateUser(this.data).then(res=>{
-            console.log(res)
             this.datos.img_route = res.url;
             
             this.loading_global = false;
@@ -211,8 +208,6 @@ export class InformacionPersonalComponent implements OnInit {
     //?CONTROL=================================================================================
 
     selectIdentidad(id: number, event: any, tipo:any) {
-        console.log(id);
-        console.log(tipo);
         if (!$(event.target).hasClass("btn-genero-active")) {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
@@ -239,12 +234,9 @@ export class InformacionPersonalComponent implements OnInit {
                 });
             }
         }
-        console.log(this.ctrl_identidad)
-        console.log(this.ctrl_intereses)
     }
 
     selectServicio(id: number, event: any) {
-        console.log(id);
         if (!$(event.target).hasClass("btn-genero-active")) {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
@@ -375,7 +367,6 @@ export class InformacionPersonalComponent implements OnInit {
         this.intereses_name=[];
         this.servicios_name=[];
         this.identidad_name=[];
-        console.log(this.ctrl_intereses)
         for (const interes in this.ctrl_intereses) {
             this.intereses_name.push(this.ControlService.generos[this.ctrl_intereses[interes]])
         }

@@ -7,6 +7,8 @@
             <button (click)="Delete()" > <i class="icon icon-trash"></i> {{"favoritos.delete" | translate}} </button>
         </div>
     <div class="section-photo">
+        <button class="btn btn-carrusel" (click)="MoveLeft()"> <span class="icon icon-chevron-left"></span> </button>
+        <button class="btn btn-carrusel justify-self-end " (click)="MoveRight()" > <span class="icon icon-chevron-right"></span> </button>
         <img #images [src]="url+urls" *ngFor="let urls of urls_image.slice().reverse(); let i = index" alt="">
 
         <div class="points-group">
@@ -24,7 +26,7 @@
             <div class="body">
                 <h1 class="font-600 nombre"> {{anuncio.user.name}}</h1>
 
-                <h2 class="text-alert">{{GetEdad(anuncio.usuario.fecha_nac)}} {{"show_anuncio.anios" | translate}} • {{anuncio.user.estado}},{{anuncio.user.pais}}</h2>
+                <h2 class="text-alert">{{GetEdad(anuncio.user.fecha_nac)}} {{"show_anuncio.anios" | translate}} • {{anuncio.user.estado}},{{anuncio.user.pais}}</h2>
 
                 <h3> <span class="icon icon-mail"></span> {{anuncio.user.email}} </h3>
                 <h3> <span class="icon icon-phone"></span> +{{anuncio.user.code_phone}} {{anuncio.user.telefono}} </h3>

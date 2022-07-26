@@ -397,7 +397,7 @@
             "renovar":"Automatic renewal",
             "metodo_pago":"Choose a payment method",
             "tarjeta":"debit/credit card",
-            "cargos":"*No charges will be applied to your card*"
+            "cargos":"*a charge of €0.5 will be applied to your card*"
         },
         "part_2":{
             "total":"Total to pay",

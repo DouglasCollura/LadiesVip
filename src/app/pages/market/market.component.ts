@@ -77,7 +77,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
             function color_linea(id_min:string, id_max:string, id_linea:string){
                 let val1= ($("#line-km").val() /100) *100;
                 $("#line-km").css('background', 'linear-gradient( to right, #FF3C76 0 '+val1+'% , #DFDFDF  0% '+(100-val1)+'%)');
-                console.log(val1)
             }
 
         });
@@ -159,7 +158,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
         this.loading = true;
         if(sessionStorage.getItem('guest')){
             this.MarketService.SearchNegocioInv(id).then(res=>{
-                console.log(res)
                 this.current = res.current_page;
                 this.last = res.last_page;
                 this.data = res.data;
@@ -172,7 +170,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
         }else{
             this.loading=true;
             this.MarketService.SearchNegocio(id).then(res=>{
-                console.log(res)
                 this.current = res.current_page;
                 this.last = res.last_page;
                 this.data = res.data;
@@ -197,7 +194,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
         this.display_show= true;
         this.urls_img = data.images.split(",");
         this.point_img = this.urls_img.length-1;
-        console.log(data)
     }
 
     Search(){
@@ -211,7 +207,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
             this.display_market=false;
             this.display_res=true;
             this.loading=false;
-            console.log(res.data)
         })
     }
 
@@ -232,7 +227,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
                 this.display_res=true;
                 this.display_filtro =false
                 this.loading=false;
-                console.log(res.data)
     
             })
         }else{
@@ -243,11 +237,9 @@ export class MarketComponent implements OnInit, AfterViewInit {
                 this.display_res=true;
                 this.display_filtro =false
                 this.loading=false;
-                console.log(res.data)
             })
         }
         
-        console.log(filtro)
 
     }
 
@@ -354,7 +346,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
         navigator.geolocation.getCurrentPosition((position) => {
             this.latitude= position.coords.latitude;
             this.longitude= position.coords.longitude;
-            console.log("asdsd", position.coords.latitude)
             this.show_distancia = true;
         })
         
@@ -377,7 +368,6 @@ export class MarketComponent implements OnInit, AfterViewInit {
 
             let val1= ($("#line-km").val() /100) *100;
             $("#line-km").css('background', 'linear-gradient( to right, #FF3C76 0 '+val1+'% , #DFDFDF  0% '+(100-val1)+'%)');
-            console.log(val1)
         }, 200)
        
     }

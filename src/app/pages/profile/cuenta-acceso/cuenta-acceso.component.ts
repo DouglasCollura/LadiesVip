@@ -23,7 +23,6 @@ export class CuentaAccesoComponent implements OnInit {
         }else{
             this.usuario = JSON.parse(localStorage.getItem("usuario") || '{}' )
         }
-        console.log(this.usuario)
     }
 
     //!DATA=====================================================================
@@ -105,7 +104,6 @@ export class CuentaAccesoComponent implements OnInit {
 
             })
             .catch( (error:any) => {
-                console.log()
                 if(error.error.errors.email){
                     this.error =1;
                     this.loading = false;
@@ -124,7 +122,6 @@ export class CuentaAccesoComponent implements OnInit {
         this.loading=true;
         this.show_delete = false;
         this.UserService.DeleteAccount().then(res=>{
-            console.log(res)
             localStorage.clear();
             sessionStorage.clear();
             location.href='/'

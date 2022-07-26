@@ -51,11 +51,8 @@ export class ProfileComponent implements OnInit {
 
             if(localStorage.getItem("myadd")){
                 this.myadd = JSON.parse(localStorage.getItem("myadd") || '{}' )
-                console.log(this.myadd)
     
                 this.AnunciosService.anuncio = this.myadd;
-                console.log("myadd")
-                console.log(localStorage.getItem("myadd")   )
     
             }else{
                 this.myadd = null;
@@ -70,8 +67,7 @@ export class ProfileComponent implements OnInit {
     
             if(localStorage.getItem("pack") ){
                 this.mypack = JSON.parse(localStorage.getItem("pack") || '{}')
-                console.log("asd")
-                if(this.mypack.pack == 1){
+                if(this.mypack.pack == 1 || this.mypack.pack == 0){
                     this.img_pack="pack-add-standar.png"
                 }
                 if(this.mypack.pack == 2){

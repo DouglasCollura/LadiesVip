@@ -70,7 +70,11 @@ export class ShowComponent implements OnInit, AfterViewInit {
     anuncio: any;
     anuncioGes:any
     urls_image: any = [];
+    urls_show:any=[];
     hoy = new Date();
+    index:any=null;
+    max_index:any=null;
+    show_play:boolean=false;
 
     //?GESTION===================================================================================
 
@@ -94,6 +98,49 @@ export class ShowComponent implements OnInit, AfterViewInit {
             edad--;
         }
         return edad;
+    }
+
+    MoveLeft(){
+        let imagesArray = this.images.toArray();
+
+        if(this.index == null){
+            this.index = imagesArray.length-1
+            this.max_index = imagesArray.length-1
+        }
+
+        if(this.index < this.max_index){
+            imagesArray[this.index+1].nativeElement.style.display = 'grid'
+            this.index= this.index+1;
+            this.point_img = this.point_img-1;
+            if(this.urls_show.slice().reverse()[this.index].type == 2){
+                this.show_play = true;
+            }else{
+                this.show_play = false;
+            }
+
+        }
+    }
+
+    MoveRight(){
+        let imagesArray = this.images.toArray();
+
+        if(this.index == null){
+            this.index = imagesArray.length-1
+            this.max_index = imagesArray.length-1
+        }
+
+        if(this.index > 0){
+            imagesArray[this.index].nativeElement.style.display = 'none'
+            this.index= this.index-1;
+            this.point_img = this.point_img+1;
+            if(this.urls_show.slice().reverse()[this.index].type == 2){
+                this.show_play = true;
+            }else{
+                this.show_play = false;
+            }
+
+        }
+        
     }
 
     // GoToBrowser(){

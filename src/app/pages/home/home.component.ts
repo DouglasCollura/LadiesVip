@@ -77,12 +77,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 },500)
 
                 this.AnunciosService.GetCarruselInv().then(res=>{
-                    console.log("carrusel")
                     this.carrusel = res;
-                    console.log(res)
                 }).catch(error=>{
-                    console.log("error")
-                    console.log(error)
                     localStorage.clear();
                     sessionStorage.clear();
                     location.href='/'
@@ -115,7 +111,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.UserService.ValidatePremium().then(res=>{
                 
                 if(res[0]){
-                    console.log(res[0])
                     this.UserService.setPremium(true);
                     this.premium = true;
                     if(localStorage.getItem('max_ads')){
@@ -130,7 +125,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     }
 
                     this.UserService.ValMaxAds().then(res=>{
-                        console.log(res)
                         if(res== 1){
                             this.max_ads = 0;
                             this.user.max_anuncios =1;
@@ -151,8 +145,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 }
             })
             .catch(error=>{
-                console.log("error")
-                console.log(error)
                 localStorage.clear();
                 sessionStorage.clear();
                 location.href='/'
@@ -185,8 +177,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 }
             })
             .catch(error=>{
-                console.log("error")
-                console.log(error)
                 localStorage.clear();
                 sessionStorage.clear();
                 location.href='/'
@@ -198,28 +188,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     localStorage.removeItem('pack')
                 }
                 if(res.length == 0){
-                    console.log(res)
                 }else{
                     localStorage.setItem('pack',JSON.stringify(res) )
                 }
                 
             })
             .catch(error=>{
-                console.log("error")
-                console.log(error)
                 localStorage.clear();
                 sessionStorage.clear();
                 location.href='/'
             })
     
             this.AnunciosService.GetCarrusel().then(res=>{
-                console.log("carrusel")
                 this.carrusel = res;
-                console.log(res)
             })
             .catch(error=>{
-                console.log("error")
-                console.log(error)
                 localStorage.clear();
                 sessionStorage.clear();
                 location.href='/'
@@ -230,15 +213,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     async ngAfterViewInit() {
         this.AnunciosService.add_select.subscribe(res=>{
             if(res){
-                console.log(this.card)
             }
             $(this.add_select[0]).remove()
             this.card.forEach((car: any, index: any, object: any)=> {
                 
                 if (car.nativeElement.id == this.add_select[0].id) {
-                    console.log(index)
                     object.splice(index, 1);
-                    console.log(this.card)
                 }
             });
         })
@@ -246,13 +226,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         // this.card.changes
         // .subscribe(() => {
         //     let cardArray = this.card.toArray();
-        //     console.log(cardArray)
 
         //     this.cards_length = cardArray.length;
         //     this.cards_arrays=[];
         //     this.cards_arrays=cardArray;
         //     this.index_card = cardArray.length-1;
-        //     console.log(this.index_card)
         //     // if(cardArray[this.index_card-1]){
         //     //     cardArray[this.index_card-1].nativeElement.style.display = 'grid';
         //     // }
@@ -265,6 +243,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
         //     //     }
         //     // }
         // })
+
+        $( document ).on("input","#rango-distancia-min",()=>{
+            if($( "#rango-distancia-min" ).val() - $( "#rango-distancia-max" ).val() >= 0){
+                $( "#rango-distancia-min" ).val($( "#rango-distancia-max" ).val()) 
+                this.edad_min = $( "#rango-distancia-min" ).val()
+            }
+        });
+
+        $( document ).on("input","#rango-distancia-max",()=>{
+            if($( "#rango-distancia-max" ).val() - $( "#rango-distancia-min" ).val() <= 0){
+                $( "#rango-distancia-max" ).val($( "#rango-distancia-min" ).val()) 
+                this.edad_max = $( "#rango-distancia-max" ).val()
+            }
+        })
 
     }   
     
@@ -308,7 +300,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     ciudad_filtro:any=[];
     // * MODALES ================================
     ctrl_modal_detalles:boolean=false;
-    ctrl_menu:number=0;
+    ctrl_menu:number=1;
     server = environment.server;
     premium:boolean=false;
     alert:number=0;
@@ -358,8 +350,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     let imagesArray = this.card.toArray();
                     imagesArray[imagesArray.length-1].nativeElement.style.display = 'grid'
                 },500)
-                // console.log(this.anuncios.data[this.anuncios.length-1].active=true)
-                // console.log(this.anuncios.data[this.anuncios.length-2].active=true)
             }else{
                 res.data.forEach((car: any, index: any, object: any)=> {
                     this.anuncios.data.push(car);
@@ -368,7 +358,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             
             if(res.next_page_url != null){
                 this.anuncios.index = res.next_page_url.split('page=')[1]
-                console.log(this.anuncios.index)
             }else{
                 this.anuncios.index="";
             }
@@ -416,9 +405,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 setTimeout(()=>{
                     $("#"+id).remove()
                     this.anuncios.data.splice(0,1)
-                    console.log(this.anuncios.data)
                     $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                    console.log(this.anuncios.data.length,imagesArray.length)
                     if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                         this.GetAnuncios();
                     }
@@ -448,9 +435,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 setTimeout(()=>{
                     $("#"+id).remove()
                     this.anuncios.data.splice(0,1)
-                    console.log(this.anuncios.data)
                     $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                    console.log(this.anuncios.data.length,imagesArray.length)
                     if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                         this.GetAnuncios();
                     }
@@ -469,16 +454,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
             setTimeout(()=>{
                 $("#"+id).remove()
                 this.anuncios.data.splice(0,1)
-                console.log(this.anuncios.data)
                 $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                console.log(this.anuncios.data.length,imagesArray.length)
                 if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                     this.GetAnuncios();
                 }
                 
             },420)
     
-            console.log(this.show_play)
         }
         
     }
@@ -499,9 +481,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 setTimeout(()=>{
                     $("#"+id).remove()
                     this.anuncios.data.splice(0,1)
-                    console.log(this.anuncios.data)
                     $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                    console.log(this.anuncios.data.length,imagesArray.length)
                     if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                         this.GetAnuncios();
                     }
@@ -530,9 +510,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             setTimeout(()=>{
                 $("#"+id).remove()
                 this.anuncios.data.splice(0,1)
-                console.log(this.anuncios.data)
                 $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                console.log(this.anuncios.data.length,imagesArray.length)
                 if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                     this.GetAnuncios();
                 }
@@ -547,7 +525,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             if(this.premium){
                 
                 this.AnunciosService.RechazarAnuncio(anuncio.id).then(res=>{
-                    console.log(res)
                 })
             }
         }
@@ -574,9 +551,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                     setTimeout(()=>{
                         $("#"+id).remove()
                         this.anuncios.data.splice(0,1)
-                        console.log(this.anuncios.data)
                         $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                        console.log(this.anuncios.data.length,imagesArray.length)
                         if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                             this.GetAnuncios();
                         }
@@ -604,16 +579,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 setTimeout(()=>{
                     $("#"+id).remove()
                     this.anuncios.data.splice(0,1)
-                    console.log(this.anuncios.data)
                     $(imagesArray[imagesArray.length-1].nativeElement).remove()
-                    console.log(this.anuncios.data.length,imagesArray.length)
                     if(this.anuncios.data.length <5 && this.anuncios.index != ''){
                         this.GetAnuncios();
                     }
                     
                 },420)
                 this.FavoritoService.AddFavorite(anuncio.id).then(res=>{
-                    console.log(res)
                 }).catch(res=>{
                     this.max_fav=true;
                 })
@@ -660,7 +632,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         navigator.geolocation.getCurrentPosition((position) => {
             this.latitude= position.coords.latitude;
             this.longitude= position.coords.longitude;
-            console.log("asdsd", position.coords.latitude)
             this.show_distancia = true;
         })
         this.PintarRango()
@@ -730,7 +701,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.show_play = false;
             }
 
-            console.log(this.show_play)
         }
     }
 
@@ -752,7 +722,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.show_play = false;
             }
 
-            console.log(this.show_play)
         }
         
     }
@@ -808,7 +777,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.AnunciosService.FitrarInv(filtro).then( (res:any)=>{
                 this.anuncios.data = res.data
                 this.loading=false;
-                this.display_filtro = false;    
+                this.display_filtro = false;   
+                setTimeout(()=>{
+                    let imagesArray = this.card.toArray();
+                    imagesArray[imagesArray.length-1].nativeElement.style.display = 'grid'
+                },500) 
             })
             
         }else{
@@ -816,6 +789,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 this.anuncios.data = res.data
                 this.loading=false;
                 this.display_filtro = false;
+                setTimeout(()=>{
+                    let imagesArray = this.card.toArray();
+                    imagesArray[imagesArray.length-1].nativeElement.style.display = 'grid'
+                },500)
     
             })
         }
@@ -855,8 +832,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }else{
             this.ctrl_intereses = this.user.interes_identidad.split(",");
         }
-        this.sel_ciudad = this.user.ciudad
-        this.sel_estado = this.user.estado
+        this.sel_ciudad = null
+        this.sel_estado = null
         this.PintarRango()
     }
 
@@ -864,11 +841,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         setTimeout(()=>{
             let val1=  ( (this.edad_min-18) /(60-18)) *100;
             let val2=( (this.edad_max -18) / (60-18)) *100;
+            
             let valk= ($("#line-km").val() /100) *100;
             $("#line-km").css('background', 'linear-gradient( to right, #FF3C76 0 '+valk+'% , #DFDFDF  0% '+(100-valk)+'%)');
             $("#line-distancia").css('background', 'linear-gradient( to right, #DFDFDF '+(val1)+'%'+', #FF3C76 '+(val1)+'%'+', #FF3C76 '+val2+'%'+', #DFDFDF '+val2+'%'+')');
-        },500)
-    
+        },100)
     }
 
     LimpiarFiltroLocation(){
@@ -920,8 +897,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.alert_guest = true;
         }else{
             if(this.premium){
-                console.log( this.urls_show.slice().reverse()[this.index])
-                console.log( this.urls_video.slice().reverse()[this.index])
                 this.AnunciosService.index_vid = this.urls_video.slice().reverse()[this.index];
                 this.display_video=true;
             }else{

@@ -155,7 +155,12 @@
                     <div class="card-option-body" *ngIf="telf_filtro.length != 0">
                         <div class="radio-group" style="justify-content: space-between;" *ngFor="let locacion of telf_filtro;let i = index">
                             <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
-                            <input (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" [(ngModel)]="usuario.datos.code_phone" [id]="i" name="tlf" type="radio">
+                            <input 
+                                (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" 
+                                [(ngModel)]="usuario.datos.code_phone" 
+                                [value]="locacion.country_phone_code"
+                                [id]="i" name="tlf" type="radio"
+                            >
                         </div>
                     </div>
             

@@ -174,8 +174,6 @@ export class LoginComponent implements OnInit {
                                 sessionStorage.setItem('ruta_img', JSON.stringify(login.data.img_route));
                                 sessionStorage.setItem('token', login.access_token);
                                 this.UserService.ValRole(login.access_token).then( (res:any)=>{
-                                    console.log("ROLE")
-                                    console.log(res)
                                     if(res.length != 0){
                                         location.href = '/admin/main';
                                     }else{

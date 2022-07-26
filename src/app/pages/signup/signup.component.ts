@@ -129,7 +129,6 @@ export class SignupComponent implements OnInit {
     CargarCiudad() {
         this.ciudades = null;
         this.usuario.locacion.ciudad = null;
-        console.log(this.usuario.locacion.estado);
         this.GeoLocationService.getCities(this.usuario.locacion.estado).then(res => {
             this.ciudades = res;
         });
@@ -172,7 +171,6 @@ export class SignupComponent implements OnInit {
         //inicia sesion facebook
         this.GoogleServiceService.GoogleAuth()
             .then((res: any) => {
-                console.log(res)
                 //comprueba si el facebook trae correro
                 if (res.additionalUserInfo.profile.email != null || res.additionalUserInfo.profile.email != undefined) {
                     this.usuario.tipo = 2;
@@ -246,7 +244,6 @@ export class SignupComponent implements OnInit {
         this.usuario.datos.code_phone =  this.SmsService.sms.code_phone;
         this.usuario.datos.telefono =  this.SmsService.sms.telefono;
         this.fase = 1;
-        console.log(this.usuario)
     }
 
     CrearCuenta() {
@@ -259,8 +256,6 @@ export class SignupComponent implements OnInit {
             this.AuthServiceService.ValEmail({ tipo: this.usuario.tipo, email: this.usuario.datos.correo })
             .then(valid => {
                 //si no existe puedes registrate
-                console.log("VALID")
-                console.log(valid)
                 this.loading =false;
                 if (valid.error) {
                     this.fase = 1;
@@ -317,11 +312,6 @@ export class SignupComponent implements OnInit {
     ActivarGeo() {
         navigator.geolocation.getCurrentPosition((pos: any) => {
             var crd = pos.coords;
-
-            console.log('Your current position is:');
-            console.log(`Latitude : ${crd.latitude}`);
-            console.log(`Longitude: ${crd.longitude}`);
-            console.log(`More or less ${crd.accuracy} meters.`);
             this.usuario.geo.lat = crd.latitude;
             this.usuario.geo.long = crd.longitude;
             this.SignUp();
@@ -360,7 +350,6 @@ export class SignupComponent implements OnInit {
             //comienza el registro con redes sociales
             this.AuthServiceService.signUpSocial(this.usuario)
                 .then(res => {
-                    console.log(res)
                     if (res.success) {
                         //guarda imagen de usuario
                         this.AuthServiceService.UpImage(this.img_user, res.data.id)
@@ -413,7 +402,6 @@ export class SignupComponent implements OnInit {
     }
 
     selectIdentidad(id: number, event: any) {
-        console.log(id);
         if (!$(event.target).hasClass("btn-genero-active")) {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
@@ -431,11 +419,9 @@ export class SignupComponent implements OnInit {
                 this.pass = false;
             }
         }
-        console.log(this.ctrl_identidad)
     }
 
     selectServicio(id: number, event: any) {
-        console.log(id);
         if (!$(event.target).hasClass("btn-genero-active")) {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
@@ -583,6 +569,7 @@ export class SignupComponent implements OnInit {
             
         }, 450);
         this.filtro = "";
+        this.telf_filtro=[]
     }
 
     SoloLetra(evt: any) {

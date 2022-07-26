@@ -52,7 +52,6 @@ export class AnuncioComponent implements OnInit {
         }
 
         if(this.AnunciosService.anuncio){
-            console.log(this.AnunciosService.anuncio)
             this.PrepararAnuncio(this.AnunciosService.anuncio)
         }else{
             this.isFirstAdd = true;
@@ -113,7 +112,6 @@ export class AnuncioComponent implements OnInit {
     //?GESTION=================================================================================
 
     selectIdentidad(id: number, event: any) {
-        console.log(id);
         if (!$(event.target).hasClass("btn-genero-active")) {
             $(event.target).removeClass("btn-genero");
             $(event.target).addClass("btn-genero-active");
@@ -203,9 +201,6 @@ export class AnuncioComponent implements OnInit {
 
         this.video_length = 0;
         this.user_videos_show.forEach((car: any, index: any, object: any) => {
-            console.log(car.blob)
-            console.log(index)
-            console.log(object)
             if(car.blob){
                 this.video_length+=1;
                 this.formData.append("thumbnail"+this.video_length, this.dataURLtoFile(this.thumbnail[this.video_length-1],'img.jpg '));
@@ -221,13 +216,10 @@ export class AnuncioComponent implements OnInit {
 
         await this.AnunciosService.UpdateAnuncio(this.formData,this.id)
         .then((res)=>{
-            console.log(res)
 
             if(res.error){
-                console.log("te jo")
             }else{
                 this.UserService.ValidatePack().then( (res:any)=>{
-                    console.log(this.UserService.getPack());
                     localStorage.removeItem('pack')
 
                     if(res.anuncios){
@@ -245,10 +237,8 @@ export class AnuncioComponent implements OnInit {
                 });
 
             }
-            console.log(res)
         })
         .catch((error)=>{
-            console.log(error)
             this.fase_update = 0;
             this.update=false;
         })
@@ -292,12 +282,6 @@ export class AnuncioComponent implements OnInit {
             
         }else{
             this.user_imagen_show.forEach((car: any, index: any, object: any) => {
-                console.log("car")
-                console.log(car)
-                console.log("index")
-                console.log(index)
-                console.log("object")
-                console.log(object)
                 if (car.id == img.id) {
                     object.splice(index, 1);
                 }
@@ -320,7 +304,6 @@ export class AnuncioComponent implements OnInit {
     //?CONTROL=================================================================================
 
     check(event:any){
-        console.log(event)
     }
 
     filtrarSelect(id:any){
@@ -350,7 +333,6 @@ export class AnuncioComponent implements OnInit {
         if(tipo == 3){
             this.anuncio.hab_wts = !this.anuncio.hab_wts;
         }
-        console.log(this.anuncio.hab_notificacion)
     }
 
     Done(){
@@ -390,15 +372,8 @@ export class AnuncioComponent implements OnInit {
     // !=========VIDEO========================================================================
 
     DeleteVid(video:any,tipo:number){
-        console.log(video)
         if(tipo == 1){
             this.urls_video.forEach((car: any, index: any, object: any) => {
-                console.log("car")
-                console.log(car)
-                console.log("video")
-                console.log(video)
-                console.log("index")
-                console.log(index)
                 if (car == video) {
                     this.urls_videos_delete.push(video);
                     this.urls_thumbs.splice(index,1)
@@ -410,15 +385,9 @@ export class AnuncioComponent implements OnInit {
         }else{
             this.user_videos_show.forEach((car: any, index: any, object: any) => {
                 
-                console.log("car")
-                console.log(car)
-                console.log(index)
-                console.log(object)
                 if (car == video) {
                     object.splice(index, 1);
-                    console.log(this.thumbnail)
                     this.thumbnail.splice(index, 1)
-                    console.log(this.thumbnail)
                     $('#video_here')[0].src=''
                     this.video_length -=1;
                 }
@@ -430,7 +399,6 @@ export class AnuncioComponent implements OnInit {
 
 
     Video(ev:any){
-        console.log(ev.target.files )
     }
     
     UploadVideo(control:any) {
@@ -439,14 +407,12 @@ export class AnuncioComponent implements OnInit {
         video.onloadedmetadata = ()=> {
             window.URL.revokeObjectURL(video.src);
             let arr:any = video.duration.toString().split('.')
-            console.log(arr)
             if(arr[0] >80 || arr.length > 2){
                 alert("El video es muy largo");
 
             }else{
                 this.user_videos_show.push({blob:control.target.files[0]})
                 this.video_length +=1;
-                console.log(this.user_videos_show)
                 control.target.value = ''; 
                 this.loading=true;
                 this.GenerateThumb()
@@ -466,7 +432,6 @@ export class AnuncioComponent implements OnInit {
 
         if(type == 1){
             $('#cardPlay'+index).addClass('active')
-            console.log(this.user_videos_show[index].blob)
             $source[0].src = URL.createObjectURL(this.user_videos_show[index].blob);
             $(".video").attr("src", $source);
         }else{
@@ -483,9 +448,9 @@ export class AnuncioComponent implements OnInit {
 
 
     Play(){
-        console.log($('#video_here')[0].paused)
+       $('#video_here')[0].paused
         if($('#video_here')[0].paused){
-            console.log($('#video_here')[0].play())
+           $('#video_here')[0].play()
             $('.bg-control').addClass('fadeOut')
             $('.btn-play').addClass('fadeOut')
             setTimeout(()=>{
@@ -494,13 +459,13 @@ export class AnuncioComponent implements OnInit {
             },400)
             
         }else{
-            console.log($('#video_here')[0].pause())
+            $('#video_here')[0].pause()
             $('.bg-control').removeClass('fadeOut').addClass('fadeIn')
             $('.btn-play').removeClass('fadeOut').addClass('fadeIn')
             $('.bg-control').css('display','grid')
             $('.btn-play').css('display','block')
         }
-        console.log($('#video_here')[0].paused)
+        $('#video_here')[0].paused
 
         // console.log($('#video_here')[0])
         // $('#video_here').play()
@@ -526,7 +491,6 @@ export class AnuncioComponent implements OnInit {
         // var video = $('#video_here_u')[0];
         $('.content-video').prepend("<video id='vid_temp'></video>");
         var video:any = $('#vid_temp')[0];
-        console.log(video)
         // video.style.display='grid'
         video.onloadedmetadata=(()=>{
             if (video.objectURL){

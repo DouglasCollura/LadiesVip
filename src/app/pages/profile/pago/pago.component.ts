@@ -147,16 +147,30 @@ export class PagoComponent implements OnInit, AfterViewInit {
         console.log("res")
         this.loading = true;
         this.error = false;
-
-
+        
+        if(sessionStorage.getItem('free')){
+            if(this.tipo == 0){
+                this.tipo=-1;
+            }
+        }
         this.PagoService.Pagar({token:0,amount:this.tipo+1,card:this.card})
         .then( (res:any) => {
             this.loading = false;
 
             if(res.code){
-                this.error = true;
+                if(res.code){
+                    this.error = true;
                 
-                console.log('esta es la respuesta del pago',res.code);
+                    console.log('esta es la respuesta del pago',res.code);
+                }// else{
+                //     this.fase_pago = 3;
+                //     this.tipo= 0;
+                    
+                //     setTimeout( ()=>{
+                //         // this.goHome()
+                //     },1000 )
+                // }
+                
             }else{
                 this.PagoService.UpdatePack(res).then(res=>{
                     console.log("ready")
@@ -171,6 +185,9 @@ export class PagoComponent implements OnInit, AfterViewInit {
                         
                     })
                     this.fase_pago = 3;
+                    if(this.tipo == -1){
+                        this.tipo= 0;
+                    }
                     setTimeout( ()=>{
                         this.goHome()
                     },1000 )

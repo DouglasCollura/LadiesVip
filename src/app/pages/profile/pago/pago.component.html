@@ -94,11 +94,22 @@
             </div>
 
             <div class="card-pack-body">
-
-                <h3>1 {{"pack_anuncio.renovacion" | translate}}: <span class="font-600"> 0.99 EUR </span> </h3>
-                <h3>10 {{"pack_anuncio.renovacion" | translate}}: <span class="font-600"> 6.99 EUR </span> </h3>
-                <h3>30 {{"pack_anuncio.renovacion" | translate}}: <span class="font-600"> 19.99 EUR </span> </h3>
-                <h3>1 {{"pack_anuncio.video" | translate}}: <span class="font-600"> 2.99 EUR </span> </h3>
+                <div class="radio-group">
+                    <input type="radio" [(ngModel)]="tipo" id="tipo4" [value]="4" name="tipo">
+                    <label for="tipo4"> 1 {{"pack_anuncio.renovacion" | translate}}: <span class="font-600"> 0.99 EUR </span> </label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" [(ngModel)]="tipo" id="tipo5" [value]="5" name="tipo">
+                    <label for="tipo5">10 {{"pack_anuncio.renovacion" | translate}}: <span class="font-600"> 6.99 EUR </span> </label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" [(ngModel)]="tipo" [value]="6" id="tipo6" name="tipo">
+                    <label for="tipo6">30 {{"pack_anuncio.renovacion" | translate}}: <span class="font-600"> 19.99 EUR </span> </label>
+                </div>
+                <div class="radio-group">
+                    <input type="radio" [(ngModel)]="tipo" [value]="7" id="tipo7" name="tipo">
+                    <label for="tipo7">1 {{"pack_anuncio.video" | translate}}: <span class="font-600"> 2.99 EUR </span> </label>
+                </div>
             </div>
 
         </div>

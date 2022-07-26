@@ -18,27 +18,34 @@ export class LoginGuard implements CanActivate {
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         console.log(route)
         console.log(state)
-
-        if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
-            // this._location.back();
-            
-            this.UserService.ValRole(this.UserService.token).then((res: any) => {
-                console.log("ROLE")
-                console.log(res)
-                if (res.length == 0) {
-                    location.href = '/home';
-                } else {
-                    location.href = '/admin/main';
-                }
-
-            })
+        var ua = navigator.userAgent;
+        console.log(ua);
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|opera mobile|palmos|webos|Mobile|mobile|googlebot-mobile|CriOS/i.test(ua))
+        {
+            // alert("Mobile")
+            location.href='https://www.m.ladiesvip.es'
             return false;
-        } else {
-            localStorage.clear();
-            sessionStorage.clear();
-            return true;
-        }
+        }else{
+            if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
+                // this._location.back();
+                
+                this.UserService.ValRole(this.UserService.token).then((res: any) => {
+                    console.log("ROLE")
+                    console.log(res)
+                    if (res.length == 0) {
+                        location.href = '/home';
+                    } else {
+                        location.href = '/admin/main';
+                    }
 
+                })
+                return false;
+            } else {
+                localStorage.clear();
+                sessionStorage.clear();
+                return true;
+            }
+        }   
     }
 
 }

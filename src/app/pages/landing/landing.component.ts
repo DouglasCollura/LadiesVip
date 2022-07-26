@@ -25,7 +25,6 @@ export class LandingComponent implements OnInit {
     ) {
         translate.setDefaultLang('es');
         if(localStorage.getItem('lang')){
-            console.log(localStorage.getItem('lang'))
             this.lang=localStorage.getItem('lang')
             translate.use(localStorage.getItem('lang') || '');
         }else{

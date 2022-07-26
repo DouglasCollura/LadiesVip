@@ -6,7 +6,7 @@
         </div>
 
         <div class="menu-nav">
-            <button [class]="ctrl_menu == 0?'menu-nav-active':''" id="home" (click)="nav(0)" ><i class="icon icon-home"></i></button>
+            <!-- <button [class]="ctrl_menu == 0?'menu-nav-active':''" id="home" (click)="nav(0)" ><i class="icon icon-home"></i></button> -->
             <button [class]="ctrl_menu == 1?'menu-nav-active':''" id="store" (click)="nav(1)"><i class="icon icon-store"></i></button>
             <!-- <button [class]="ctrl_menu == 2?'menu-nav-active':''" id="message" (click)="nav(2)"><i class="icon icon-message" ></i></button> -->
             <button [class]="ctrl_menu == 3?'menu-nav-active':''" id="notificacion" (click)="nav(3)"><i class="icon icon-bell"></i></button>
@@ -25,13 +25,14 @@
         <div class="bg-card fadeIn" *ngIf="display_filtro">
             <div class="card-option onUp" >
                 <div class="card-option-header">
-                    <button *ngIf="filtro_fase == 0" (click)="LimpiarFiltro()"  class="btn clear-filtro justify-self-start"> <span class="icon  icon-trash"></span> </button>
+                    <button *ngIf="filtro_fase == 0" class="btn justify-self-end" style="position: absolute" (click)="CloseFiltro()" > <span class="icon icon-close"></span> </button>
+
                     <button *ngIf="filtro_fase == 0"  class="btn justify-self-end"> <span class="icon"></span> </button>
                     <button *ngIf="filtro_fase == 1" (click)="ReturnFiltro()"  class="btn justify-self-end"> <span class="icon icon-chevron-left"></span> </button>
         
                     <h3 class=" justify-self-center text-center font-600">{{"filtro.filtros" | translate}}</h3>
+                    <button *ngIf="filtro_fase == 0" (click)="LimpiarFiltro()"  class="btn justify-self-start"> <span class="icon  icon-trash"></span> </button>
         
-                    <button *ngIf="filtro_fase == 0" class="btn justify-self-end" (click)="CloseFiltro()" > <span class="icon icon-close"></span> </button>
                     <button *ngIf="filtro_fase == 1" (click)="LimpiarFiltroLocation()"  class="btn justify-self-end"> <span class="icon  icon-trash"></span> </button>
         
                 </div>
@@ -214,7 +215,7 @@
                             </div>
 
                             <div class="grid align-content-start gap-10">
-                                <h4><span class="icon icon-mail"></span> {{show_anuncio.usuario.email}}</h4>
+                                <h4 *ngIf="!guest"><span class="icon icon-mail"></span> {{show_anuncio.usuario.email}}</h4>
                                 <h4 *ngIf="!guest" ><span class="icon icon-phone font-500"></span> +{{show_anuncio.usuario.code_phone}} {{show_anuncio.usuario.telefono}} </h4>
                                 <h4><span class="icon icon-brujula"></span> {{"show_anuncio.busco" | translate}}:  {{intereses_name}} </h4>
                             </div>

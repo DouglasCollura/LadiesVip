@@ -390,7 +390,7 @@
             "renovar":"Automatische Erneuerung",
             "metodo_pago":"Wählen Sie eine Bezahlungsart",
             "tarjeta":"Debitkarte/Anerkennung",
-            "cargos":"*Ihre Karte wird nicht belastet*"
+            "cargos":"*Ihre Karte wird mit 0,5 € belastet*"
         },
         "part_2":{
             "total":"Insgesamt zu bezahlen",

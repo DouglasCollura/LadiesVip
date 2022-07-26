@@ -382,7 +382,7 @@
             "renovar": "Renovación automática",
             "metodo_pago": "Elegir un medio de pago",
             "tarjeta": "Tarjeta débito/crédito",
-            "cargos":"*No se le aplicarán cargos a su tarjeta*"
+            "cargos":"*se aplicará un cargo de 0.5€ a su tarjeta*"
         },
         "part_2": {
             "total": "Total a pagar",
