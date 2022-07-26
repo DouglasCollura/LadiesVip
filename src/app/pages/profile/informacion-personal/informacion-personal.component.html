@@ -284,15 +284,15 @@
         <div *ngIf="loading" class="loading"></div>
         <div class="card-option-body" *ngIf="estado_filtro.length == 0">
             <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estados;let i = index">
-                <label [for]="i"> {{estado.state_name}}</label>
-                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+                <label [for]="i"> {{estado.provincia}}</label>
+                <input (click)="SelectEstado( estado.provincia)" [id]="i" name="tlf" type="radio">
             </div>
         </div>
 
         <div class="card-option-body" *ngIf="estado_filtro.length != 0">
             <div class="radio-group" style="justify-content: space-between;" *ngFor="let estado of estado_filtro;let i = index">
-                <label [for]="i"> {{estado.state_name}} </label>
-                <input (click)="SelectEstado( estado.state_name)" [id]="i" name="tlf" type="radio">
+                <label [for]="i"> {{estado.provincia}} </label>
+                <input (click)="SelectEstado( estado.provincia)" [id]="i" name="tlf" type="radio">
             </div>
         </div>
 
@@ -323,15 +323,15 @@
         <h2 class="text-center" *ngIf="ciudades.length == 0">No posee, continue a la siguiente fase</h2>
         <div class="card-option-body" *ngIf="ciudad_filtro.length == 0">
             <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudades;let i = index">
-                <label [for]="i"> {{ciudad.city_name}}</label>
-                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+                <label [for]="i"> {{ciudad.nombre}}</label>
+                <input (click)="SelectCiudad( ciudad.nombre)" [id]="i" name="tlf" type="radio">
             </div>
         </div>
 
         <div class="card-option-body" *ngIf="ciudad_filtro.length != 0">
             <div class="radio-group" style="justify-content: space-between;" *ngFor="let ciudad of ciudad_filtro;let i = index">
-                <label [for]="i"> {{ciudad.city_name}} </label>
-                <input (click)="SelectCiudad( ciudad.city_name)" [id]="i" name="tlf" type="radio">
+                <label [for]="i"> {{ciudad.nombre}} </label>
+                <input (click)="SelectCiudad( ciudad.nombre)" [id]="i" name="tlf" type="radio">
             </div>
         </div>
 

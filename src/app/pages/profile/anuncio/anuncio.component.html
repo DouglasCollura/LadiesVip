@@ -4,7 +4,9 @@
         <button class="btn" (click)="Close()" > <span class="icon icon-chevron-left"></span> </button>
         <h3 class="font-500 justify-self-center">{{"gestion_anuncio.titulo" | translate}}</h3>
 
-        <button class="btn" (click)=" (!isFirstAdd)&& checkUpdate()"> <img [src]="'../../../../assets/imagenes/'+myboost"  alt=""> </button>
+        <button class="btn" (click)=" (!isFirstAdd && (img_length>0 || urls_image.length>0))&& checkUpdate()"> 
+            <img [src]="!isFirstAdd && (img_length>0 || urls_image.length>0)?'../../../../assets/imagenes/'+myboost:'../../../../assets/imagenes/Boost.png'"  alt=""> 
+        </button>
 
     </div>
     <div class="body">

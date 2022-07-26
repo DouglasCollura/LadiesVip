@@ -38,8 +38,8 @@ export class MarketComponent implements OnInit, AfterViewInit {
             }else{
                 this.user = JSON.parse(sessionStorage.getItem("usuario") || '{}')
             }
-            this.sel_ciudad = this.user.ciudad
-            this.sel_estado = this.user.estado
+            this.sel_ciudad = null
+            this.sel_estado = null
             
             this.GeoLocationService.getStates(this.user.pais).then(res => {
                 this.estados = res;
@@ -357,8 +357,8 @@ export class MarketComponent implements OnInit, AfterViewInit {
 
     LimpiarFiltro(){
         this.km=100;
-        this.sel_ciudad = this.user.ciudad
-        this.sel_estado = this.user.estado
+        this.sel_ciudad = null
+        this.sel_estado = null
         this.PintarRango()
     }
 

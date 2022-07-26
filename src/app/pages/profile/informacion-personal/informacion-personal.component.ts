@@ -36,11 +36,19 @@ export class InformacionPersonalComponent implements OnInit {
         
         this.UpdateDatos()
         this.datos.pais = 'Spain';
-        this.GeoLocationService.getStates('Spain').then(res => {
+        this.GeoLocationService.GetEstados().then(res => {
             this.estados = res;
             this.loading = false;
         });
-        this.GeoLocationService.getCities(this.datos.ciudad).then(res => {
+        // this.GeoLocationService.getStates('Spain').then(res => {
+        //     this.estados = res;
+        //     this.loading = false;
+        // });
+        // this.GeoLocationService.getCities(this.datos.ciudad).then(res => {
+        //     this.ciudades = res;
+        //     this.loading = false;
+        // });
+        this.GeoLocationService.GetCiudades(this.datos.ciudad).then(res => {
             this.ciudades = res;
             this.loading = false;
         });
@@ -137,7 +145,11 @@ export class InformacionPersonalComponent implements OnInit {
         this.datos.estado = null;
         this.datos.ciudad = null;
         this.loading = true;
-        this.GeoLocationService.getStates(this.datos.pais).then(res => {
+        // this.GeoLocationService.getStates(this.datos.pais).then(res => {
+        //     this.estados = res;
+        //     this.loading = false;
+        // });
+        this.GeoLocationService.GetEstados().then(res => {
             this.estados = res;
             this.loading = false;
         });
@@ -147,7 +159,7 @@ export class InformacionPersonalComponent implements OnInit {
         this.ciudades = null;
         this.datos.ciudad = null;
         this.loading = true;
-        this.GeoLocationService.getCities(this.datos.estado).then(res => {
+        this.GeoLocationService.GetCiudades(this.datos.estado).then(res => {
             this.ciudades = res;
             this.loading = false;
         });
@@ -161,7 +173,7 @@ export class InformacionPersonalComponent implements OnInit {
         this.CerrarModal();
     }
 
-    SelectEstado(estado:string){
+    SelectEstado(estado:any){
         this.datos.estado = estado;
         this.CargarCiudad();
         this.CerrarModal();
@@ -308,14 +320,14 @@ export class InformacionPersonalComponent implements OnInit {
         }else if(this.display_estado){
             this.estado_filtro = [];
             this.estados.forEach((arrayItem:any)=> {
-                if(arrayItem.state_name.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
+                if(arrayItem.provincia.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
                     this.estado_filtro.push(arrayItem)
                 }
             });
         }else{
             this.ciudad_filtro = [];
             this.ciudades.forEach((arrayItem:any)=> {
-                if(arrayItem.city_name.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
+                if(arrayItem.nombre.toLowerCase().indexOf(this.filtro.toLowerCase())> -1){
                     this.ciudad_filtro.push(arrayItem)
                 }
             });

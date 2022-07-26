@@ -98,6 +98,7 @@ export class SignupComponent implements OnInit {
     fase_block:number=0;
     display_telf:boolean=false;
     filtro:string="";
+    id_telf:any;
 
     @Output() ExportClose = new EventEmitter<boolean>();
 

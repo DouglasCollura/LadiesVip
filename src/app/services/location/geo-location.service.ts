@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -7,6 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class GeoLocationService {
 
     url: string = 'https://www.universal-tutorial.com/api/';
+    urln = environment.serverUrl;
     token: string = "kO763mtM9Ajx650BZAnv6mL7s5DKULyF6S2jFxhe7yOkwh_SRvuwe51bu2-ULOipEyM";
     tokenAuthorization:string = "";
 
@@ -62,5 +64,16 @@ export class GeoLocationService {
             return this.http.get<any>(`${this.url}cities/${estado}`, {headers}).toPromise()
         })
     }
+
+    GetEstados(){
+        const data = this.http.get(`${this.urln}estados`).toPromise()
+        return data;
+    }
+
+    GetCiudades(estado:any){
+        const data = this.http.get(`${this.urln}ciudades/${estado}`).toPromise()
+        return data;
+    }
+
 
 }

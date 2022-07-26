@@ -225,9 +225,9 @@
                             </p>
                        
                             <div class="content-redes">
-                                <button *ngIf="show_anuncio.hab_chat" class="notallow" > <img src="../../../assets/imagenes/cont_phone.png" alt=""> </button>
-                                <button *ngIf="show_anuncio.hab_wts" class="notallow" > <img src="../../../assets/imagenes/cont_wts.png" alt=""> </button>
-                                <button *ngIf="show_anuncio.hab_notificacion" > <img src="../../../assets/imagenes/cont_sms.png" alt=""> </button>
+                                <button *ngIf="show_anuncio.hab_chat && !guest" class="notallow" > <img src="../../../assets/imagenes/cont_phone.png" alt=""> </button>
+                                <button *ngIf="show_anuncio.hab_wts && !guest" class="notallow" > <img src="../../../assets/imagenes/cont_wts.png" alt=""> </button>
+                                <!-- <button *ngIf="show_anuncio.hab_notificacion && !guest" > <img src="../../../assets/imagenes/cont_sms.png" alt=""> </button> -->
                             </div>
                         </div>
                     </div>

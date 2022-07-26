@@ -145,8 +145,8 @@
                             <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
                             <input
                                 (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" 
-                                [(ngModel)]="usuario.datos.code_phone" 
-                                [value]="locacion.country_phone_code"
+                                [(ngModel)]="id_telf" 
+                                [value]="locacion.country_name"
                                 [id]="i" name="tlf" type="radio"
                             >
                         </div>
@@ -157,8 +157,8 @@
                             <label [for]="i"> {{locacion.country_name}}  ( {{locacion.country_phone_code}} )</label>
                             <input 
                                 (click)="SelectCodeTlf(locacion.country_phone_code, locacion.country_short_name)" 
-                                [(ngModel)]="usuario.datos.code_phone" 
-                                [value]="locacion.country_phone_code"
+                                [(ngModel)]="id_telf" 
+                                [value]="locacion.country_name"
                                 [id]="i" name="tlf" type="radio"
                             >
                         </div>

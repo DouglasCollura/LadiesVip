@@ -210,7 +210,7 @@
                         </div>
 
                         <img *ngIf="user_imagen_show[1] && !user_imagen_load[1]" [src]="user_imagen_show[1].img" alt="">
-                    <img *ngIf="user_imagen_show[1] && user_imagen_load[1]" [src]=" url + user_imagen_load[1]" alt="">
+                        <img *ngIf="user_imagen_show[1] && user_imagen_load[1]" [src]=" url + user_imagen_load[1]" alt="">
 
                     </div>
                     <div class="content-img" >
@@ -265,8 +265,8 @@
             </div>
             <input type="file" id="img" (change)="CargarImagen($event)" style="display:none" accept="image/png, image/gif, image/jpeg">
 
-            <button style="margin-top: 30px;" *ngIf="!is_update" (click)="CrearNegocio()" class="btn-primary btn-block">{{"negocio.btn_siguiente" | translate}}</button>
-            <button style="margin-top: 30px;" *ngIf="is_update" (click)="UpdateNegocio()" class="btn-primary btn-block">{{"negocio.btn_siguiente" | translate}}</button>
+            <button style="margin-top: 30px;" *ngIf="!is_update" (click)="user_imagen_show.length>0 && CrearNegocio()" class="btn-primary btn-block">{{"negocio.btn_siguiente" | translate}}</button>
+            <button style="margin-top: 30px;" *ngIf="is_update" (click)="user_imagen_load.length>0 && UpdateNegocio()" class="btn-primary btn-block">{{"negocio.btn_siguiente" | translate}}</button>
             
         </div>
         

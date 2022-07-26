@@ -34,7 +34,7 @@ export class AnuncioComponent implements OnInit {
         }
         this.mypack = JSON.parse(localStorage.getItem("pack") || '{}')
         
-        if(this.mypack.pack == 1){
+        if(this.mypack.pack == 1 || this.mypack.pack == 0){
             this.myboost = "boost-standar.png"
             this.mycolor = "#567BFF"
         }
