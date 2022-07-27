@@ -59,7 +59,7 @@ export class AnunciosService{
         return send;
     }
 
-    CrearAnuncio(anuncio:any): Promise<any> {
+    CrearAnuncio(anuncio:object): Promise<any> {
         const headers = new HttpHeaders({
             Authorization: 'Bearer ' + this.token
         });

@@ -89,7 +89,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
         else{
 
-            
             this.UserService.GetNotifys().then( (res:any)=>{
                 this.UserService.notifys = res;
                 let fil =res.filter( (res:any)=>{return res.tipo == 4} )
@@ -189,7 +188,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 }
                 if(res.length == 0){
                 }else{
-                    localStorage.setItem('pack',JSON.stringify(res) )
+                    localStorage.setItem('pack',JSON.stringify(res[0]) )
                 }
                 
             })
@@ -376,10 +375,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     //?GESTION============================================================
 
-    showImage(urls: any) {
-        return this.server + urls.split(",")[0];
+    showImage(urls: any, tipo:number) {
+        let dato = ''
+        if(tipo === 1){
+             dato = this.server + '/storage//' + urls;
+        }
+        if(tipo === 2){
+             dato = this.server + '/storage//' + urls;
+        }
+        return dato
     }
 
+    showImageS(images:any){
+        let dato = '';
+        if(images.type === 1){
+            dato = this.server + '/storage//' + images.media;
+        }
+        if(images.type === 2){
+            dato = this.server + '/storage/thumnails/' + images.thumnails;
+        }
+        return dato;
+    }
 
     signOut(): void {
         this.AuthServiceService.logOut()
@@ -599,7 +615,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.add_select = $("#"+id);
         this.show_anuncio =anuncio;
         this.ctrl_modal_detalles = true
-        this.urls_image = this.show_anuncio.urls.split(",");
+        this.urls_image = anuncio.images?.slice().reverse();
         let intereses = this.show_anuncio.intereses.split(",");
         this.intereses_name=[];
         for (const interes in intereses) {
@@ -610,19 +626,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
         this.intereses_name = this.intereses_name.join(', ')
         
-        if(this.show_anuncio.url_video != null){
-            if(this.show_anuncio.url_video.split(",")[0] != ''){
-                this.urls_video = this.show_anuncio.url_video.split(",");
-                this.urls_thumbs = this.show_anuncio.thumbnails.split(',')
-            }
-        }
+        // if(this.show_anuncio.url_video != null){
+        //     if(this.show_anuncio.url_video.split(",")[0] != ''){
+        //         this.urls_video = this.show_anuncio.url_video.split(",");
+        //         this.urls_thumbs = this.show_anuncio.thumbnails.split(',')
+        //     }
+        // }
+
         this.urls_image.forEach(async(car: any, index: any, object: any) => {
-            this.urls_show.push({type:1, val:car})
+            console.log(car)
+            if(car.type === 1){
+                this.urls_show.push({type:1, val:car})
+            }
+            if(car.type === 2){
+                this.urls_show.push({type:2, val:car})
+                this.urls_video.push(car.media);
+            }
         })
 
-        this.urls_thumbs.forEach(async(car: any, index: any, object: any) => {
-            this.urls_show.push({type:2, val:car})
-        })
+        // this.urls_thumbs.forEach(async(car: any, index: any, object: any) => {
+        //     this.urls_show.push({type:2, val:car})
+        // })
         // this.AnunciosService.anuncio = anuncio;
         // this.router.navigate(['home/anuncio'])
     }
@@ -695,7 +719,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             imagesArray[this.index+1].nativeElement.style.display = 'grid'
             this.index= this.index+1;
             this.point_img = this.point_img-1;
-            if(this.urls_show.slice().reverse()[this.index].type == 2){
+            if(this.urls_show.slice()[this.index].type == 2){
                 this.show_play = true;
             }else{
                 this.show_play = false;
@@ -716,7 +740,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             imagesArray[this.index].nativeElement.style.display = 'none'
             this.index= this.index-1;
             this.point_img = this.point_img+1;
-            if(this.urls_show.slice().reverse()[this.index].type == 2){
+            if(this.urls_show.slice()[this.index].type == 2){
                 this.show_play = true;
             }else{
                 this.show_play = false;
@@ -883,9 +907,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     getCantidad(type:boolean, anuncio:any){
         if(type){
-            return anuncio.urls.split(",").length;
+            return anuncio.filter((x:any)=> x.type !== 2).length;
+            
         }else{
-            return anuncio.url_video.split(",").length;
+            return anuncio.filter((x:any)=> x.type !== 1).length;
         }
     }
 
@@ -897,7 +922,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             this.alert_guest = true;
         }else{
             if(this.premium){
-                this.AnunciosService.index_vid = this.urls_video.slice().reverse()[this.index];
+                this.AnunciosService.index_vid = this.urls_video.slice()[this.index];
                 this.display_video=true;
             }else{
                 this.alert = 2;
@@ -910,5 +935,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
         this.alert=0;
         this.alert_max = false;
         this.CerrarModal();
+    }
+
+    closedVideo(){
+        this.display_video = false;
+        $('.btn-play').css('display','block')
+        $('.btn-play').removeClass('fadeOut').addClass('fadeIn')
+
     }
 }

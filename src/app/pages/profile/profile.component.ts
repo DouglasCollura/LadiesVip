@@ -67,6 +67,7 @@ export class ProfileComponent implements OnInit {
     
             if(localStorage.getItem("pack") ){
                 this.mypack = JSON.parse(localStorage.getItem("pack") || '{}')
+                console.log(this.mypack)
                 if(this.mypack.pack == 1 || this.mypack.pack == 0){
                     this.img_pack="pack-add-standar.png"
                 }

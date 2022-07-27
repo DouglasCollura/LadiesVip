@@ -21,9 +21,9 @@
             <!-- ! SECTION SLIDE ============================================ -->
             <div class="slide-photo">
 
-                <div class="card-photo" *ngFor="let foto of urls_image" >
-                    <img [src]="url+foto" alt="">
-                    <div class="delete" (click)="DeleteImg(foto,1)" >
+                <div class="card-photo" *ngFor="let foto of anuncioImages" >
+                    <img [src]="url+'/storage//'+foto.media" alt="">
+                    <div class="delete" (click)="DeleteImg(foto.media,1)" >
                         <span class="icon icon-close"></span>
                     </div>
                 </div>
@@ -138,9 +138,9 @@
 
             <div class="section-video" *ngIf="mypack.videos > 0" >
                 <div class="content-slots">
-                    <div class="card-video-more"  (click)="PlayVideo(i,2)" [id]="'cardPlayShow'+i" *ngFor="let video of urls_video; let i = index" >
+                    <div class="card-video-more"  (click)="PlayVideo(i,2)" [id]="'cardPlayShow'+i" *ngFor="let video of anuncioVideos; let i = index" >
                         <img src="../../../../assets/imagenes/movie.png"  width="60px" alt="">
-                        <div class="delete" (click)="DeleteVid(video,1)" >
+                        <div class="delete" (click)="DeleteVid(video.media,1)" >
                             <span class="icon icon-close"></span>
                         </div>
                     </div>
