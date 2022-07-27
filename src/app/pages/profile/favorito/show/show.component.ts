@@ -28,10 +28,20 @@ export class ShowComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.anuncioGes = this.AnunciosService.anuncio;
         this.anuncio = this.AnunciosService.anuncio.anuncio;
-        console.log("anuncio")
-        console.log(this.anuncio)
-        this.urls_image = this.anuncio.urls.split(",");
+
+        this.urls_image = this.anuncio.images;
         this.premium=this.UserService.getPremium();
+
+        this.urls_image.forEach(async(car: any, index: any, object: any) => {
+            console.log(car)
+            if(car.type === 1){
+                this.urls_show.push({type:1, val:car})
+            }
+            if(car.type === 2){
+                this.urls_show.push({type:2, val:car})
+                // this.urls_video.push(car.media);
+            }
+        })
     }
 
     async ngAfterViewInit() {
@@ -112,7 +122,7 @@ export class ShowComponent implements OnInit, AfterViewInit {
             imagesArray[this.index+1].nativeElement.style.display = 'grid'
             this.index= this.index+1;
             this.point_img = this.point_img-1;
-            if(this.urls_show.slice().reverse()[this.index].type == 2){
+            if(this.urls_show.slice()[this.index].type == 2){
                 this.show_play = true;
             }else{
                 this.show_play = false;
@@ -133,7 +143,7 @@ export class ShowComponent implements OnInit, AfterViewInit {
             imagesArray[this.index].nativeElement.style.display = 'none'
             this.index= this.index-1;
             this.point_img = this.point_img+1;
-            if(this.urls_show.slice().reverse()[this.index].type == 2){
+            if(this.urls_show.slice()[this.index].type == 2){
                 this.show_play = true;
             }else{
                 this.show_play = false;

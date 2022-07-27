@@ -70,7 +70,9 @@ export class FavoritoComponent implements OnInit {
     
     //?GESTION============================================================
     showImage(urls: any) {
-        return this.server + urls.split(",")[0];
+        let dato = ''
+        dato = this.server + '/storage//' + urls;
+        return dato;
     }
     
     OpenShow(anuncio:any){
