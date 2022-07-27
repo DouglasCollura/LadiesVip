@@ -25,8 +25,6 @@ export class AnuncioComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        
-
         if(sessionStorage.getItem("usuario")){
             this.datos = JSON.parse(sessionStorage.getItem("usuario") || '{}' )
         }else{
@@ -64,7 +62,7 @@ export class AnuncioComponent implements OnInit {
     //!DATA===========================================================================================================
     //?CARGA=================================================================================
     datos:any;
-    urls_image=[];
+    urls_image:any=[];
     urls_video=[];
     urls_thumbs=[];
     //?GESTION=================================================================================
@@ -80,7 +78,7 @@ export class AnuncioComponent implements OnInit {
     img_length=0;
     video_length=0;
     intereses_name:any=[];
-    user_imagen_show:any=[];
+    
     user_videos_show:any=[];
 
     urls_delete:any=[];
@@ -144,79 +142,84 @@ export class AnuncioComponent implements OnInit {
         let file = event.target.files[0];
 
         reader.onload = (e: any) => {
-            this.user_imagen_show.push({img:e.target.result, id:this.img_length+1,blob:file});
+            this.user_imagen_show.push({
+                img:e.target.result, 
+            });
         }
         this.img_length = this.img_length+1;
-        
     }
  
+    user_imagen_show:any=[];
 
-    CrearAnuncio(){
-        this.anuncio.intereses = this.ctrl_intereses.join();
+    async CrearAnuncio(){
         this.loading=true;
-        this.img_length = 0;
+        this.anuncio.intereses = this.ctrl_intereses.join();
 
-        this.user_imagen_show.forEach((car: any, index: any, object: any) => {
-            if(car.blob){
-                this.img_length+=1;
-                this.formData.append("imagen"+this.img_length, car.blob);
-            }
-        })
+        const formData = new FormData();
+        formData.append("anuncio",JSON.stringify(this.anuncio))
+        formData.append("imagenes", JSON.stringify(this.user_imagen_show))
+        formData.append("videos", JSON.stringify(this.user_videos_show))
+        formData.append("thumbnails", JSON.stringify(this.thumbnail));
 
-        this.video_length = 0;
-        this.user_videos_show.forEach(async(car: any, index: any, object: any) => {
-            if(car.blob){
-                this.video_length+=1;
-                this.formData.append("thumbnail"+this.video_length, this.dataURLtoFile(this.thumbnail[this.video_length-1],'img.jpg '));
-                this.formData.append("video"+this.video_length, car.blob);
-            }
-        })
-
-        this.formData.append("video_length", ""+this.video_length);
-        this.formData.append("length", ""+this.img_length);
-        this.formData.append("anuncio",JSON.stringify(this.anuncio))
-        this.loading= true;
-
-        this.AnunciosService.CrearAnuncio(this.formData).then(()=>{
+        await this.AnunciosService.CrearAnuncio(formData)
+        .then(()=>{
             this.loading= false;
             this.done = true;
 
-            setTimeout( ()=>{
-                location.reload()
-            },3000 )
+                setTimeout( ()=>{
+                    location.reload()
+                },3000 )
+            })
+        
 
-        })
+        // 
+        // this.img_length = 0;
+
+
+        // this.user_imagen_show.forEach((car: any, index: any, object: any) => {
+        //     if(car.blob){
+        //         this.img_length+=1;
+        //         this.formData.append("imagen"+this.img_length, car.blob);
+        //     }
+        // })
+
+        // this.video_length = 0;
+        // this.user_videos_show.forEach(async(car: any, index: any, object: any) => {
+        //     if(car.blob){
+        //         this.video_length+=1;
+        //         this.formData.append("thumbnail"+this.video_length, this.dataURLtoFile(this.thumbnail[this.video_length-1],'img.jpg '));
+        //         this.formData.append("video"+this.video_length, car.blob);
+        //     }
+        // })
+
+        // this.loading= true;
+
+        // this.AnunciosService.CrearAnuncio(this.formData).then(()=>{
+        //     this.loading= false;
+        //     this.done = true;
+
+        //     setTimeout( ()=>{
+        //         location.reload()
+        //     },3000 )
+
+        // })
     }
 
     async UpdateAnuncio(){
         this.fase_update = 1;
         this.img_length = 0;
         this.anuncio.intereses = this.ctrl_intereses.join();
-        this.user_imagen_show.forEach((car: any, index: any, object: any) => {
-            if(car.blob){
-                this.img_length+=1;
-                this.formData.append("imagen"+this.img_length, car.blob);
-            }
-        })
 
-        this.video_length = 0;
-        this.user_videos_show.forEach((car: any, index: any, object: any) => {
-            if(car.blob){
-                this.video_length+=1;
-                this.formData.append("thumbnail"+this.video_length, this.dataURLtoFile(this.thumbnail[this.video_length-1],'img.jpg '));
-                this.formData.append("video"+this.video_length, car.blob);
-            }
-        })
+        const formData = new FormData();
+        formData.append("anuncio",JSON.stringify(this.anuncio))
+        formData.append("imagenes", JSON.stringify(this.user_imagen_show))
+        formData.append("videos", JSON.stringify(this.user_videos_show))
+        formData.append("thumbnails", JSON.stringify(this.thumbnail));
+        formData.append("img_delete",JSON.stringify(this.urls_delete))
+        formData.append("video_delete",JSON.stringify(this.urls_videos_delete))
 
-        this.formData.append("video_length", ""+this.video_length);
-        this.formData.append("length", ""+this.img_length);
-        this.formData.append("anuncio",JSON.stringify(this.anuncio))
-        this.formData.append("img_delete",JSON.stringify(this.urls_delete))
-        this.formData.append("video_delete",JSON.stringify(this.urls_videos_delete))
-
-        await this.AnunciosService.UpdateAnuncio(this.formData,this.id)
+        await this.AnunciosService.UpdateAnuncio(formData,this.id)
         .then((res)=>{
-
             if(res.error){
             }else{
                 this.UserService.ValidatePack().then( (res:any)=>{
@@ -244,20 +247,35 @@ export class AnuncioComponent implements OnInit {
         })
     }
 
+
+    anuncioImages:any=[];
+    anuncioVideos:any=[];
     PrepararAnuncio(anuncio:any){
         this.isFirstAdd = false;
         this.anuncio.hab_notificacion = anuncio.hab_notificacion;
         this.anuncio.hab_chat = anuncio.hab_chat;
         this.anuncio.hab_wts = anuncio.hab_wts;
+
         this.anuncio.descripcion = anuncio.descripcion;
-        this.urls_image = anuncio.urls.split(",");
-        if(anuncio.url_video != null){
-            if(anuncio.url_video.split(",")[0] != ''){
-                this.urls_video = anuncio.url_video.split(",");
-                this.urls_thumbs = anuncio.thumbnails.split(',')
-                this.video_length +=this.urls_video.length;
+        this.urls_image = anuncio.images?.slice().reverse();
+
+
+        this.urls_image.forEach(async(car: any, index: any, object: any) => {
+            if(car.type === 1){
+                this.anuncioImages.push(car)
             }
-        }
+            if(car.type === 2){
+                this.anuncioVideos.push(car)
+            }
+        })
+
+        // if(anuncio.url_video != null){
+        //     if(anuncio.url_video.split(",")[0] != ''){
+        //         this.urls_video = anuncio.url_video.split(",");
+        //         this.urls_thumbs = anuncio.thumbnails.split(',')
+        //         this.video_length +=this.urls_video.length;
+        //     }
+        // }
         this.id = anuncio.id;
         this.ctrl_intereses = anuncio.intereses.split(",");
         
@@ -271,18 +289,17 @@ export class AnuncioComponent implements OnInit {
     }
 
     DeleteImg(img:any, tipo:number){
+        console.log(img)
         if(tipo == 1){
-            this.urls_image.forEach((car: any, index: any, object: any) => {
-
-                if (car == img) {
+            this.anuncioImages.forEach((car: any, index: any, object: any) => {
+                if (car.media == img) {
                     this.urls_delete.push(img);
                     object.splice(index, 1);
                 }
             });
-            
         }else{
             this.user_imagen_show.forEach((car: any, index: any, object: any) => {
-                if (car.id == img.id) {
+                if (car == img) {
                     object.splice(index, 1);
                 }
             });
@@ -373,8 +390,8 @@ export class AnuncioComponent implements OnInit {
 
     DeleteVid(video:any,tipo:number){
         if(tipo == 1){
-            this.urls_video.forEach((car: any, index: any, object: any) => {
-                if (car == video) {
+            this.anuncioVideos.forEach((car: any, index: any, object: any) => {
+                if (car.media == video) {
                     this.urls_videos_delete.push(video);
                     this.urls_thumbs.splice(index,1)
                     object.splice(index, 1);
@@ -400,22 +417,32 @@ export class AnuncioComponent implements OnInit {
 
     Video(ev:any){
     }
-    
-    UploadVideo(control:any) {
+
+    async UploadVideo(control:any) {
         var video:any = document.createElement('video');
+        
         video.preload = 'metadata';
         video.onloadedmetadata = ()=> {
             window.URL.revokeObjectURL(video.src);
             let arr:any = video.duration.toString().split('.')
             if(arr[0] >80 || arr.length > 2){
                 alert("El video es muy largo");
-
             }else{
-                this.user_videos_show.push({blob:control.target.files[0]})
+                const reader = new FileReader();
+                reader.readAsDataURL(control.target.files[0]);
+                let file = control.target.files[0];
+
+                reader.onload = (e: any) => {
+                    this.user_videos_show.push({
+                        blob:file,
+                        base:e.target.result
+                    })   
+                    this.GenerateThumb()
+                }
+                
                 this.video_length +=1;
                 control.target.value = ''; 
                 this.loading=true;
-                this.GenerateThumb()
             }
         }
         video.src = URL.createObjectURL(control.target.files[0]);
@@ -424,6 +451,7 @@ export class AnuncioComponent implements OnInit {
         // if(control.target.files[0].size > 2097152){
         //     alert("File is too big!");
         //  };
+
     }
 
     PlayVideo(index:number,type:number){
@@ -436,7 +464,7 @@ export class AnuncioComponent implements OnInit {
             $(".video").attr("src", $source);
         }else{
             $('#cardPlayShow'+index).addClass('active')
-            $source[0].src =this.url+this.urls_video[index];
+            $source[0].src =this.url+'/storage//'+this.anuncioVideos[index].media;
             $(".video").attr("src", $source);
         }
 
@@ -488,6 +516,7 @@ export class AnuncioComponent implements OnInit {
     }
 
     GenerateThumb(){
+        console.log(this.user_videos_show)
         // var video = $('#video_here_u')[0];
         $('.content-video').prepend("<video id='vid_temp'></video>");
         var video:any = $('#vid_temp')[0];
@@ -511,11 +540,13 @@ export class AnuncioComponent implements OnInit {
                 // cargar en una imagen HTML
                 var dataURL = preview.toDataURL();
                 this.thumbnail.push(dataURL);
+                console.log(dataURL)
                 // this.loading=false;
                 $('#vid_temp').remove()
                 this.loading=false; 
             },1000);
         });
+        
         video.src = URL.createObjectURL(this.user_videos_show[this.user_videos_show.length-1].blob);
         video.play();
         video.currentPostion=2000;
