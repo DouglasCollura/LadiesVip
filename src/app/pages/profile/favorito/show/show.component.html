@@ -9,7 +9,7 @@
     <div class="section-photo">
         <button class="btn btn-carrusel" (click)="MoveLeft()"> <span class="icon icon-chevron-left"></span> </button>
         <button class="btn btn-carrusel justify-self-end " (click)="MoveRight()" > <span class="icon icon-chevron-right"></span> </button>
-        <img #images [src]="url+urls" *ngFor="let urls of urls_image.slice().reverse(); let i = index" alt="">
+        <img #images [src]="url+'/storage//'+urls?.media" *ngFor="let urls of urls_image.slice().reverse(); let i = index" alt="">
 
         <div class="points-group">
             <!-- <div class="point-active"></div> -->

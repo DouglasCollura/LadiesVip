@@ -15,7 +15,7 @@
 
         <div class="anuncio" *ngFor="let item of favoritos; let i =index"  >
             <div class="content-img" (click)="OpenShow(item)">
-                <img [src]="showImage(item.anuncio.urls)" alt="">
+                <img [src]="showImage(item.anuncio?.images[0]?.media)" alt="">
             </div>
 
             <div class="content" (click)="OpenShow(item)">
